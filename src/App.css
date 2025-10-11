@@ -1,0 +1,12 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.main-bg {
+  background-image: url(../image/home-bg.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+}
+
