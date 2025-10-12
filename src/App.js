@@ -5,7 +5,6 @@ import About from '../src/components/About';
 import Contact from '../src/components/Contact';
 import Projects from '../src/components/Projects';
 import Skill from '../src/components/Skill';
-// import StarsBackground from '../src/components/StarsBackground';
 import NavBar from '../src/components/nav-bar';
 import { Routes, Route } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';

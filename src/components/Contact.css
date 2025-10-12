@@ -1,0 +1,12 @@
+.main-bg {
+  background-color: rgb(40, 29, 73);
+
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+}
+.contact {
+  position: relative;
+  z-index: 1;
+}
