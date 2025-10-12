@@ -1,10 +1,15 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom"; // <-- Import Link
+import "./nav-bar.css";
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark fixed-top transparent-navbar">
       <div className="container">
-        <a className="navbar-brand" href="#home">Naheel</a>
+        <Link className="navbar-brand" to="/">
+          Naheel
+        </Link>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -20,29 +25,29 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link" href="#home">
+              <Link className="nav-link" to="/">
                 <i className="fa-solid fa-house"></i> Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#about">
+              <Link className="nav-link" to="/About">
                 <i className="fa-solid fa-circle-info"></i> About
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#projects">
+              <Link className="nav-link" to="/Projects">
                 <i className="fa-solid fa-briefcase"></i> Projects
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#skills">
+              <Link className="nav-link" to="/Skills">
                 <i className="fa-solid fa-cogs"></i> Skills
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#contact">
+              <Link className="nav-link" to="/Contact">
                 <i className="fa-solid fa-user"></i> Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

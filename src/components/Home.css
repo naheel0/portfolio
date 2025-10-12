@@ -1,0 +1,21 @@
+.main-div {
+  position: relative;
+  background-image: url('../image/home-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.main-div::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* darkens the image */
+  z-index: 1;
+}
+
+.main-div > * {
+  position: relative;
+  z-index: 2; /* ensures content is above the overlay */
+}
