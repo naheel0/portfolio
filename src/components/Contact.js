@@ -3,7 +3,7 @@ import "./Contact.css";
 import StarsBackground from "./StarsBackground";
 import emailjs from "emailjs-com";
 
-// ✅ Initialize EmailJS with your Public Key
+
 emailjs.init("VLxM2t4JmL7HsMc4F"); // Replace with your real public key
 
 function Contact() {
