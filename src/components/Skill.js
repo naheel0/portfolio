@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import StarsBackground from './StarsBackground';
 import './Skill.css';
 
+// Import icons (you might need to install these packages)
+import { FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt,FaGithub,FaLinkedin,FaEnvelope } from 'react-icons/fa';
+import { SiRedux } from 'react-icons/si';
+
 export class Skill extends Component {
   state = {
     contributions: [],
@@ -19,7 +23,6 @@ export class Skill extends Component {
     const token = process.env.REACT_APP_GITHUB_TOKEN;
 
     try {
-      // Use GraphQL API with token for real data
       const query = `
         query {
           user(login: "${username}") {
@@ -62,7 +65,6 @@ export class Skill extends Component {
         const calendarData = result.data.user.contributionsCollection.contributionCalendar;
         const contributions = [];
 
-        // Process real GitHub data
         calendarData.weeks.forEach(week => {
           week.contributionDays.forEach(day => {
             contributions.push({
@@ -116,7 +118,6 @@ export class Skill extends Component {
         else count = 4;
       }
 
-      // Create realistic streaks
       if (i > 0 && data[data.length - 1]?.count > 1 && Math.random() < 0.6) {
         count = Math.min(4, data[data.length - 1].count);
       }
@@ -131,17 +132,27 @@ export class Skill extends Component {
   }
 
   getColor = (count) => {
-   if (count === 0) return 'rgba(255, 255, 255, 0.1)';
-  if (count === 1) return '#b19cd9';  
-  if (count === 2) return '#8a2be2';  
-  if (count === 3) return '#6a0dad';  
-  return '#4b0082';                      
+    if (count === 0) return 'rgba(255, 255, 255, 0.1)';
+    if (count === 1) return '#b19cd9';  
+    if (count === 2) return '#8a2be2';  
+    if (count === 3) return '#6a0dad';  
+    return '#4b0082';                      
   }
 
   render() {
-    const { contributions, loading, totalContributions } = this.state; // Removed 'error' from destructuring
+    const { contributions, loading, totalContributions } = this.state;
     
     const displayTotal = totalContributions || contributions.reduce((sum, day) => sum + day.count, 0);
+
+    // Your skills data with icons
+    const skills = [
+      { name: "Javascript", icon: <FaJs />, color: "#F7DF1E" },
+      { name: "HTML", icon: <FaHtml5 />, color: "#E34F26" },
+      { name: "CSS", icon: <FaCss3Alt />, color: "#1572B6" },
+      { name: "React", icon: <FaReact />, color: "#61DAFB" },
+      { name: "Git", icon: <FaGitAlt />, color: "#F05032" },
+      { name: "Redux", icon: <SiRedux />, color: "#764ABC" }
+    ];
 
     if (loading) {
       return (
@@ -163,6 +174,25 @@ export class Skill extends Component {
     return (
       <div className='main-bg'>
         <StarsBackground />
+        
+        {/* Skills Section */}
+        <div className="skills-section">
+          <div className="container">
+            <h2 className="skills-title">Professional Skillset</h2>
+            <div className="skills-grid">
+              {skills.map((skill, index) => (
+                <div key={index} className="skill-item">
+                  <div className="skill-icon" style={{ color: skill.color }}>
+                    {skill.icon}
+                  </div>
+                  <div className="skill-name">{skill.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* GitHub Contributions Section */}
         <div className="contributions-section">
           <h2 className="contributions-title">Days I Code</h2>
           <div className="calendar-container">
@@ -208,9 +238,25 @@ export class Skill extends Component {
 
           </div>
         </div>
+        <footer className="footer-simple">
+  <div className="footer-simple-content">
+    <p>&copy; {new Date().getFullYear()} Naheel. Built with React.</p>
+    <div className="footer-simple-links">
+      <a href="https://github.com/naheel0" target="_blank" rel="noopener noreferrer">
+        <FaGithub />
+      </a>
+      <a href="https://linkedin.com/in/naheel" target="_blank" rel="noopener noreferrer">
+        <FaLinkedin />
+      </a>
+      <a href="mailto:your-email@example.com">
+        <FaEnvelope />
+      </a>
+    </div>
+  </div>
+</footer>
       </div>
     )
   }
 }
 
-export default Skill
+export default Skill;
