@@ -25,7 +25,7 @@ function Projects() {
     window.open("https://naheel0.github.io/facebook-login-clone/", "_blank");
   };
   return (
-    <div className="main-bg">
+    <div className="main-bg-prj">
       <StarsBackground />
       <div className="prj-heading">
         <h3>

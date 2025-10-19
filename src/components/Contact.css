@@ -1,12 +1,89 @@
-.main-bg {
+.main-bg-contact {
   background-color: #161025;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100%;
   z-index: 0;
+  font-family: "Fira Code", monospace;
 }
-.contact {
-  position: relative;
-  z-index: 1;
+.contact-title {
+  color: blueviolet;
+  font-family: "Fira Code", monospace;
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+.contact-subtitle {
+  color: blueviolet;
+  font-family: "Fira Code", monospace;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+.contact-text {
+  color: white;
+  line-height: 1.6;
+}
+
+.form-label {
+  color: blueviolet !important;
+  font-weight: 500;
+}
+
+.transparent-input {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: blueviolet !important;
+  color: blueviolet !important;
+  backdrop-filter: blur(10px);
+}
+
+.transparent-input::placeholder {
+  color:white !important;
+}
+
+.transparent-input:focus {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: blueviolet !important;
+  color: white !important;
+ box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+.transparent-btn {
+  background: blueviolet !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.transparent-btn:hover {
+  background: darkviolet !important;
+  border: 1px solid darkviolet !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+.contact-info {
+  border-right: blueviolet
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .contact-info {
+    border-right: none;
+    border-bottom: blueviolet;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .contact-title {
+    font-size: 2rem;
+  }
+  
+  .contact-subtitle {
+    font-size: 1.3rem;
+  }
 }

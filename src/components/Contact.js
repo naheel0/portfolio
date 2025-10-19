@@ -3,8 +3,7 @@ import "./Contact.css";
 import StarsBackground from "./StarsBackground";
 import emailjs from "emailjs-com";
 
-
-emailjs.init("VLxM2t4JmL7HsMc4F"); // Replace with your real public key
+emailjs.init("VLxM2t4JmL7HsMc4F");
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -26,7 +25,6 @@ function Contact() {
     const serviceID = "service_6kxz2ig";
     const templateID = "template_qd8leoi";
 
-    // ✅ Match template variables: from_name, reply_to, message
     const templateParams = {
       from_name: formData.name,
       reply_to: formData.email,
@@ -47,15 +45,17 @@ function Contact() {
   };
 
   return (
-    <div className="main-bg position-relative">
+    <div className="main-bg-contact position-relative">
       <StarsBackground />
       <div style={{ height: "100px" }}></div>
-      <div className="contact container border mt-5 bg-light p-4 rounded position-relative">
-        <h2 className="text-center mb-4">CONTACT ME</h2>
+      
+      {/* Remove the container background completely */}
+      <div className="container mt-5 position-relative">
+        <h2 className="text-center mb-4 contact-title">CONTACT ME</h2>
         <div className="row">
-          <div className="col-md-6 p-3">
-            <h4>Get in Touch</h4>
-            <p>
+          <div className="col-md-6 p-3 contact-info">
+            <h4 className="contact-subtitle">Get in Touch</h4>
+            <p className="contact-text">
               If you have any questions or would like to collaborate, feel free
               to reach out!
             </p>
@@ -63,10 +63,10 @@ function Contact() {
           <div className="col-md-6">
             <form onSubmit={sendEmail}>
               <div className="form-group mb-3">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name" className="form-label">Name</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control transparent-input"
                   id="name"
                   name="name"
                   value={formData.name}
@@ -76,10 +76,10 @@ function Contact() {
                 />
               </div>
               <div className="form-group mb-3">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email" className="form-label">Email</label>
                 <input
                   type="email"
-                  className="form-control"
+                  className="form-control transparent-input"
                   id="email"
                   name="email"
                   value={formData.email}
@@ -89,9 +89,9 @@ function Contact() {
                 />
               </div>
               <div className="form-group mb-3">
-                <label htmlFor="message">Message</label>
+                <label htmlFor="message" className="form-label">Message</label>
                 <textarea
-                  className="form-control"
+                  className="form-control transparent-input"
                   id="message"
                   name="message"
                   rows="4"
@@ -101,7 +101,7 @@ function Contact() {
                   required
                 ></textarea>
               </div>
-              <button type="submit" className="btn btn-primary w-100">
+              <button type="submit" className="btn transparent-btn w-100">
                 Send Message
               </button>
             </form>
