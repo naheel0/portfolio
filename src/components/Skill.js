@@ -178,7 +178,7 @@ export class Skill extends Component {
         {/* Skills Section */}
         <div className="skills-section">
           <div className="container">
-            <h2 className="skills-title">Professional Skillset</h2>
+            <h2 className="skills-title">Professional <span>Skillset</span></h2>
             <div className="skills-grid">
               {skills.map((skill, index) => (
                 <div key={index} className="skill-item">
@@ -194,7 +194,7 @@ export class Skill extends Component {
 
         {/* GitHub Contributions Section */}
         <div className="contributions-section">
-          <h2 className="contributions-title">Days I Code</h2>
+          <h2 className="contributions-title">Days I Spent <span>Coding</span> </h2>
           <div className="calendar-container">
             
             <div className="calendar-grid">
@@ -245,10 +245,10 @@ export class Skill extends Component {
       <a href="https://github.com/naheel0" target="_blank" rel="noopener noreferrer">
         <FaGithub />
       </a>
-      <a href="https://linkedin.com/in/naheel" target="_blank" rel="noopener noreferrer">
+      <a href="https://linkedin.com/in/naheel-muhammad-6b7077378" target="_blank" rel="noopener noreferrer">
         <FaLinkedin />
       </a>
-      <a href="mailto:your-email@example.com">
+      <a href="mailto:naheelmuhammedpk@gmail.com" target="_blank" rel="noopener noreferrer">
         <FaEnvelope />
       </a>
     </div>

@@ -19,7 +19,7 @@
 }
 
 .contributions-title {
-  color: blueviolet;
+  color: white;
   font-size: 2.5rem;
   text-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
   margin-bottom: 60px;
@@ -27,7 +27,9 @@
   font-size: 2rem;
   font-weight: 600;
 }
-
+.contributions-title span {
+  color: blueviolet;
+}
 .calendar-container {
   backdrop-filter: blur(1px);
   border-radius: 15px;
@@ -139,9 +141,13 @@
 .skills-title {
   color: white;
   font-size: 2.5rem;
-  font-weight: 300;
+  font-weight: 600;
   margin-bottom: 50px;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+.skills-title span {
+  color: blueviolet;
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
 }
 
 .skills-grid {
