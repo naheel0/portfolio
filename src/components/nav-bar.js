@@ -7,7 +7,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top transparent-navbar">
       <div className="container">
         <Link className="navbar-brand" to="/">
-          Naheel
+          Nm.
         </Link>
 
         <button

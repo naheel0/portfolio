@@ -2,3 +2,47 @@ body{
     margin: 0;
     padding: 0;
 }
+/* Global BlueViolet Scrollbar Theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: blueviolet #1a1a2e;
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: blueviolet;
+  border-radius: 3px;
+  border: 1px solid #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8a2be2;
+  box-shadow: 0 0 8px blueviolet;
+}
+
+::-webkit-scrollbar-corner {
+  background: #1a1a2e;
+}
+
+/* Horizontal scrollbar specific */
+::-webkit-scrollbar-track:horizontal {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: blueviolet;
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background: #8a2be2;
+}

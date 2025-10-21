@@ -1,9 +1,7 @@
 .transparent-navbar {
-  background-color: rgba(0, 0, 0, 0); /* fully transparent */
-  transition: background-color 0.3s ease-in-out;
   box-shadow: none;
   border-bottom: none;
-  backdrop-filter: none;
+  backdrop-filter:blur(10px);
 }
 
 /* Optional: If you want a slight blur and transparency (like glassmorphism) */
@@ -53,4 +51,11 @@
 /* Optional: Change text color on hover */
 .navbar .nav-link:hover {
   color: blueviolet; /* Optional: match underline color */
+}
+.navbar-brand {
+  font-weight: 800;
+  font-size: 30px;
+  color: blueviolet;
+  text-decoration: none;
+  font-family: "Fira Code", monospace;
 }
