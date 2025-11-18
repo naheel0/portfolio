@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import StarsBackground from './StarsBackground';
 import './Skill.css';
-
-// Import icons (you might need to install these packages)
-import { FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt,FaGithub,FaLinkedin,FaEnvelope } from 'react-icons/fa';
+import { FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { SiRedux } from 'react-icons/si';
 
 export class Skill extends Component {
@@ -12,78 +10,35 @@ export class Skill extends Component {
     loading: true,
     error: null,
     totalContributions: 0
-  }
+  };
 
   componentDidMount() {
-    this.fetchRealGitHubData();
+    this.fetchGitHubData();
   }
 
-  fetchRealGitHubData = async () => {
-    const username = 'naheel0';
-    const token = process.env.REACT_APP_GITHUB_TOKEN;
-
+  fetchGitHubData = async () => {
     try {
-      const query = `
-        query {
-          user(login: "${username}") {
-            contributionsCollection {
-              contributionCalendar {
-                totalContributions
-                weeks {
-                  contributionDays {
-                    contributionCount
-                    date
-                  }
-                }
-              }
-            }
-          }
-        }
-      `;
+      const response = await fetch('/.netlify/functions/github');
+      if (!response.ok) throw new Error('Failed to fetch contributions');
 
-      const headers = {
-        'Content-Type': 'application/json',
-      };
+      const calendarData = await response.json();
+      const contributions = [];
 
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-
-      const response = await fetch('https://api.github.com/graphql', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({ query })
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        
-        if (result.errors) {
-          throw new Error(result.errors[0].message);
-        }
-
-        const calendarData = result.data.user.contributionsCollection.contributionCalendar;
-        const contributions = [];
-
-        calendarData.weeks.forEach(week => {
-          week.contributionDays.forEach(day => {
-            contributions.push({
-              date: day.date,
-              count: day.contributionCount
-            });
+      calendarData.weeks.forEach(week => {
+        week.contributionDays.forEach(day => {
+          contributions.push({
+            date: day.date,
+            count: day.contributionCount
           });
         });
+      });
 
-        this.setState({
-          contributions,
-          totalContributions: calendarData.totalContributions,
-          loading: false,
-          error: null
-        });
-        
-      } else {
-        throw new Error(`API error: ${response.status}`);
-      }
+      this.setState({
+        contributions,
+        totalContributions: calendarData.totalContributions,
+        loading: false,
+        error: null
+      });
 
     } catch (error) {
       console.log('Using fallback data:', error.message);
@@ -98,7 +53,7 @@ export class Skill extends Component {
   getRealisticMockData = () => {
     const data = [];
     const today = new Date();
-    
+
     for (let i = 364; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
@@ -124,19 +79,19 @@ export class Skill extends Component {
 
       data.push({
         date: date.toISOString().split('T')[0],
-        count: count
+        count
       });
     }
-    
+
     return data;
   }
 
   getColor = (count) => {
     if (count === 0) return 'rgba(255, 255, 255, 0.1)';
-    if (count === 1) return '#b19cd9';  
-    if (count === 2) return '#8a2be2';  
-    if (count === 3) return '#6a0dad';  
-    return '#4b0082';                      
+    if (count === 1) return '#b19cd9';
+    if (count === 2) return '#8a2be2';
+    if (count === 3) return '#6a0dad';
+    return '#4b0082';
   }
 
   render() {
@@ -144,7 +99,6 @@ export class Skill extends Component {
     
     const displayTotal = totalContributions || contributions.reduce((sum, day) => sum + day.count, 0);
 
-    // Your skills data with icons
     const skills = [
       { name: "Javascript", icon: <FaJs />, color: "#F7DF1E" },
       { name: "HTML", icon: <FaHtml5 />, color: "#E34F26" },
@@ -160,12 +114,7 @@ export class Skill extends Component {
           <StarsBackground />
           <div className="contributions-section">
             <h2 className="contributions-title">Days I Code</h2>
-            <div className="loading">
-              {process.env.REACT_APP_GITHUB_TOKEN ? 
-                'Loading your GitHub contributions...' : 
-                'Loading (public data)...'
-              }
-            </div>
+            <div className="loading">Loading contributions...</div>
           </div>
         </div>
       );
@@ -174,7 +123,7 @@ export class Skill extends Component {
     return (
       <div className='main-bg'>
         <StarsBackground />
-        
+
         {/* Skills Section */}
         <div className="skills-section">
           <div className="container">
@@ -182,9 +131,7 @@ export class Skill extends Component {
             <div className="skills-grid">
               {skills.map((skill, index) => (
                 <div key={index} className="skill-item">
-                  <div className="skill-icon" style={{ color: skill.color }}>
-                    {skill.icon}
-                  </div>
+                  <div className="skill-icon" style={{ color: skill.color }}>{skill.icon}</div>
                   <div className="skill-name">{skill.name}</div>
                 </div>
               ))}
@@ -194,9 +141,8 @@ export class Skill extends Component {
 
         {/* GitHub Contributions Section */}
         <div className="contributions-section">
-          <h2 className="contributions-title">Days I Spent <span>Coding</span> </h2>
+          <h2 className="contributions-title">Days I Spent <span>Coding</span></h2>
           <div className="calendar-container">
-            
             <div className="calendar-grid">
               {Array.from({ length: 53 }).map((_, weekIndex) => (
                 <div key={weekIndex} className="week-column">
@@ -235,27 +181,21 @@ export class Skill extends Component {
                 <strong>{displayTotal}</strong> contributions in the last year
               </div>
             </div>
-
           </div>
         </div>
+
         <footer className="footer-simple">
-  <div className="footer-simple-content">
-    <p>&copy; {new Date().getFullYear()} Naheel. Built with React.</p>
-    <div className="footer-simple-links">
-      <a href="https://github.com/naheel0" target="_blank" rel="noopener noreferrer">
-        <FaGithub />
-      </a>
-      <a href="https://linkedin.com/in/naheel-muhammad-6b7077378" target="_blank" rel="noopener noreferrer">
-        <FaLinkedin />
-      </a>
-      <a href="mailto:naheelmuhammedpk@gmail.com" target="_blank" rel="noopener noreferrer">
-        <FaEnvelope />
-      </a>
-    </div>
-  </div>
-</footer>
+          <div className="footer-simple-content">
+            <p>&copy; {new Date().getFullYear()} Naheel. Built with React.</p>
+            <div className="footer-simple-links">
+              <a href="https://github.com/naheel0" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+              <a href="https://linkedin.com/in/naheel-muhammad-6b7077378" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+              <a href="mailto:naheelmuhammedpk@gmail.com" target="_blank" rel="noopener noreferrer"><FaEnvelope /></a>
+            </div>
+          </div>
+        </footer>
       </div>
-    )
+    );
   }
 }
 

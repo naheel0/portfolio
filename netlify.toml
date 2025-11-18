@@ -1,17 +1,8 @@
-# netlify.toml
-
 [build]
-  # Build command for CRA
   command = "npm run build"
-  # CRA outputs production files into 'build'
   publish = "build"
 
-# Redirect all routes to index.html for React Router
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# Optional: environment variable settings for Netlify CLI
-#[context.production.environment]
-#  REACT_APP_GITHUB_TOKEN = "your_token_here"
