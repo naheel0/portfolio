@@ -2,11 +2,12 @@
   background-color: #161025;
   top: 0;
   left: 0;
-  height: 170vh;
+  height: 180vh;
   width: 100%;
   z-index: 0;
   position: relative;
   font-family:"fira code",monospace;
+  background-size: cover;
 }
 
 .contributions-section {
