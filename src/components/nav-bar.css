@@ -1,12 +1,14 @@
 .transparent-navbar {
   box-shadow: none;
   border-bottom: none;
-  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 /* Optional: If you want a slight blur and transparency (like glassmorphism) */
 .transparent-navbar.blur {
   background-color: rgba(0, 0, 0, 0.4); /* semi-transparent dark */
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }

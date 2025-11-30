@@ -33,6 +33,7 @@
   text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
 }
 .calendar-container {
+  -webkit-backdrop-filter: blur(1px);
   backdrop-filter: blur(1px);
   border-radius: 15px;
   padding: 30px;
@@ -163,6 +164,7 @@
 .skill-item {
   font-family: "Fira Code", monospace;
   box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+  -webkit-backdrop-filter: blur(1.5px);
   backdrop-filter: blur(1.5px);
   border: 1px solid blueviolet;
   color: white;
@@ -247,6 +249,7 @@
 
 .footer-simple {
   background: black;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: white;

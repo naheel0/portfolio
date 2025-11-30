@@ -37,6 +37,7 @@
   background: rgba(255, 255, 255, 0.1) !important;
   border: blueviolet !important;
   color: blueviolet !important;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -55,6 +56,7 @@
   background: blueviolet !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
   color: white !important;
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
 }
