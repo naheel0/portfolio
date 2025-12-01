@@ -7,11 +7,9 @@ import {
   FaCss3Alt,
   FaReact,
   FaGitAlt,
-  FaGithub,
-  FaLinkedin,
-  FaEnvelope,
 } from "react-icons/fa";
 import { SiRedux } from "react-icons/si";
+import { motion } from "framer-motion";
 
 export class Skill extends Component {
   state = {
@@ -26,7 +24,6 @@ export class Skill extends Component {
   }
 
   fetchGitHubData = async () => {
-    // Vercel properly injects this environment variable during build
     const token = process.env.REACT_APP_GITHUB_TOKEN;
 
     console.log("Environment:", process.env.NODE_ENV);
@@ -94,7 +91,6 @@ export class Skill extends Component {
       const contributions = [];
       let totalContributions = calendarData.totalContributions || 0;
 
-      // Process the contribution data
       calendarData.weeks.forEach((week) => {
         week.contributionDays.forEach((day) => {
           contributions.push({
@@ -140,7 +136,6 @@ export class Skill extends Component {
     const data = [];
     const today = new Date();
 
-    // Create realistic coding patterns
     let currentStreak = 0;
     let lastCount = 1;
 
@@ -151,23 +146,20 @@ export class Skill extends Component {
       const dayOfWeek = date.getDay();
       const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
       const month = date.getMonth();
-      const isHolidaySeason = month === 11 || month === 0; // Dec-Jan
+      const isHolidaySeason = month === 11 || month === 0;
 
       let count;
 
       if (isWeekend) {
-        // Light coding on weekends
         if (Math.random() < 0.6) count = 0;
         else if (Math.random() < 0.8) count = 1;
         else count = 2;
       } else if (isHolidaySeason) {
-        // Less coding during holidays
         if (Math.random() < 0.4) count = 0;
         else if (Math.random() < 0.7) count = 1;
         else if (Math.random() < 0.9) count = 2;
         else count = 3;
       } else {
-        // Normal productive weekdays
         const rand = Math.random();
         if (rand < 0.2) count = 0;
         else if (rand < 0.5) count = 1;
@@ -176,7 +168,6 @@ export class Skill extends Component {
         else count = 4;
       }
 
-      // Create realistic coding streaks
       if (currentStreak > 0 && currentStreak < 5) {
         if (Math.random() < 0.7) {
           count = Math.min(4, lastCount);
@@ -225,19 +216,116 @@ export class Skill extends Component {
       { name: "Redux", icon: <SiRedux />, color: "#764ABC" },
     ];
 
+    // Animation variants
+    const containerVariants = {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.1,
+          delayChildren: 0.2,
+        }
+      }
+    };
+
+    const skillItemVariants = {
+      hidden: { 
+        opacity: 0, 
+        y: 20,
+        scale: 0.9 
+      },
+      visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          type: "spring",
+          stiffness: 100,
+          damping: 10
+        }
+      },
+      hover: {
+        y: -5,
+        scale: 1.05,
+        transition: {
+          type: "spring",
+          stiffness: 400,
+          damping: 17
+        }
+      }
+    };
+
+    const titleVariants = {
+      hidden: { opacity: 0, y: -30 },
+      visible: { 
+        opacity: 1, 
+        y: 0,
+        transition: {
+          type: "spring",
+          stiffness: 100,
+          delay: 0.1
+        }
+      }
+    };
+
+    const contributionDayVariants = {
+      hidden: { opacity: 0, scale: 0.5 },
+      visible: (custom) => ({
+        opacity: 1,
+        scale: 1,
+        transition: {
+          delay: custom * 0.003, // Stagger based on index
+          type: "spring",
+          stiffness: 200,
+          damping: 20
+        }
+      }),
+      hover: {
+        scale: 1.3,
+        transition: { type: "spring", stiffness: 400, damping: 10 }
+      }
+    };
+
+    const calendarVariants = {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.01,
+          delayChildren: 0.3
+        }
+      }
+    };
+
     if (loading) {
       return (
         <div className="main-bg">
           <StarsBackground />
           <div className="contributions-section">
-            <h2 className="contributions-title">Days I Code</h2>
+            <motion.h2 
+              className="contributions-title"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Days I Code
+            </motion.h2>
             <div className="loading">
-              <div>Loading GitHub contributions...</div>
-              <div
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                Loading GitHub contributions...
+              </motion.div>
+              <motion.div
                 style={{ fontSize: "0.9rem", opacity: 0.7, marginTop: "10px" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
               >
                 Fetching real data from GitHub...
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -251,33 +339,76 @@ export class Skill extends Component {
         {/* Skills Section */}
         <div className="skills-section">
           <div className="container">
-            <h2 className="skills-title">
+            <motion.h2 
+              className="skills-title"
+              variants={titleVariants}
+              initial="hidden"
+              animate="visible"
+            >
               Professional <span>Skillset</span>
-            </h2>
-            <div className="skills-grid">
+            </motion.h2>
+            <motion.div 
+              className="skills-grid"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               {skills.map((skill, index) => (
-                <div key={index} className="skill-item">
-                  <div className="skill-icon" style={{ color: skill.color }}>
+                <motion.div 
+                  key={index} 
+                  className="skill-item"
+                  variants={skillItemVariants}
+                  whileHover="hover"
+                  custom={index}
+                >
+                  <motion.div 
+                    className="skill-icon" 
+                    style={{ color: skill.color }}
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.6, type: "spring" }}
+                  >
                     {skill.icon}
-                  </div>
-                  <div className="skill-name">{skill.name}</div>
-                </div>
+                  </motion.div>
+                  <motion.div 
+                    className="skill-name"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 + index * 0.1 }}
+                  >
+                    {skill.name}
+                  </motion.div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
 
         {/* GitHub Contributions Section */}
         <div className="contributions-section">
-          <h2 className="contributions-title">
+          <motion.h2 
+            className="contributions-title"
+            variants={titleVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.2 }}
+          >
             Days I Spent <span>Coding</span>
-          </h2>
+          </motion.h2>
 
-          {error
-            ? console.error(error)
-            : console.log("showing real github data")}
-          <div className="calendar-container">
-            <div className="calendar-grid">
+          {error ? console.error(error) : console.log("showing real github data")}
+          
+          <motion.div 
+            className="calendar-container"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <motion.div 
+              className="calendar-grid"
+              variants={calendarVariants}
+              initial="hidden"
+              animate="visible"
+            >
               {Array.from({ length: 53 }).map((_, weekIndex) => (
                 <div key={weekIndex} className="week-column">
                   {Array.from({ length: 7 }).map((_, dayIndex) => {
@@ -287,7 +418,7 @@ export class Skill extends Component {
                         ? contributions[index]
                         : { count: 0, date: "" };
                     return (
-                      <div
+                      <motion.div
                         key={`${weekIndex}-${dayIndex}`}
                         className="contribution-day"
                         style={{ backgroundColor: this.getColor(day.count) }}
@@ -298,34 +429,70 @@ export class Skill extends Component {
                               ).toLocaleDateString()}`
                             : "No contributions"
                         }
+                        variants={contributionDayVariants}
+                        custom={index}
+                        whileHover="hover"
+                        initial="hidden"
+                        animate="visible"
                       />
                     );
                   })}
                 </div>
               ))}
-            </div>
+            </motion.div>
 
-            <div className="calendar-footer">
+            <motion.div 
+              className="calendar-footer"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
               <div className="calendar-legend">
-                <span>Less</span>
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  Less
+                </motion.span>
                 <div className="legend-colors">
-                  {[0, 1, 2, 3, 4].map((level) => (
-                    <div
+                  {[0, 1, 2, 3, 4].map((level, index) => (
+                    <motion.div
                       key={level}
                       className="legend-color"
                       style={{ backgroundColor: this.getColor(level) }}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.8 + index * 0.1 }}
                     />
                   ))}
                 </div>
-                <span>More</span>
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2 }}
+                >
+                  More
+                </motion.span>
               </div>
 
-              <div className="contributions-count">
-                <strong>{displayTotal.toLocaleString()}</strong> contributions
-                in the last year
-              </div>
-            </div>
-          </div>
+              <motion.div 
+                className="contributions-count"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.3 }}
+              >
+                <motion.strong
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, delay: 1.4 }}
+                >
+                  {displayTotal.toLocaleString()}
+                </motion.strong>{" "}
+                contributions in the last year
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     );

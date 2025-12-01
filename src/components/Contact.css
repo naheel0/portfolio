@@ -89,3 +89,91 @@
     font-size: 1.3rem;
   }
 }
+
+/* Add these to your existing Contact.css */
+
+.contact-details {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.contact-item {
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  background: rgba(138, 43, 226, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(138, 43, 226, 0.2);
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+  background: rgba(138, 43, 226, 0.15);
+  border-color: rgba(138, 43, 226, 0.4);
+}
+
+.contact-label {
+  font-weight: 600;
+  color: #b19cd9;
+  margin-right: 10px;
+}
+
+.contact-value {
+  color: #ffffff;
+  font-family: "Fira Code", monospace;
+}
+
+/* Input focus animations */
+.transparent-input:focus {
+  box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.3);
+  border-color: blueviolet;
+}
+
+/* Submit button loading state */
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Form field animations */
+.form-group {
+  position: relative;
+}
+
+/* Success message animation */
+@keyframes successPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.success-message {
+  animation: successPulse 0.6s ease;
+}
+
+/* Error message animation */
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.error-message {
+  animation: errorShake 0.6s ease;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .contact-details {
+    margin-top: 20px;
+    padding-top: 15px;
+  }
+  
+  .contact-item {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .contact-title {
+    font-size: 2rem;
+  }
+}

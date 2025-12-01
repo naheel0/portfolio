@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import just from "../image/just.jpg";
 import fb from "../image/fb.png";
 import nav from "../image/nav-bar.jpg";
+import gamehub from "../image/gamehub.png";
 
 function Projects() {
   // Project data array
@@ -37,8 +38,17 @@ function Projects() {
       githubUrl: "https://github.com/naheel0/facebook-login-clone",
       demoUrl: "https://naheel0.github.io/facebook-login-clone/",
       technologies: ["HTML", "CSS", "JavaScript"]
+    },
+    {
+      id: 4,
+      title: "Gamehub",
+      description: "A gaming e-commerce website built with React.js and Tailwind CSS.",
+      image: gamehub,
+      githubUrl: "https://github.com/naheel0/gamehub",
+      demoUrl: "https://gamehub-alpha-rose.vercel.app",
+      technologies: ["React.js", "Tailwind CSS", "JavaScript"]
     }
-  ];
+  ];  
 
   // Animation variants
   const containerVariants = {
