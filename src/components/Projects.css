@@ -1,97 +1,180 @@
+/* Projects.css */
 .main-bg-prj {
   background-color: #161025;
   top: 0;
   left: 0;
-  height: 140vh;
+  min-height: 100vh;
   width: 100%;
   z-index: 0;
   position: relative;
   font-family: "Fira Code", monospace;
+  padding-bottom: 100px;
 }
+
 .prj-heading {
   color: white;
   text-align: center;
   z-index: 2;
   position: relative;
-  top: 150px;
+  padding-top: 100px;
+  margin-bottom: 50px;
   font-family: "Fira Code", monospace;
 }
+
 .prj-heading h3 {
   font-family: "Fira Code", monospace;
   font-size: 2rem;
   font-weight: 600;
   color: white;
+  margin-bottom: 10px;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
+
 .prj-heading h3 span {
   color: blueviolet;
 }
+
 .prj-heading p {
   font-size: 1.2rem;
   margin-top: 10px;
+  color: #aaa;
 }
+
 .prj-main-pg {
-  top: 300px;
   display: grid;
-  justify-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  position: relative;
-  z-index: 2;
-}
-.my-prj-div {
-  width: 80%;
-  min-height: 400px;
-  border-radius: 10px;
-
-  -webkit-backdrop-filter: blur(1px); /* blur background behind */
-  backdrop-filter: blur(1px); /* blur background behind */
-  border-radius: 12px;
-  padding: 2rem;
-  color: white;
-  box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-}
-.my-prj-div:hover {
-  box-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
-  transform: translateY(-5px);
-  transition: all 0.3s ease-in-out;
-}
-.my-prj-div button {
-  background-color: blueviolet;
-  border: none;
-  color: white;
-  padding: 0.6rem 1.2rem;
-  margin: 0.5rem 0.5rem 0 0;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.my-prj-div button:hover {
-  background-color: #7b3fe4;
-}
-.project-image {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  object-fit: cover;
-}
-.prj-main-pg {
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 40px;
   position: relative;
   z-index: 2;
-  padding: 20px;
-  align-items: center;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-@media (min-width: 768px) {
+.my-prj-div {
+  background: rgba(30, 20, 50, 0.7);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  color: white;
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.my-prj-div:hover {
+  border-color: rgba(138, 43, 226, 0.8);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
+}
+
+.project-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.my-prj-div h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.my-prj-div p {
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.tech-tag {
+  background: rgba(138, 43, 226, 0.2);
+  color: #b57aff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-family: "Fira Code", monospace;
+  border: 1px solid rgba(138, 43, 226, 0.4);
+}
+
+.project-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: auto;
+}
+
+.my-prj-div button {
+  background: linear-gradient(135deg, blueviolet, #7b3fe4);
+  border: none;
+  color: white;
+  padding: 0.8rem 1.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: "Fira Code", monospace;
+  font-size: 1rem;
+  flex: 1;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.my-prj-div button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.my-prj-div button:hover::before {
+  left: 100%;
+}
+
+.my-prj-div .demo-btn {
+  background: linear-gradient(135deg, #4a00e0, #8e2de2);
+}
+
+.my-prj-div .github-btn {
+  background: linear-gradient(135deg, #333, #555);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .prj-main-pg {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    justify-items: center;
+    grid-template-columns: 1fr;
+    max-width: 500px;
   }
-}    
+  
+  .prj-heading h3 {
+    font-size: 2rem;
+  }
+  
+  .prj-heading {
+    padding-top: 70px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .prj-main-pg {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

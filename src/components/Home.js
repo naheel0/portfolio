@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import './Home.css';
 import StarsBackground from './StarsBackground';  
 import homeImg from "../image/home-main.svg";
+import Footer from './Footer';
 const Home = () => {
   // Animation variants
   const containerVariants = {

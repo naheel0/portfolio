@@ -8,11 +8,13 @@ import Skill from '../src/components/Skill';
 import NavBar from '../src/components/nav-bar';
 import { Routes, Route } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div>
+    <div className="app-layout">
       <NavBar />
+      <div className="app-main">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -20,6 +22,8 @@ function App() {
         <Route path="/skills" element={<Skill />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
+      </div>
+        <Footer />
     </div>
   );
 }
