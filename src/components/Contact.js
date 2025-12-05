@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Contact.css";
+import "../Style/Contact.css";
 import StarsBackground from "./StarsBackground";
 import emailjs from "emailjs-com";
 import { motion } from "framer-motion";

@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import './About.css';
+import '../Style/About.css';
 import aboutImg from "../image/about.png";
 import StarsBackground from './StarsBackground';
+import ScrambledText from '../Animations/ScrambledText';
 
 const About = () => {
   // Same animation variants as Home page
@@ -68,15 +69,21 @@ const About = () => {
           >
             ABOUT ME
           </motion.h2>
-          <motion.p variants={itemVariants}  whileHover={{ x: 10 }}>
-            I am a web developer with a passion for creating beautiful and functional websites. My journey in web development started a few years ago, and since then, I have honed my skills in various technologies.
-          </motion.p>
-          <motion.p variants={itemVariants}  whileHover={{ x: 10 }}>
-            I enjoy working with both front-end and back-end technologies, and I am always eager to learn more and improve my skills.
-          </motion.p>
-          <motion.p variants={itemVariants} whileHover={{ x: 10 }}>
-            In my free time, I love exploring new frameworks, contributing to open-source projects, and staying updated with the latest trends in web development.
-          </motion.p>
+          <ScrambledText
+          className="scrambled-text-demo"
+          radius={100}
+          duration={1.2}
+          speed={0.5}
+          scrambleChars=".:"
+        >
+          I am a web developer with a passion for creating beautiful and
+          functional websites. My journey in web development started a few years
+          ago, and since then, I have honed my skills in various technologies.<br/><br/> I
+          enjoy working with both front-end and back-end technologies, and I am
+          always eager to learn more and improve my skills.<br/><br/> In my free time, I
+          love exploring new frameworks, contributing to open-source projects,
+          and staying updated with the latest trends in web development.
+        </ScrambledText>
         </motion.div>
         
         <div className="about-image">

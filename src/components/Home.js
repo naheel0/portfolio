@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import './Home.css';
+import '../Style/Home.css';
 import StarsBackground from './StarsBackground';  
 import homeImg from "../image/home-main.svg";
 const Home = () => {

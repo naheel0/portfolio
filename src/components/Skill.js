@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import StarsBackground from "./StarsBackground";
-import "./Skill.css";
+import "../Style/Skill.css";
 import {
   FaJs,
   FaHtml5,

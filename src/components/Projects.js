@@ -1,5 +1,5 @@
 import React from "react";
-import "./Projects.css";
+import "../Style/Projects.css";
 import StarsBackground from "./StarsBackground";
 import { motion } from "framer-motion";
 
@@ -14,6 +14,15 @@ function Projects() {
   const projects = [
     {
       id: 1,
+      title: "Gamehub",
+      description: "A gaming e-commerce website built with React.js and Tailwind CSS.",
+      image: gamehub,
+      githubUrl: "https://github.com/naheel0/gamehub",
+      demoUrl: "https://gamehub-alpha-rose.vercel.app",
+      technologies: ["React.js", "Tailwind CSS", "JavaScript"]
+    },
+    {
+      id: 2,
       title: "justDial",
       description: "A clone of JustDial website built with HTML, CSS, and JavaScript.",
       image: just,
@@ -22,7 +31,7 @@ function Projects() {
       technologies: ["HTML", "CSS", "JavaScript"]
     },
     {
-      id: 2,
+      id: 3,
       title: "W3 School Navbar",
       description: "A responsive navigation bar built with HTML, CSS, and JavaScript.",
       image: nav,
@@ -31,7 +40,7 @@ function Projects() {
       technologies: ["HTML", "CSS", "JavaScript"]
     },
     {
-      id: 3,
+      id: 4,
       title: "Facebook Clone",
       description: "A clone of Facebook homepage built with HTML, CSS, and JavaScript.",
       image: fb,
@@ -39,15 +48,6 @@ function Projects() {
       demoUrl: "https://naheel0.github.io/facebook-login-clone/",
       technologies: ["HTML", "CSS", "JavaScript"]
     },
-    {
-      id: 4,
-      title: "Gamehub",
-      description: "A gaming e-commerce website built with React.js and Tailwind CSS.",
-      image: gamehub,
-      githubUrl: "https://github.com/naheel0/gamehub",
-      demoUrl: "https://gamehub-alpha-rose.vercel.app",
-      technologies: ["React.js", "Tailwind CSS", "JavaScript"]
-    }
   ];  
 
   // Animation variants
