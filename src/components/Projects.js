@@ -8,6 +8,7 @@ import just from "../image/just.jpg";
 import fb from "../image/fb.png";
 import nav from "../image/nav-bar.jpg";
 import gamehub from "../image/gamehub.png";
+import weatherApp from "../image/weather-app.png";
 
 function Projects() {
   // Project data array
@@ -32,6 +33,15 @@ function Projects() {
     },
     {
       id: 3,
+      title: "weather App",
+      description: "A weather application that provides current weather information using  API.",
+      image: weatherApp,
+      githubUrl: "https://github.com/naheel0/react-weather-app",
+      demoUrl: "https://naheel0.github.io/react-weather-app/",
+      technologies: ["React.js", "API","Tailwind CSS", "JavaScript"]
+    },
+    {
+      id: 4,
       title: "W3 School Navbar",
       description: "A responsive navigation bar built with HTML, CSS, and JavaScript.",
       image: nav,
@@ -40,7 +50,7 @@ function Projects() {
       technologies: ["HTML", "CSS", "JavaScript"]
     },
     {
-      id: 4,
+      id: 5,
       title: "Facebook Clone",
       description: "A clone of Facebook homepage built with HTML, CSS, and JavaScript.",
       image: fb,
