@@ -68,9 +68,7 @@
 }
 
 .my-prj-div:hover {
-  border-color: rgba(138, 43, 226, 0.8);
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
+  border-color: rgba(138, 43, 226, 0.8);  
 }
 
 .project-image {
@@ -144,7 +142,6 @@
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: 0.5s;
 }
-
 .my-prj-div button:hover::before {
   left: 100%;
 }
