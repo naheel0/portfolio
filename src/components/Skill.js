@@ -8,7 +8,7 @@ import {
   FaReact,
   FaGitAlt,
 } from "react-icons/fa";
-import { SiRedux } from "react-icons/si";
+import { SiRedux ,SiTailwindcss, SiBootstrap } from "react-icons/si";
 import { motion } from "framer-motion";
 
 export class Skill extends Component {
@@ -214,6 +214,8 @@ export class Skill extends Component {
       { name: "React", icon: <FaReact />, color: "#61DAFB" },
       { name: "Git", icon: <FaGitAlt />, color: "#F05032" },
       { name: "Redux", icon: <SiRedux />, color: "#764ABC" },
+      { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#38B2AC" },
+      { name: "Bootstrap", icon: <SiBootstrap />, color: "#7952B3" },
     ];
 
     // Animation variants
