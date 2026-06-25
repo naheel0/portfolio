@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import StarsBackground from "./StarsBackground";
+import Image from "next/image";
 import { staggerContainer, titleVariants, fadeInUp, itemVariants } from "@/lib/variants";
 
 interface Project {
@@ -83,10 +84,6 @@ const buttonVariants = {
 };
 
 function ProjectsContent() {
-  const handleButtonClick = (url: string) => {
-    window.open(url, "_blank", "noopener noreferrer");
-  };
-
   return (
     <div className="main-bg-prj" id="projects">
       <StarsBackground />
@@ -98,9 +95,9 @@ function ProjectsContent() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
       >
-        <h1>
+        <h2>
           My Recent <span style={{ color: "blueviolet" }}>Works</span>
-        </h1>
+        </h2>
         <motion.p variants={fadeInUp(0.3)} initial="hidden" whileInView="visible" viewport={{ once: true }}>
           Here are some of my recent projects:
         </motion.p>
@@ -120,12 +117,12 @@ function ProjectsContent() {
             variants={cardVariants}
             whileHover="hover"
           >
-            <img
+            <Image
               src={project.image}
               alt={`${project.title} Screenshot`}
               className="project-image"
-              loading="lazy"
-              decoding="async"
+              width={400}
+              height={200}
             />
             <h2>{project.title}</h2>
             <p>{project.description}</p>
@@ -135,8 +132,10 @@ function ProjectsContent() {
               ))}
             </div>
             <div className="project-buttons">
-              <motion.button
-                onClick={() => handleButtonClick(project.githubUrl)}
+              <motion.a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
@@ -144,9 +143,11 @@ function ProjectsContent() {
                 aria-label={`View ${project.title} on GitHub`}
               >
                 GitHub
-              </motion.button>
-              <motion.button
-                onClick={() => handleButtonClick(project.demoUrl)}
+              </motion.a>
+              <motion.a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
@@ -154,7 +155,7 @@ function ProjectsContent() {
                 aria-label={`View live demo of ${project.title}`}
               >
                 Demo
-              </motion.button>
+              </motion.a>
             </div>
           </motion.div>
         ))}

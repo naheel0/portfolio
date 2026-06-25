@@ -109,9 +109,9 @@ function ContactContent() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
       >
-        <motion.h1 className="text-center mb-4 contact-title" variants={titleVariants}>
+        <motion.h2 className="text-center mb-4 contact-title" variants={titleVariants}>
           CONTACT ME
-        </motion.h1>
+        </motion.h2>
 
         <div className="row">
           <motion.div className="col-md-6 p-3 contact-info" variants={itemVariants}>

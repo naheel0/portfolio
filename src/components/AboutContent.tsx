@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import StarsBackground from './StarsBackground';
+import Image from 'next/image';
 import { containerVariants, itemVariants, textVariants } from '@/lib/variants';
 
 const AboutContent = () => {
@@ -16,9 +17,9 @@ const AboutContent = () => {
         viewport={{ once: true, amount: 0.3 }}
       >
         <motion.div className="about-text" variants={textVariants}>
-          <motion.h1 className="about-title" variants={itemVariants}>
+          <motion.h2 className="about-title" variants={itemVariants}>
             KNOW WHO <span>I'M</span>
-          </motion.h1>
+          </motion.h2>
           <motion.div className="about-paragraphs" variants={itemVariants}>
             <p>
               Hi Everyone! I&apos;m <span className="highlight">Naheel Muhammed PK</span> from <span className="highlight">Kerala, India</span>.
@@ -41,7 +42,13 @@ const AboutContent = () => {
         </motion.div>
 
         <motion.div className="about-image" variants={itemVariants} whileHover={{ scale: 1.05 }}>
-          <img src="/images/about.png" alt="About Me Illustration" />
+          <Image
+            src="/images/about.png"
+            alt="About Me Illustration"
+            width={380}
+            height={380}
+            priority={false}
+          />
         </motion.div>
       </motion.div>
     </div>

@@ -12,13 +12,13 @@ export default function Footer() {
         </div>
         <div className="footer-simple-links">
           <a href="https://github.com/naheel0" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-            <FaGithub />
+            <FaGithub aria-hidden="true" />
           </a>
           <a href="https://linkedin.com/in/naheel-muhammad-6b7077378" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <FaLinkedin />
+            <FaLinkedin aria-hidden="true" />
           </a>
           <a href="mailto:naheelmuhammedpk@gmail.com" aria-label="Email">
-            <FaEnvelope />
+            <FaEnvelope aria-hidden="true" />
           </a>
         </div>
       </div>

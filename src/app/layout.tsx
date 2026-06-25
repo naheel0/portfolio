@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { MotionConfig } from "framer-motion";
 import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import { PT_Mono } from "next/font/google";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
+
+const ptMono = PT_Mono({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-pt-mono",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.naheel.me"),
@@ -40,11 +47,11 @@ export const metadata: Metadata = {
       "Full Stack Developer specializing in React, Next.js, .NET, C# and modern web technologies. Based in Kerala, India.",
     images: [
       {
-        url: "/avatar.svg",
-        width: 280,
-        height: 280,
+        url: "/images/about.png",
+        width: 380,
+        height: 380,
         alt: "Naheel Muhammed PK — Full Stack Developer",
-        type: "image/svg+xml",
+        type: "image/png",
       },
     ],
   },
@@ -53,7 +60,7 @@ export const metadata: Metadata = {
     title: "Naheel Muhammed PK | Full Stack Developer Portfolio",
     description:
       "Full Stack Developer specializing in React, Next.js, .NET, C# and modern web technologies.",
-    images: ["/avatar.svg"],
+    images: ["/images/about.png"],
   },
   robots: {
     index: true,
@@ -93,16 +100,12 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/avatar.svg" type="image/svg+xml" />
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>
+      <body className={`${ptMono.variable}`}>
         <MotionConfig reducedMotion="user">
           <div className="app-layout">
             <Navbar />
@@ -110,10 +113,6 @@ export default function RootLayout({
             <Footer />
           </div>
         </MotionConfig>
-        <Script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );

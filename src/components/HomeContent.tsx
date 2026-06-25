@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import StarsBackground from './StarsBackground';
 import { containerVariants, itemVariants, textVariants, imageVariants } from '@/lib/variants';
 
@@ -44,8 +45,7 @@ const HomeContent = () => {
         <motion.div className="home-text" variants={textVariants}>
           <motion.h1 variants={itemVariants}>
             Hi There! <span className="wave">👋</span>
-          </motion.h1>
-          <motion.h1 variants={itemVariants}>
+            <br />
             I&apos;M <span className="name-highlight">NAHEEL MUHAMMED PK</span>
           </motion.h1>
           <motion.h2 className="typewriter" variants={itemVariants}>
@@ -54,7 +54,7 @@ const HomeContent = () => {
         </motion.div>
 
         <motion.div className="home-illustration" variants={imageVariants} whileHover="hover">
-          <img src="/images/home-main.svg" alt="Developer Illustration" />
+          <Image src="/images/home-main.svg" alt="Developer Illustration" width={420} height={420} priority />
         </motion.div>
       </motion.div>
 
@@ -88,7 +88,7 @@ const HomeContent = () => {
         </motion.div>
 
         <motion.div className="intro-avatar" variants={imageVariants} whileHover="hover">
-          <img src="/avatar.svg" alt="Avatar" />
+          <Image src="/avatar.svg" alt="Naheel Muhammed PK Avatar" width={320} height={320} />
         </motion.div>
       </motion.div>
     </div>
