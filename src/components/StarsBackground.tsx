@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from 'react';
- import '../Style/StarsBackground.css'; 
+'use client';
+
+import { useEffect, useState } from 'react';
+
+interface Star {
+  top: string;
+  left: string;
+  animationDuration: string;
+}
 
 const StarsBackground = () => {
-  const [stars, setStars] = useState([]);
+  const [stars, setStars] = useState<Star[]>([]);
 
   useEffect(() => {
     const newStars = Array.from({ length: 100 }, () => ({
@@ -10,12 +17,11 @@ const StarsBackground = () => {
       left: `${Math.random() * 100}%`,
       animationDuration: `${Math.random() * 3 + 2}s`,
     }));
-
     setStars(newStars);
   }, []);
 
   return (
-    <div id="stars-background">
+    <div id="stars-background" aria-hidden="true">
       {stars.map((star, index) => (
         <div
           key={index}
