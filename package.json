@@ -11,7 +11,7 @@
   "dependencies": {
     "@playwright/mcp": "^0.0.76",
     "emailjs-com": "^3.2.0",
-    "framer-motion": "^12.38.0",
+    "framer-motion": "^12.42.0",
     "next": "^15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
