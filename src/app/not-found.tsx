@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <div
-      className="d-flex flex-column align-items-center justify-content-center text-center"
+      className="not-found"
       style={{
         minHeight: "60vh",
         backgroundColor: "#161025",

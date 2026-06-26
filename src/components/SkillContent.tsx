@@ -343,10 +343,9 @@ function SkillContent() {
                 whileHover="hover"
                 style={{ "--skill-color": skill.color } as React.CSSProperties}
               >
-                <span className="skill-pill-icon" style={{ color: skill.color }}>
+                 <span className="skill-pill-icon" style={{ color: skill.color }}>
                   {cloneElement(skill.icon, {
-                    'aria-label': skill.name,
-                    role: 'img',
+                    'aria-hidden': 'true',
                   })}
                 </span>
                 <span className="skill-pill-name">{skill.name}</span>
@@ -381,8 +380,7 @@ function SkillContent() {
               >
                 <span className="skill-pill-icon" style={{ color: tool.color }}>
                   {cloneElement(tool.icon, {
-                    'aria-label': tool.name,
-                    role: 'img',
+                    'aria-hidden': 'true',
                   })}
                 </span>
                 <span className="skill-pill-name">{tool.name}</span>

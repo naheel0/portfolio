@@ -12,7 +12,7 @@ const StarsBackground = () => {
   const [stars, setStars] = useState<Star[]>([]);
 
   useEffect(() => {
-    const newStars = Array.from({ length: 100 }, () => ({
+    const newStars = Array.from({ length: 40 }, () => ({
       top: `${Math.random() * 100}%`,
       left: `${Math.random() * 100}%`,
       animationDuration: `${Math.random() * 3 + 2}s`,

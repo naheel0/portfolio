@@ -103,18 +103,18 @@ function ContactContent() {
       <div style={{ height: "100px" }}></div>
 
       <motion.div
-        className="container mt-5 position-relative"
+        className="contact-container"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
       >
-        <motion.h2 className="text-center mb-4 contact-title" variants={titleVariants}>
+        <motion.h2 className="text-center contact-title" variants={titleVariants}>
           CONTACT ME
         </motion.h2>
 
-        <div className="row">
-          <motion.div className="col-md-6 p-3 contact-info" variants={itemVariants}>
+        <div className="contact-row">
+          <motion.div className="contact-col contact-info" variants={itemVariants}>
             <motion.h4
               className="contact-subtitle"
               initial={{ opacity: 0, x: -20 }}
@@ -152,12 +152,12 @@ function ContactContent() {
             </motion.div>
           </motion.div>
 
-          <motion.div className="col-md-6" variants={formVariants}>
+          <motion.div className="contact-col" variants={formVariants}>
             <form onSubmit={sendEmail} noValidate>
               {inputFields.map((field) => (
                 <motion.div
                   key={field.id}
-                  className="form-group mb-3"
+                  className="form-group"
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -194,7 +194,7 @@ function ContactContent() {
 
               <motion.button
                 type="submit"
-                className="btn transparent-btn w-100"
+                className="btn transparent-btn contact-full-width"
                 variants={buttonVariants}
                 initial="initial"
                 whileHover="hover"

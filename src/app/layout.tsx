@@ -3,7 +3,6 @@ import { MotionConfig } from "framer-motion";
 import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { PT_Mono } from "next/font/google";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 
 const ptMono = PT_Mono({

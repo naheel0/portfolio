@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  compress: true,
+  poweredByHeader: false,
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [480, 768, 1024, 1280, 1600],

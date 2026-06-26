@@ -47,7 +47,8 @@ const AboutContent = () => {
             alt="About Me Illustration"
             width={380}
             height={380}
-            priority={false}
+            priority
+            sizes="(max-width: 992px) 280px, 380px"
           />
         </motion.div>
       </motion.div>

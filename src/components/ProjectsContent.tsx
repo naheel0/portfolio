@@ -123,6 +123,7 @@ function ProjectsContent() {
               className="project-image"
               width={400}
               height={200}
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
             />
             <h2>{project.title}</h2>
             <p>{project.description}</p>

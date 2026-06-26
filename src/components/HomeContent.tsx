@@ -54,7 +54,7 @@ const HomeContent = () => {
         </motion.div>
 
         <motion.div className="home-illustration" variants={imageVariants} whileHover="hover">
-          <Image src="/images/home-main.svg" alt="Developer Illustration" width={420} height={420} priority />
+          <Image src="/images/home-main.svg" alt="Developer Illustration" width={420} height={420} priority sizes="(max-width: 992px) 280px, 420px" />
         </motion.div>
       </motion.div>
 
@@ -88,7 +88,7 @@ const HomeContent = () => {
         </motion.div>
 
         <motion.div className="intro-avatar" variants={imageVariants} whileHover="hover">
-          <Image src="/avatar.svg" alt="Naheel Muhammed PK Avatar" width={320} height={320} />
+          <Image src="/avatar.svg" alt="Naheel Muhammed PK Avatar" width={320} height={320} sizes="(max-width: 992px) 280px, 320px" />
         </motion.div>
       </motion.div>
     </div>
