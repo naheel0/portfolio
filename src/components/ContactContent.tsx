@@ -153,7 +153,7 @@ function ContactContent() {
           </motion.div>
 
           <motion.div className="contact-col" variants={formVariants}>
-            <form onSubmit={sendEmail} noValidate>
+            <form onSubmit={sendEmail}>
               {inputFields.map((field) => (
                 <motion.div
                   key={field.id}

@@ -105,6 +105,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${ptMono.variable}`}>
+        <a href="#home" className="skip-link">Skip to main content</a>
         <MotionConfig reducedMotion="user">
           <div className="app-layout">
             <Navbar />

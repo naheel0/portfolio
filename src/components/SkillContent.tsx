@@ -142,24 +142,6 @@ const skillItemVariants = {
   },
 };
 
-const contributionDayVariants = {
-  hidden: { opacity: 0, scale: 0.5 },
-  visible: (custom: number) => ({
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delay: custom * 0.003,
-      type: "spring" as const,
-      stiffness: 200,
-      damping: 20,
-    },
-  }),
-  hover: {
-    scale: 1.3,
-    transition: { type: "spring" as const, stiffness: 400, damping: 10 },
-  },
-};
-
 function SkillContent() {
   const [contributions, setContributions] = useState<Contribution[]>([]);
   const [loading, setLoading] = useState(true);
@@ -435,10 +417,9 @@ function SkillContent() {
                 {gridWeeks.map((week, weekIndex) => (
                   <div key={weekIndex} className="week-column">
                     {week.map((day, dayIndex) => {
-                      const flatIndex = weekIndex * 7 + dayIndex;
                       const level = day ? getLevel(day.count) : -1;
                       return (
-                        <motion.div
+                        <div
                           key={`${weekIndex}-${dayIndex}`}
                           className="contribution-day"
                           style={{
@@ -450,11 +431,6 @@ function SkillContent() {
                               ? `${day.count} contribution${day.count !== 1 ? "s" : ""} on ${new Date(day.date + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
                               : undefined
                           }
-                          variants={contributionDayVariants}
-                          custom={flatIndex}
-                          whileHover={day ? "hover" : undefined}
-                          initial="hidden"
-                          animate="visible"
                         />
                       );
                     })}
