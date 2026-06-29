@@ -82,7 +82,7 @@ const jsonLd = {
   address: { "@type": "PostalAddress", addressRegion: "Kerala", addressCountry: "IN" },
   sameAs: [
     "https://github.com/naheel0",
-    "https://linkedin.com/in/naheel-muhammad-6b7077378",
+    "https://www.linkedin.com/in/naheel-muhammed",
   ],
   knowsAbout: [
     "React", "Next.js", "JavaScript", "HTML", "CSS",

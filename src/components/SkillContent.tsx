@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo, cloneElement } from "react";
 import StarsBackground from "./StarsBackground";
-import { FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt } from "react-icons/fa";
+import { FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt, FaGithub } from "react-icons/fa";
 import { SiRedux, SiTailwindcss, SiBootstrap } from "react-icons/si";
 import { DiMsqlServer, DiDotnet } from "react-icons/di";
 import { TbDatabase, TbServer, TbBrandVscode, TbBrandVisualStudio } from "react-icons/tb";
@@ -110,6 +110,7 @@ const skills = [
   { name: "CSS", icon: <FaCss3Alt />, color: "#1572B6", level: 88 },
   { name: "React", icon: <FaReact />, color: "#61DAFB", level: 85 },
   { name: "Git", icon: <FaGitAlt />, color: "#F05032", level: 80 },
+  { name: "GitHub", icon: <FaGithub />, color: "#181717", level: 85 },
   { name: "Redux", icon: <SiRedux />, color: "#764ABC", level: 75 },
   { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#38B2AC", level: 82 },
   { name: "Bootstrap", icon: <SiBootstrap />, color: "#7952B3", level: 78 },

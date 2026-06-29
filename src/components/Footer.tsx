@@ -14,7 +14,7 @@ export default function Footer() {
           <a href="https://github.com/naheel0" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
             <FaGithub aria-hidden="true" />
           </a>
-          <a href="https://linkedin.com/in/naheel-muhammad-6b7077378" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/naheel-muhammed" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <FaLinkedin aria-hidden="true" />
           </a>
           <a href="mailto:naheelmuhammedpk@gmail.com" aria-label="Email">
