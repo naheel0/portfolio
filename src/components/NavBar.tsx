@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaHouse, FaUser, FaCode, FaBriefcase, FaEnvelope } from "react-icons/fa6";
+import { FaHouse, FaUser, FaCode, FaBriefcase, FaEnvelope, FaFileArrowDown } from "react-icons/fa6";
 
 const navItems = [
   { href: "#home",     icon: FaHouse,    section: "home"     },
@@ -80,6 +80,15 @@ const Navbar = () => {
           </a>
         );
       })}
+
+      <a
+        className="pill-nav-btn resume-nav-btn"
+        href="/Naheel.pdf"
+        download="Naheel-Muhammed-PK-Resume.pdf"
+        aria-label="Download Resume"
+      >
+        <FaFileArrowDown aria-hidden="true" />
+      </a>
     </motion.nav>
   );
 };

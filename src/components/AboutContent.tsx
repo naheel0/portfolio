@@ -25,10 +25,18 @@ const AboutContent = () => {
               Hi Everyone! I&apos;m <span className="highlight">Naheel Muhammed PK</span> from <span className="highlight">Kerala, India</span>.
             </p>
             <p>
-              I am a passionate <span className="highlight">Full Stack Developer</span> with expertise in building scalable web applications using modern technologies.
+              I&apos;m a <span className="highlight">Full Stack Developer (.NET + React)</span> with a Bachelor of Computer Applications
+              and hands-on internship experience building RESTful APIs, JWT-authenticated backends,
+              and responsive frontends.
             </p>
             <p>
-              I&apos;m proficient in <span className="highlight">JavaScript, React, .NET, C#, and SQL Server</span>, and I enjoy working across both frontend and backend stacks.
+              I&apos;m proficient in <span className="highlight">JavaScript, React, .NET, C#</span> and enjoy working across
+              both frontend and backend stacks.
+            </p>
+            <p>
+              Skilled in <span className="highlight">Clean Architecture, ASP.NET Core, Entity Framework, and SQL Server</span>.
+              Passionate about building scalable, secure web applications for SaaS, startup, and
+              e-commerce environments.
             </p>
             <p>
               Apart from coding, here are some other activities I love:

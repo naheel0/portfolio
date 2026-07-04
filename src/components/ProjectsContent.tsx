@@ -1,11 +1,13 @@
 'use client';
 
+import { useState, useCallback } from 'react';
 import { motion } from "framer-motion";
 import StarsBackground from "./StarsBackground";
-import Image from "next/image";
-import { staggerContainer, titleVariants, fadeInUp, itemVariants } from "@/lib/variants";
+import ProjectCarousel from "./ProjectCarousel";
+import ProjectModal from "./ProjectModal";
+import { titleVariants } from "@/lib/variants";
 
-interface Project {
+export interface Project {
   id: number;
   title: string;
   description: string;
@@ -13,17 +15,19 @@ interface Project {
   githubUrl: string;
   demoUrl: string;
   technologies: string[];
+  category: string;
 }
 
 const projects: Project[] = [
   {
     id: 1,
     title: "Gamehub",
-    description: "A gaming e-commerce website built with React.js and Tailwind CSS.",
+    description: "Full-Stack E-Commerce Website for gaming products. Implemented secure JWT authentication (access & refresh tokens), middleware-based session validation, and role-based access control. Developed scalable backend services with ASP.NET Core following Clean Architecture principles and RESTful API design. Integrated Razorpay payment gateway with dynamic cart functionality and order processing workflows.",
     image: "/images/gamehub.png",
     githubUrl: "https://github.com/naheel0/gamehub",
     demoUrl: "https://gamehub-alpha-rose.vercel.app",
-    technologies: ["React.js", "Tailwind CSS", "JavaScript"],
+    technologies: ["React.js", "ASP.NET Core", "C#", "Entity Framework", "SQL Server", "JWT", "Razorpay"],
+    category: "Full Stack",
   },
   {
     id: 2,
@@ -33,15 +37,17 @@ const projects: Project[] = [
     githubUrl: "https://github.com/naheel0/justdial-clone",
     demoUrl: "https://naheel0.github.io/justdial-clone/",
     technologies: ["HTML", "CSS", "JavaScript"],
+    category: "Frontend",
   },
   {
     id: 3,
-    title: "weather App",
-    description: "A weather application that provides current weather information using API.",
+    title: "Weather App",
+    description: "A weather application that provides current weather information using a live weather API with dynamic UI updates based on weather conditions.",
     image: "/images/weather-app.png",
     githubUrl: "https://github.com/naheel0/react-weather-app",
     demoUrl: "https://naheel0.github.io/react-weather-app/",
     technologies: ["React.js", "API", "Tailwind CSS", "JavaScript"],
+    category: "Frontend",
   },
   {
     id: 4,
@@ -51,39 +57,25 @@ const projects: Project[] = [
     githubUrl: "https://github.com/naheel0/w3school-nav-bar",
     demoUrl: "https://naheel0.github.io/w3school-nav-bar/",
     technologies: ["HTML", "CSS", "JavaScript"],
+    category: "Frontend",
   },
   {
     id: 5,
     title: "Facebook Clone",
-    description: "A clone of Facebook homepage built with HTML, CSS, and JavaScript.",
+    description: "A pixel-perfect clone of the Facebook homepage built with HTML, CSS, and JavaScript focusing on UI fidelity and responsive design.",
     image: "/images/fb.png",
     githubUrl: "https://github.com/naheel0/facebook-login-clone",
     demoUrl: "https://naheel0.github.io/facebook-login-clone/",
     technologies: ["HTML", "CSS", "JavaScript"],
+    category: "Frontend",
   },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { type: "spring" as const, stiffness: 100, damping: 12 },
-  },
-  hover: {
-    y: -10,
-    scale: 1.05,
-    transition: { type: "spring" as const, stiffness: 400, damping: 17 },
-  },
-};
-
-const buttonVariants = {
-  hover: { scale: 1.1, transition: { type: "spring" as const, stiffness: 400, damping: 10 } },
-  tap: { scale: 0.95 },
-};
-
 function ProjectsContent() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const handleClose = useCallback(() => setSelectedProject(null), []);
+  const handleOpen = useCallback((p: Project) => setSelectedProject(p), []);
+
   return (
     <div className="main-bg-prj" id="projects">
       <StarsBackground />
@@ -96,71 +88,20 @@ function ProjectsContent() {
         viewport={{ once: true, amount: 0.3 }}
       >
         <h2>
-          My Recent <span style={{ color: "blueviolet" }}>Works</span>
+          My Recent <span className="prj-accent">Works</span>
         </h2>
-        <motion.p variants={fadeInUp(0.3)} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-          Here are some of my recent projects:
-        </motion.p>
+        <p>Click on any project to explore details</p>
       </motion.div>
 
-      <motion.div
-        className="prj-main-pg"
-        variants={staggerContainer(0.3, 0.2)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-      >
-        {projects.map((project) => (
-          <motion.div
-            key={project.id}
-            className="my-prj-div"
-            variants={cardVariants}
-            whileHover="hover"
-          >
-            <Image
-              src={project.image}
-              alt={`${project.title} Screenshot`}
-              className="project-image"
-              width={400}
-              height={200}
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
-            />
-            <h2>{project.title}</h2>
-            <p>{project.description}</p>
-            <div className="technologies">
-              {project.technologies.map((tech) => (
-                <span key={tech} className="tech-tag">{tech}</span>
-              ))}
-            </div>
-            <div className="project-buttons">
-              <motion.a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-                className="github-btn"
-                aria-label={`View ${project.title} on GitHub`}
-              >
-                GitHub
-              </motion.a>
-              <motion.a
-                href={project.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-                className="demo-btn"
-                aria-label={`View live demo of ${project.title}`}
-              >
-                Demo
-              </motion.a>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
+      <ProjectCarousel
+        projects={projects}
+        onProjectClick={handleOpen}
+      />
+
+      <ProjectModal
+        project={selectedProject}
+        onClose={handleClose}
+      />
     </div>
   );
 }

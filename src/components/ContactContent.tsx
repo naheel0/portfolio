@@ -110,7 +110,7 @@ function ContactContent() {
         viewport={{ once: true, amount: 0.1 }}
       >
         <motion.h2 className="text-center contact-title" variants={titleVariants}>
-          CONTACT ME
+          CONTACT <span>ME</span>
         </motion.h2>
 
         <div className="contact-row">
@@ -146,8 +146,16 @@ function ContactContent() {
                 <span className="contact-value">naheelmuhammedpk@gmail.com</span>
               </motion.div>
               <motion.div className="contact-item" whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300, delay: 0.1 }}>
+                <span className="contact-label">📱 Phone: </span>
+                <span className="contact-value">+91 7306912910</span>
+              </motion.div>
+              <motion.div className="contact-item" whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300, delay: 0.2 }}>
                 <span className="contact-label">📍 Location: </span>
-                <span className="contact-value">kerala, India</span>
+                <span className="contact-value">Kerala, India</span>
+              </motion.div>
+              <motion.div className="contact-item" whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300, delay: 0.3 }}>
+                <span className="contact-label">🔗 GitHub: </span>
+                <span className="contact-value">github.com/naheel0</span>
               </motion.div>
             </motion.div>
           </motion.div>

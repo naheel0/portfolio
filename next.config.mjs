@@ -7,7 +7,7 @@ const nextConfig = {
     deviceSizes: [480, 768, 1024, 1280, 1600],
   },
   experimental: {
-    optimizePackageImports: ['react-icons', 'framer-motion'],
+    optimizePackageImports: ['framer-motion'],
   },
   outputFileTracingRoot: process.cwd(),
 };
