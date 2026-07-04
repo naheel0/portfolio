@@ -416,6 +416,9 @@ img { max-width: 100%; height: auto; }
   -webkit-backdrop-filter: blur(10px);
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(168, 85, 247, 0.1);
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
 }
 .prj-card:hover {
   border-color: rgba(168, 85, 247, 0.6);

@@ -71,7 +71,7 @@ const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => 
         onScroll={sync}
       >
         {projects.map((project, i) => (
-          <motion.article
+          <motion.button
             key={project.id}
             className="prj-card"
             custom={i}
@@ -118,7 +118,7 @@ const ProjectCarousel = ({ projects, onProjectClick }: ProjectCarouselProps) => 
                 )}
               </div>
             </div>
-          </motion.article>
+          </motion.button>
         ))}
       </div>
 

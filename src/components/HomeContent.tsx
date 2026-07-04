@@ -69,6 +69,7 @@ const HomeContent = () => {
               href="https://www.linkedin.com/in/naheel-muhammed"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Visit LinkedIn profile"
               className="social-btn"
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
@@ -80,6 +81,7 @@ const HomeContent = () => {
               href="https://github.com/naheel0"
               target="_blank"
               rel="noopener noreferrer"
+               aria-label="Visit Github profile"
               className="social-btn"
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
