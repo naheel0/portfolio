@@ -342,14 +342,11 @@ img { max-width: 100%; height: auto; }
 
 /* ===== Projects.css ===== */
 .main-bg-prj {
-  background-color: #0f0a1a;
+  background-color: #161025;
   min-height: 100vh;
   width: 100%;
   position: relative;
   padding-bottom: 120px;
-  background-image: 
-    radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
 }
 
 /* Heading */
@@ -371,11 +368,11 @@ img { max-width: 100%; height: auto; }
 }
 .prj-accent {
   color: var(--accent);
-  text-shadow: 0 0 20px rgba(181, 122, 255, 0.5);
+  text-shadow: 0 0 15px rgba(181, 122, 255, 0.7);
 }
 .prj-heading p {
-  font-size: 1.05rem;
-  color: rgba(177, 156, 217, 0.7);
+  font-size: 1rem;
+  color: #ccc;
   letter-spacing: 0.01em;
   margin-bottom: 0;
   font-weight: 500;
@@ -993,3 +990,8 @@ img { max-width: 100%; height: auto; }
 
 .text-block { max-width: 800px; color: #fff; }
 .char { will-change: transform; display: inline-block; }
+@media (min-width: 768px) {
+  html, body, a, button, select, input, textarea, [role="button"], .tech-badge, .interactive-card {
+    cursor: none !important;
+  }
+}

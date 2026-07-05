@@ -4,6 +4,7 @@ import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { PT_Mono } from "next/font/google";
 import "./globals.css";
+import CustomCursor from "@/components/CustomCursor";
 
 const ptMono = PT_Mono({
   subsets: ["latin"],
@@ -96,24 +97,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="icon" href="/avatar.svg" type="image/svg+xml" />
-        <script
+    <html lang= "en" >
+    <head>
+    <link rel="icon" href = "/avatar.svg" type = "image/svg+xml" />
+      <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+  dangerouslySetInnerHTML = {{ __html: JSON.stringify(jsonLd) }
+}
         />
-      </head>
-      <body className={`${ptMono.variable}`}>
-
-        <MotionConfig reducedMotion="user">
-          <div className="app-layout">
-            <Navbar />
-            <div className="app-main">{children}</div>
-            <Footer />
+  </head>
+  < body className = {`${ptMono.variable}`}>
+    <CustomCursor />
+    < MotionConfig reducedMotion = "user" >
+      <div className="app-layout" >
+        <Navbar />
+        < div className = "app-main" > { children } </div>
+          < Footer />
           </div>
-        </MotionConfig>
-      </body>
-    </html>
+          </MotionConfig>
+          </body>
+          </html>
   );
 }
