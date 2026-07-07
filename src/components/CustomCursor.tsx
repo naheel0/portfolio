@@ -73,11 +73,11 @@ export default function CustomCursor(): React.ReactElement | null {
           left: 0,
           width: "6px",
           height: "6px",
-          backgroundColor: "#b57aff", // Bright violet core
+          backgroundColor: "#22d3ee", // Bright cyan core
           borderRadius: "50%",
           pointerEvents: "none",
           zIndex: 999999,
-          boxShadow: "0 0 10px #b57aff, 0 0 20px #8a2be2",
+          boxShadow: "0 0 10px #22d3ee, 0 0 20px #6366f1",
           x: mouseX,
           y: mouseY,
           translateX: "-50%",
@@ -98,7 +98,7 @@ export default function CustomCursor(): React.ReactElement | null {
           left: 0,
           width: "36px",
           height: "36px",
-          border: "1.5px solid rgba(181, 122, 255, 0.4)", // Translucent purple border
+          border: "1.5px solid rgba(34, 211, 238, 0.4)", // Translucent cyan border
           borderRadius: "50%",
           pointerEvents: "none",
           zIndex: 999998,
@@ -110,10 +110,10 @@ export default function CustomCursor(): React.ReactElement | null {
         animate={{
           scale: isHovering ? 1.4 : 1,
           opacity: isVisible ? 1 : 0,
-          backgroundColor: isHovering ? "rgba(138, 43, 226, 0.15)" : "rgba(138, 43, 226, 0)",
-          borderColor: isHovering ? "rgba(181, 122, 255, 1)" : "rgba(181, 122, 255, 0.4)",
+          backgroundColor: isHovering ? "rgba(99, 102, 241, 0.15)" : "rgba(99, 102, 241, 0)",
+          borderColor: isHovering ? "rgba(34, 211, 238, 1)" : "rgba(34, 211, 238, 0.4)",
           boxShadow: isHovering 
-            ? "0 0 15px rgba(138, 43, 226, 0.6), inset 0 0 10px rgba(138, 43, 226, 0.3)" 
+            ? "0 0 15px rgba(99, 102, 241, 0.6), inset 0 0 10px rgba(99, 102, 241, 0.3)" 
             : "0 0 0px rgba(0,0,0,0)",
         }}
         transition={{ type: "spring", stiffness: 250, damping: 30 }}

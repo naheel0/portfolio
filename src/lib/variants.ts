@@ -38,15 +38,6 @@ export const imageVariants = {
   },
 };
 
-export const wordVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring" as const, stiffness: 100 },
-  },
-};
-
 export const titleVariants = {
   hidden: { opacity: 0, y: -30 },
   visible: {
@@ -55,23 +46,3 @@ export const titleVariants = {
     transition: { type: "spring" as const, stiffness: 100, delay: 0.1 },
   },
 };
-
-export const staggerContainer = (
-  staggerChildren = 0.2,
-  delayChildren = 0.2
-) => ({
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { delayChildren, staggerChildren },
-  },
-});
-
-export const fadeInUp = (delay = 0) => ({
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring" as const, stiffness: 100, damping: 10, delay },
-  },
-});

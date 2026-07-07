@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 import { FaHouse, FaUser, FaCode, FaBriefcase, FaEnvelope, FaFileArrowDown } from "react-icons/fa6";
 
 const navItems = [
-  { href: "#home",     icon: FaHouse,    section: "home"     },
-  { href: "#about",    icon: FaUser,     section: "about"    },
-  { href: "#skills",   icon: FaCode,     section: "skills"   },
-  { href: "#projects", icon: FaBriefcase,section: "projects" },
-  { href: "#contact",  icon: FaEnvelope, section: "contact"  },
+  { href: "#home",     icon: FaHouse,     section: "home",     label: "Home"     },
+  { href: "#about",    icon: FaUser,      section: "about",    label: "About"    },
+  { href: "#skills",   icon: FaCode,      section: "skills",   label: "Skills"   },
+  { href: "#projects", icon: FaBriefcase, section: "projects", label: "Work"     },
+  { href: "#contact",  icon: FaEnvelope,  section: "contact",  label: "Contact"  },
 ] as const;
 
 const navVariants = {
@@ -57,37 +57,46 @@ const Navbar = () => {
       role="navigation"
       aria-label="Main navigation"
     >
-      {navItems.map((item) => {
-        const isActive = activeSection === item.section;
-        const Icon = item.icon;
-        return (
-          <a
-            key={item.section}
-            className={`pill-nav-btn ${isActive ? "active" : ""}`}
-            href={item.href}
-            aria-label={item.section}
-            aria-current={isActive ? "page" : undefined}
-            onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-          >
-            <Icon aria-hidden="true" />
-            {isActive && (
-              <motion.span
-                className="pill-nav-indicator"
-                layoutId="nav-indicator"
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              />
-            )}
-          </a>
-        );
-      })}
+      {/* Section nav group — icon + label buttons with sliding active pill */}
+      <div className="nav-section-group">
+        {navItems.map((item) => {
+          const isActive = activeSection === item.section;
+          const Icon = item.icon;
+          return (
+            <a
+              key={item.section}
+              className={`nav-item ${isActive ? "active" : ""}`}
+              href={item.href}
+              aria-label={item.section}
+              aria-current={isActive ? "page" : undefined}
+              onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
+            >
+              {isActive && (
+                <motion.span
+                  className="nav-item-bg"
+                  layoutId="nav-active-bg"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                />
+              )}
+              <Icon aria-hidden="true" className="nav-item-icon" />
+              <span className="nav-item-label">{item.label}</span>
+            </a>
+          );
+        })}
+      </div>
 
+      {/* Vertical divider */}
+      <span className="nav-divider" aria-hidden="true" />
+
+      {/* Resume download button */}
       <a
-        className="pill-nav-btn resume-nav-btn"
+        className="nav-item nav-resume-btn"
         href="/Naheel.pdf"
         download="Naheel-Muhammed-PK-Resume.pdf"
         aria-label="Download Resume"
       >
-        <FaFileArrowDown aria-hidden="true" />
+        <FaFileArrowDown aria-hidden="true" className="nav-item-icon" />
+        <span className="nav-item-label">Resume</span>
       </a>
     </motion.nav>
   );

@@ -8,6 +8,7 @@ import { DiMsqlServer, DiDotnet } from "react-icons/di";
 import { TbDatabase, TbServer, TbBrandVscode, TbBrandVisualStudio } from "react-icons/tb";
 import { motion } from "framer-motion";
 import { containerVariants, titleVariants } from "@/lib/variants";
+import { useTilt3D } from "@/lib/useTilt3D";
 
 const DotnetIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48" style={{ display: 'block' }} {...props}>
@@ -36,13 +37,13 @@ interface Contribution {
   count: number;
 }
 
-// GitHub's exact contribution level thresholds → our purple theme
+// GitHub's exact contribution level thresholds → Midnight Aurora (smooth cyan luminance ramp)
 const LEVEL_COLORS = [
-  "#161025", // 0  — no contributions (background)
-  "#3b1a6e", // 1  — 1–9  (low)
-  "#6b2fbb", // 2  — 10–19 (medium)
-  "#9333ea", // 3  — 20–29 (high)
-  "#d8b4fe", // 4  — 30+  (max)
+  "#0a0e1f", // 0  — no contributions (navy bg, matches section)
+  "#164e63", // 1  — 1–9  (low)      cyan-900 (darkest visible)
+  "#0e7490", // 2  — 10–19 (medium)   cyan-700
+  "#0891b2", // 3  — 20–29 (high)     cyan-600 (was indigo — now matches theme)
+  "#22d3ee", // 4  — 30+  (max)      cyan-400 (brightest, aurora accent)
 ] as const;
 
 // Exact GitHub thresholds: 0, 1–9, 10–19, 20–29, 30+
@@ -110,7 +111,7 @@ const skills = [
   { name: "CSS", icon: <FaCss3Alt />, color: "#1572B6", level: 88 },
   { name: "React", icon: <FaReact />, color: "#61DAFB", level: 85 },
   { name: "Git", icon: <FaGitAlt />, color: "#F05032", level: 80 },
-  { name: "GitHub", icon: <FaGithub />, color: "#a855f7", level: 85 },
+  { name: "GitHub", icon: <FaGithub />, color: "#22d3ee", level: 85 },
   { name: "Redux", icon: <SiRedux />, color: "#764ABC", level: 75 },
   { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#38B2AC", level: 82 },
   { name: "Bootstrap", icon: <SiBootstrap />, color: "#7952B3", level: 78 },
@@ -136,12 +137,33 @@ const skillItemVariants = {
     scale: 1,
     transition: { type: "spring" as const, stiffness: 100, damping: 10 },
   },
-  hover: {
-    y: -4,
-    scale: 1.08,
-    transition: { type: "spring" as const, stiffness: 400, damping: 17 },
-  },
 };
+
+/* SkillPill — wraps each pill with the useTilt3D hook for a magnetic
+ * mouse-tracked 3D tilt on hover. The ref is typed as HTMLDivElement and
+ * cast for framer-motion's motion.div. */
+interface SkillPillProps {
+  name: string;
+  color: string;
+  icon: React.ReactElement<{ 'aria-hidden'?: string }>;
+}
+
+function SkillPill({ name, color, icon }: SkillPillProps) {
+  const tiltRef = useTilt3D<HTMLDivElement>();
+  return (
+    <motion.div
+      ref={tiltRef as React.RefObject<HTMLDivElement>}
+      className="skill-pill tilt-3d"
+      variants={skillItemVariants}
+      style={{ "--skill-color": color } as React.CSSProperties}
+    >
+      <span className="skill-pill-icon" style={{ color }}>
+        {cloneElement(icon, { 'aria-hidden': 'true' })}
+      </span>
+      <span className="skill-pill-name">{name}</span>
+    </motion.div>
+  );
+}
 
 function SkillContent() {
   const [contributions, setContributions] = useState<Contribution[]>([]);
@@ -319,20 +341,12 @@ function SkillContent() {
             viewport={{ once: true, amount: 0.1 }}
           >
             {skills.map((skill) => (
-              <motion.div
+              <SkillPill
                 key={skill.name}
-                className="skill-pill"
-                variants={skillItemVariants}
-                whileHover="hover"
-                style={{ "--skill-color": skill.color } as React.CSSProperties}
-              >
-                 <span className="skill-pill-icon" style={{ color: skill.color }}>
-                  {cloneElement(skill.icon, {
-                    'aria-hidden': 'true',
-                  })}
-                </span>
-                <span className="skill-pill-name">{skill.name}</span>
-              </motion.div>
+                name={skill.name}
+                color={skill.color}
+                icon={skill.icon}
+              />
             ))}
           </motion.div>
 
@@ -354,20 +368,12 @@ function SkillContent() {
             viewport={{ once: true, amount: 0.1 }}
           >
             {tools.map((tool) => (
-              <motion.div
+              <SkillPill
                 key={tool.name}
-                className="skill-pill"
-                variants={skillItemVariants}
-                whileHover="hover"
-                style={{ "--skill-color": tool.color } as React.CSSProperties}
-              >
-                <span className="skill-pill-icon" style={{ color: tool.color }}>
-                  {cloneElement(tool.icon, {
-                    'aria-hidden': 'true',
-                  })}
-                </span>
-                <span className="skill-pill-name">{tool.name}</span>
-              </motion.div>
+                name={tool.name}
+                color={tool.color}
+                icon={tool.icon}
+              />
             ))}
           </motion.div>
       </div>

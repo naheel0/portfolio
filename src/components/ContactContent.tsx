@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import StarsBackground from "./StarsBackground";
 import { motion } from "framer-motion";
+import { FaEnvelope, FaPhone, FaLocationDot, FaGithub } from "react-icons/fa6";
 
 interface FormData {
   name: string;
@@ -61,6 +62,33 @@ const inputFields = [
   { id: "message", label: "Message", type: "textarea", placeholder: "Your Message", delay: 0.6 },
 ];
 
+const contactCards = [
+  {
+    icon: FaEnvelope,
+    label: "Email",
+    value: "naheelmuhammedpk@gmail.com",
+    href: "mailto:naheelmuhammedpk@gmail.com",
+  },
+  {
+    icon: FaPhone,
+    label: "Phone",
+    value: "+91 7306912910",
+    href: "tel:+917306912910",
+  },
+  {
+    icon: FaLocationDot,
+    label: "Location",
+    value: "Kerala, India",
+    href: "https://maps.google.com/?q=Kerala,India",
+  },
+  {
+    icon: FaGithub,
+    label: "GitHub",
+    value: "github.com/naheel0",
+    href: "https://github.com/naheel0",
+  },
+];
+
 function ContactContent() {
   const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -98,7 +126,7 @@ function ContactContent() {
   );
 
   return (
-    <div className="main-bg-contact position-relative" id="contact">
+    <div className="main-bg-contact" id="contact">
       <StarsBackground />
       <div style={{ height: "100px" }}></div>
 
@@ -114,107 +142,116 @@ function ContactContent() {
         </motion.h2>
 
         <div className="contact-row">
-          <motion.div className="contact-col contact-info" variants={itemVariants}>
-            <motion.h4
-              className="contact-subtitle"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              Get in Touch
-            </motion.h4>
-            <motion.p
-              className="contact-text"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              If you have any questions or would like to collaborate, feel free to reach out!
-            </motion.p>
-
-            <motion.div
-              className="contact-details"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-            >
-              <motion.div className="contact-item" whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300 }}>
-                <span className="contact-label">📧 Email: </span>
-                <span className="contact-value">naheelmuhammedpk@gmail.com</span>
-              </motion.div>
-              <motion.div className="contact-item" whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300, delay: 0.1 }}>
-                <span className="contact-label">📱 Phone: </span>
-                <span className="contact-value">+91 7306912910</span>
-              </motion.div>
-              <motion.div className="contact-item" whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300, delay: 0.2 }}>
-                <span className="contact-label">📍 Location: </span>
-                <span className="contact-value">Kerala, India</span>
-              </motion.div>
-              <motion.div className="contact-item" whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300, delay: 0.3 }}>
-                <span className="contact-label">🔗 GitHub: </span>
-                <span className="contact-value">github.com/naheel0</span>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          <motion.div className="contact-col" variants={formVariants}>
-            <form onSubmit={sendEmail}>
-              {inputFields.map((field) => (
-                <motion.div
-                  key={field.id}
-                  className="form-group"
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: field.delay }}
-                >
-                  <label htmlFor={field.id} className="form-label">{field.label}</label>
-                  {field.type === "textarea" ? (
-                    <motion.textarea
-                      className="form-control transparent-input"
-                      id={field.id}
-                      name={field.id}
-                      rows={4}
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder={field.placeholder}
-                      required
-                      whileFocus={{ scale: 1.02 }}
-                    />
-                  ) : (
-                    <motion.input
-                      type={field.type}
-                      className="form-control transparent-input"
-                      id={field.id}
-                      name={field.id}
-                      value={formData[field.id as keyof typeof formData] as string}
-                      onChange={handleChange}
-                      placeholder={field.placeholder}
-                      required
-                      whileFocus={{ scale: 1.02 }}
-                    />
-                  )}
-                </motion.div>
-              ))}
-
-              <motion.button
-                type="submit"
-                className="btn transparent-btn contact-full-width"
-                variants={buttonVariants}
-                initial="initial"
-                whileHover="hover"
-                whileTap="tap"
-                animate={isSubmitting ? "submitting" : "initial"}
-                disabled={isSubmitting}
-                aria-busy={isSubmitting}
+          <div className="contact-unified">
+            <motion.div className="contact-col contact-info" variants={itemVariants}>
+              <motion.h4
+                className="contact-subtitle"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
               >
-                {isSubmitting ? "Sending..." : "Send Message"}
-              </motion.button>
-            </form>
-          </motion.div>
+                Get in Touch
+              </motion.h4>
+              <motion.p
+                className="contact-text"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                If you have any questions or would like to collaborate, feel free to reach out!
+              </motion.p>
+
+              <div className="contact-cards">
+                {contactCards.map((card, i) => {
+                  const Icon = card.icon;
+                  return (
+                    <motion.a
+                      key={card.label}
+                      href={card.href}
+                      target={card.href.startsWith("http") ? "_blank" : undefined}
+                      rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="contact-card"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.4 + i * 0.08, type: "spring", stiffness: 120, damping: 14 }}
+                      aria-label={`${card.label}: ${card.value}`}
+                    >
+                      <span className="contact-card-icon">
+                        <Icon aria-hidden="true" />
+                      </span>
+                      <span className="contact-card-content">
+                        <span className="contact-card-label">{card.label}</span>
+                        <span className="contact-card-value">{card.value}</span>
+                      </span>
+                    </motion.a>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            <span className="contact-divider" aria-hidden="true" />
+
+            <motion.div className="contact-col contact-form-col" variants={formVariants}>
+              <div className="contact-form-card">
+                <form onSubmit={sendEmail}>
+                  {inputFields.map((field) => (
+                    <motion.div
+                      key={field.id}
+                      className="form-group"
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: field.delay }}
+                    >
+                      <label htmlFor={field.id} className="form-label">{field.label}</label>
+                      {field.type === "textarea" ? (
+                        <motion.textarea
+                          className="form-control transparent-input"
+                          id={field.id}
+                          name={field.id}
+                          rows={4}
+                          value={formData.message}
+                          onChange={handleChange}
+                          placeholder={field.placeholder}
+                          required
+                          whileFocus={{ scale: 1.02 }}
+                        />
+                      ) : (
+                        <motion.input
+                          type={field.type}
+                          className="form-control transparent-input"
+                          id={field.id}
+                          name={field.id}
+                          value={formData[field.id as keyof typeof formData] as string}
+                          onChange={handleChange}
+                          placeholder={field.placeholder}
+                          required
+                          whileFocus={{ scale: 1.02 }}
+                        />
+                      )}
+                    </motion.div>
+                  ))}
+
+                  <motion.button
+                    type="submit"
+                    className="btn transparent-btn contact-full-width"
+                    variants={buttonVariants}
+                    initial="initial"
+                    whileHover="hover"
+                    whileTap="tap"
+                    animate={isSubmitting ? "submitting" : "initial"}
+                    disabled={isSubmitting}
+                    aria-busy={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </motion.button>
+                </form>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </motion.div>
     </div>

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { FaDownload, FaLinkedin, FaGithub } from 'react-icons/fa';
 import StarsBackground from './StarsBackground';
 import { containerVariants, itemVariants, textVariants, imageVariants } from '@/lib/variants';
 
@@ -57,13 +56,15 @@ const HomeContent = () => {
             <motion.a
               href="/Naheel.pdf"
               download="Naheel-Muhammed-PK-Resume.pdf"
-              className="social-btn"
+              className="cv-btn"
               variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
               title="Download Resume"
+              aria-label="Download Resume"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" width="20" height="20"><path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zM200 248v92.7l34.3-34.3c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6l-64 64c-6.2 6.2-16.4 6.2-22.6 0l-64-64c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0l34.3 34.3V248c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
+              <span>Download Resume</span>
             </motion.a>
             <motion.a
               href="https://www.linkedin.com/in/naheel-muhammed"
@@ -92,7 +93,7 @@ const HomeContent = () => {
           </div>
         </motion.div>
 
-        <motion.div className="home-illustration" variants={imageVariants} whileHover="hover">
+        <motion.div className="home-illustration float-3d" variants={imageVariants} whileHover="hover">
           <Image src="/images/home-main.svg" alt="Developer Illustration" width={420} height={420} priority sizes="(max-width: 992px) 280px, 420px" />
         </motion.div>
       </motion.div>
@@ -126,7 +127,7 @@ const HomeContent = () => {
           </motion.p>
         </motion.div>
 
-        <motion.div className="intro-avatar" variants={imageVariants} whileHover="hover">
+        <motion.div className="intro-avatar float-3d" variants={imageVariants} whileHover="hover" style={{ animationDelay: '1.5s' }}>
           <Image src="/avatar.svg" alt="Naheel Muhammed PK Avatar" width={320} height={320} sizes="(max-width: 992px) 280px, 320px" quality={60} />
         </motion.div>
       </motion.div>

@@ -6,7 +6,7 @@ export default function NotFound() {
       className="not-found"
       style={{
         minHeight: "60vh",
-        backgroundColor: "#161025",
+        backgroundColor: "#060818",
         color: "white",
         padding: "20px",
       }}
@@ -14,7 +14,7 @@ export default function NotFound() {
       <h1
         style={{
           fontSize: "clamp(3rem, 10vw, 6rem)",
-          color: "blueviolet",
+          color: "#22d3ee",
           margin: 0,
         }}
       >
@@ -37,7 +37,7 @@ export default function NotFound() {
         href="/"
         className="text-decoration-none"
         style={{
-          background: "blueviolet",
+          background: "linear-gradient(135deg, #22d3ee, #6366f1)",
           color: "white",
           padding: "12px 30px",
           borderRadius: "8px",
