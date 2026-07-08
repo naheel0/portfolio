@@ -1,14 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import StarsBackground from './StarsBackground';
 import Image from 'next/image';
 import { containerVariants, itemVariants, textVariants } from '@/lib/variants';
 
 const AboutContent = () => {
   return (
     <div className="about-section" id="about">
-      <StarsBackground />
       <motion.div
         className="about-container"
         variants={containerVariants}

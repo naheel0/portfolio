@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, cloneElement } from "react";
-import StarsBackground from "./StarsBackground";
 import { FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt, FaGithub } from "react-icons/fa";
 import { SiRedux, SiTailwindcss, SiBootstrap } from "react-icons/si";
 import { DiMsqlServer, DiDotnet } from "react-icons/di";
@@ -299,7 +298,6 @@ function SkillContent() {
   if (loading) {
     return (
       <div className="main-bg" id="skills">
-        <StarsBackground />
         <div className="contributions-section">
           <motion.h2
             className="contributions-title"
@@ -321,8 +319,6 @@ function SkillContent() {
 
   return (
     <div className="main-bg" id="skills">
-      <StarsBackground />
-
       <div className="skills-section">
           <motion.h2
             className="skills-title"

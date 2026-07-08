@@ -1512,7 +1512,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ===== Stars & ScrambledText ===== */
-#stars-background { position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+#stars-background { position: fixed; width: 100vw; height: 100vh; top: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 1; }
 .home-section > *, .about-section > *, .main-bg > *, .main-bg-prj > *, .main-bg-contact > * { position: relative; z-index: 2; }
 .star { position: absolute; width: 1.5px; height: 1.5px; background: white; border-radius: 50%; animation-name: twinkle; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
 @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } }
@@ -1521,6 +1521,105 @@ img { max-width: 100%; height: auto; }
   html, body, a, button, select, input, textarea, [role="button"], .tech-badge, .interactive-card {
     cursor: none !important;
   }
+}
+
+/* ===== Aurora Comet Cursor — 3-layer depth system =====
+ * All animations are CSS-only (GPU composited).
+ * JS only drives position via framer-motion springs.
+ */
+
+/* ── Layer 1: Core dot ── */
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 4px; height: 4px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999999;
+  box-shadow: 0 0 6px var(--accent), 0 0 18px var(--accent-dark);
+  /* Subtle pulse — GPU composited (opacity + transform only) */
+  animation: cursor-pulse 2.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes cursor-pulse {
+  0%, 100% { box-shadow: 0 0 6px var(--accent), 0 0 18px var(--accent-dark); }
+  50%      { box-shadow: 0 0 10px var(--accent), 0 0 28px var(--accent-mid); }
+}
+
+/* ── Layer 2: Inner ring (rotating conic-gradient aurora border) ── */
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999998;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+.cursor-ring-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  /* Rotated via CSS — zero JS per-frame cost */
+  animation: cursor-ring-spin 3.5s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+@keyframes cursor-ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.cursor-ring-mask {
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background-color: var(--bg);
+}
+.cursor-ring-fill {
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, rgba(34,211,238,0.06) 100%);
+  pointer-events: none;
+}
+
+/* ── Layer 3: Outer aura (soft glow, heavy parallax lag) ── */
+.cursor-aura {
+  position: fixed;
+  top: 0; left: 0;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999997;
+  border: 1px solid rgba(129,140,248,0.2);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  will-change: transform, opacity;
+  /* Soft breathing animation — GPU composited */
+  animation: cursor-aura-breathe 4s ease-in-out infinite;
+}
+@keyframes cursor-aura-breathe {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.6; }
+}
+
+/* ── Click ripple (spawned dynamically, self-removes) ── */
+.cursor-ripple {
+  position: fixed;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  pointer-events: none;
+  z-index: 999996;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 1;
+  animation: cursor-ripple-expand 0.6s ease-out forwards;
+}
+@keyframes cursor-ripple-expand {
+  0%   { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(5);  opacity: 0; }
 }
 
 /* ============================================================

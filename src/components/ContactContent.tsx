@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from "react";
-import StarsBackground from "./StarsBackground";
 import { motion } from "framer-motion";
 import { FaEnvelope, FaPhone, FaLocationDot, FaGithub } from "react-icons/fa6";
 
@@ -105,9 +104,8 @@ function ContactContent() {
       e.preventDefault();
       setIsSubmitting(true);
       try {
-        const module = await import("emailjs-com");
-        module.init("VLxM2t4JmL7HsMc4F");
-        await module.send("service_6kxz2ig", "template_qd8leoi", {
+        const emailjs = await import("@emailjs/browser");
+        emailjs.send("service_6kxz2ig", "template_qd8leoi", {
           from_name: formData.name,
           reply_to: formData.email,
           message: formData.message,
@@ -127,7 +125,6 @@ function ContactContent() {
 
   return (
     <div className="main-bg-contact" id="contact">
-      <StarsBackground />
       <div style={{ height: "100px" }}></div>
 
       <motion.div

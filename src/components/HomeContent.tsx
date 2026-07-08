@@ -34,7 +34,6 @@ const HomeContent = () => {
   return (
     <div className="home-section" id="home">
       <StarsBackground />
-
       {/* Hero */}
       <motion.div
         className="home-hero"
@@ -128,7 +127,7 @@ const HomeContent = () => {
         </motion.div>
 
         <motion.div className="intro-avatar float-3d" variants={imageVariants} whileHover="hover" style={{ animationDelay: '1.5s' }}>
-          <Image src="/avatar.svg" alt="Naheel Muhammed PK Avatar" width={320} height={320} sizes="(max-width: 992px) 280px, 320px" quality={60} />
+          <Image src="/avatar.svg" alt="Naheel Muhammed PK Avatar" width={320} height={320} loading="eager" decoding="async" />
         </motion.div>
       </motion.div>
     </div>

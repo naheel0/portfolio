@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 import { motion } from "framer-motion";
-import StarsBackground from "./StarsBackground";
 import ProjectCarousel from "./ProjectCarousel";
 import ProjectModal from "./ProjectModal";
 import { titleVariants } from "@/lib/variants";
@@ -78,7 +77,6 @@ function ProjectsContent() {
 
   return (
     <div className="main-bg-prj" id="projects">
-      <StarsBackground />
 
       <motion.div
         className="prj-heading"

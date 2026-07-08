@@ -2,13 +2,12 @@
 
 import dynamic from "next/dynamic";
 
-// All sections are server-side rendered (ssr: true) so search engines can
-// crawl the full content. framer-motion animations still run client-side
-// via 'use client' on each component; the initial HTML is complete.
+// Code-split all sections (separate chunks) but keep SSR enabled
+// so server/client HTML stays identical — no hydration mismatch.
 const HomeContent = dynamic(() => import('./HomeContent'), { ssr: true });
 const AboutContent = dynamic(() => import('./AboutContent'), { ssr: true });
-const ProjectsContent = dynamic(() => import('./ProjectsContent'), { ssr: true });
 const SkillContent = dynamic(() => import('./SkillContent'), { ssr: true });
+const ProjectsContent = dynamic(() => import('./ProjectsContent'), { ssr: true });
 const ContactContent = dynamic(() => import('./ContactContent'), { ssr: true });
 
 const Portfolio = () => {
