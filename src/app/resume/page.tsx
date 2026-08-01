@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import ResumeContent from "@/components/ResumeContent";
 
-const BASE_URL = "https://www.naheel.me";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
 
 export const metadata: Metadata = {
   title: "Resume",

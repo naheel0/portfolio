@@ -24,7 +24,7 @@ const projects: Project[] = [
     description: "Full-Stack E-Commerce Website for gaming products. Implemented secure JWT authentication (access & refresh tokens), middleware-based session validation, and role-based access control. Developed scalable backend services with ASP.NET Core following Clean Architecture principles and RESTful API design. Integrated Razorpay payment gateway with dynamic cart functionality and order processing workflows.",
     image: "/images/gamehub.png",
     githubUrl: "https://github.com/naheel0/GameHub-fullstack",
-    demoUrl: "game-hub-fullstack.vercel.app",
+    demoUrl: "https://gamehub.naheel.me",
     technologies: ["React.js", "ASP.NET Core", "C#", "Entity Framework", "SQL Server", "JWT", "Razorpay"],
     category: "Full Stack",
   },

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaPhone, FaLocationDot, FaGithub } from "react-icons/fa6";
+import { FaEnvelope, FaPhone, FaGithub, FaLinkedin } from "react-icons/fa6";
 
 interface FormData {
   name: string;
@@ -75,16 +75,16 @@ const contactCards = [
     href: "tel:+917306912910",
   },
   {
-    icon: FaLocationDot,
-    label: "Location",
-    value: "Kerala, India",
-    href: "https://maps.google.com/?q=Kerala,India",
-  },
-  {
     icon: FaGithub,
     label: "GitHub",
     value: "github.com/naheel0",
     href: "https://github.com/naheel0",
+  },
+  {
+    icon: FaLinkedin,
+    label: "LinkedIn",
+    value: "linkedin.com/in/naheel-muhammed",
+    href: "https://www.linkedin.com/in/naheel-muhammed",
   },
 ];
 
@@ -105,11 +105,15 @@ function ContactContent() {
       setIsSubmitting(true);
       try {
         const emailjs = await import("@emailjs/browser");
-        emailjs.send("service_6kxz2ig", "template_qd8leoi", {
-          from_name: formData.name,
-          reply_to: formData.email,
-          message: formData.message,
-        });
+        emailjs.send(
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+          {
+            from_name: formData.name,
+            reply_to: formData.email,
+            message: formData.message,
+          }
+        );
         setTimeout(() => {
           setIsSubmitting(false);
           alert("Your message has been sent successfully!");
@@ -157,7 +161,7 @@ function ContactContent() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
               >
-                If you have any questions or would like to collaborate, feel free to reach out!
+                Open to full-time opportunities in <span className="text-accent">Full Stack Development (.NET + React)</span>. Let&apos;s build something great together.
               </motion.p>
 
               <div className="contact-cards">

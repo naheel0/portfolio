@@ -14,7 +14,7 @@ const ptMono = PT_Mono({
   display: "swap",
 });
 
-const BASE_URL = "https://www.naheel.me";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -57,11 +57,11 @@ export const metadata: Metadata = {
       "Full Stack Developer specializing in React, Next.js, .NET, C# and modern web technologies. Based in Kerala, India.",
     images: [
       {
-        url: "/images/about.png",
-        width: 380,
-        height: 380,
-        alt: "Naheel Muhammed PK — Full Stack Developer",
-        type: "image/png",
+        url: "/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "Naheel Muhammed PK — Full Stack Developer (.NET + React)",
+        type: "image/svg+xml",
       },
     ],
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     title: "Naheel Muhammed PK | Full Stack Developer Portfolio",
     description:
       "Full Stack Developer specializing in React, Next.js, .NET, C# and modern web technologies.",
-    images: ["/images/about.png"],
+    images: ["/og-image.svg"],
   },
   robots: {
     index: true,
@@ -86,9 +86,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: BASE_URL,
   },
-  verification: {
-    google: "google-site-verification-code",
-  },
+
 };
 
 const jsonLd = {

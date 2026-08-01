@@ -105,21 +105,21 @@ const mockData: Contribution[] = (() => {
 })();
 
 const skills = [
-  { name: "Javascript", icon: <FaJs />, color: "#F7DF1E", level: 90 },
-  { name: "HTML", icon: <FaHtml5 />, color: "#E34F26", level: 95 },
-  { name: "CSS", icon: <FaCss3Alt />, color: "#1572B6", level: 88 },
-  { name: "React", icon: <FaReact />, color: "#61DAFB", level: 85 },
-  { name: "Git", icon: <FaGitAlt />, color: "#F05032", level: 80 },
-  { name: "GitHub", icon: <FaGithub />, color: "#22d3ee", level: 85 },
-  { name: "Redux", icon: <SiRedux />, color: "#764ABC", level: 75 },
-  { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#38B2AC", level: 82 },
-  { name: "Bootstrap", icon: <SiBootstrap />, color: "#7952B3", level: 78 },
-  { name: ".NET", icon: <DotnetIcon />, color: "#6a1b9a", level: 80 },
-  { name: "C#", icon: <CSharpIcon />, color: "#00c853", level: 78 },
-  { name: "SQL Server", icon: <DiMsqlServer />, color: "#CC2927", level: 75 },
-  { name: "ADO.NET", icon: <TbDatabase />, color: "#0078D4", level: 70 },
-  { name: "Entity Framework", icon: <TbServer />, color: "#7B4F9E", level: 72 },
-  { name: "ASP.NET", icon: <DiDotnet />, color: "#0E6EC2", level: 76 },
+  { name: "Javascript", icon: <FaJs />, color: "#F7DF1E" },
+  { name: "HTML", icon: <FaHtml5 />, color: "#E34F26" },
+  { name: "CSS", icon: <FaCss3Alt />, color: "#1572B6" },
+  { name: "React", icon: <FaReact />, color: "#61DAFB" },
+  { name: "Git", icon: <FaGitAlt />, color: "#F05032" },
+  { name: "GitHub", icon: <FaGithub />, color: "#22d3ee" },
+  { name: "Redux", icon: <SiRedux />, color: "#764ABC" },
+  { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#38B2AC" },
+  { name: "Bootstrap", icon: <SiBootstrap />, color: "#7952B3" },
+  { name: ".NET", icon: <DotnetIcon />, color: "#6a1b9a" },
+  { name: "C#", icon: <CSharpIcon />, color: "#00c853" },
+  { name: "SQL Server", icon: <DiMsqlServer />, color: "#CC2927" },
+  { name: "ADO.NET", icon: <TbDatabase />, color: "#0078D4" },
+  { name: "Entity Framework", icon: <TbServer />, color: "#7B4F9E" },
+  { name: "ASP.NET", icon: <DiDotnet />, color: "#0E6EC2" },
 ];
 
 const tools = [
