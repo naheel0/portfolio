@@ -67,24 +67,28 @@ const contactCards = [
     label: "Email",
     value: "hello@naheel.me",
     href: "mailto:hello@naheel.me",
+    color: "#22d3ee",
   },
   {
     icon: FaPhone,
     label: "Phone",
     value: "+91 7306912910",
     href: "tel:+917306912910",
+    color: "#34d399",
   },
   {
     icon: FaGithub,
     label: "GitHub",
-    value: "github.com/naheel0",
+    value: "naheel0",
     href: "https://github.com/naheel0",
+    color: "#c4b5fd",
   },
   {
     icon: FaLinkedin,
     label: "LinkedIn",
-    value: "linkedin.com/in/naheel-muhammed",
+    value: "Naheel Muhammed",
     href: "https://www.linkedin.com/in/naheel-muhammed",
+    color: "#60a5fa",
   },
 ];
 
@@ -164,7 +168,7 @@ function ContactContent() {
                 Open to full-time opportunities in <span className="text-accent">Full Stack Development (.NET + React)</span>. Let&apos;s build something great together.
               </motion.p>
 
-              <div className="contact-cards">
+              <div className="contact-cards-grid">
                 {contactCards.map((card, i) => {
                   const Icon = card.icon;
                   return (
@@ -173,20 +177,19 @@ function ContactContent() {
                       href={card.href}
                       target={card.href.startsWith("http") ? "_blank" : undefined}
                       rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="contact-card"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      className="contact-card-v2"
+                      style={{ "--card-accent": card.color } as React.CSSProperties}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: 0.4 + i * 0.08, type: "spring", stiffness: 120, damping: 14 }}
+                      transition={{ delay: 0.3 + i * 0.1, type: "spring", stiffness: 120, damping: 14 }}
                       aria-label={`${card.label}: ${card.value}`}
                     >
-                      <span className="contact-card-icon">
+                      <span className="contact-card-v2-icon">
                         <Icon aria-hidden="true" />
                       </span>
-                      <span className="contact-card-content">
-                        <span className="contact-card-label">{card.label}</span>
-                        <span className="contact-card-value">{card.value}</span>
-                      </span>
+                      <span className="contact-card-v2-label">{card.label}</span>
+                      <span className="contact-card-v2-value">{card.value}</span>
                     </motion.a>
                   );
                 })}
