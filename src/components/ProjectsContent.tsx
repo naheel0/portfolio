@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { motion } from "framer-motion";
-import ProjectCarousel from "./ProjectCarousel";
+import { useRef, useState, useCallback } from 'react';
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import Image from "next/image";
+import { FaGithub, FaArrowUpRightFromSquare, FaStar } from "react-icons/fa6";
 import ProjectModal from "./ProjectModal";
 import { titleVariants } from "@/lib/variants";
 
@@ -15,6 +16,7 @@ export interface Project {
   demoUrl: string;
   technologies: string[];
   category: string;
+  featured?: boolean;
 }
 
 const projects: Project[] = [
@@ -27,6 +29,7 @@ const projects: Project[] = [
     demoUrl: "https://gamehub.naheel.me",
     technologies: ["React.js", "ASP.NET Core", "C#", "Entity Framework", "SQL Server", "JWT", "Razorpay"],
     category: "Full Stack",
+    featured: true,
   },
   {
     id: 2,
@@ -70,37 +73,261 @@ const projects: Project[] = [
   },
 ];
 
+const normalizeUrl = (url: string): string => {
+  if (!url) return '#';
+  if (/^https?:\/\//i.test(url)) return url;
+  return `https://${url}`;
+};
+
+type SlideDir = 'left' | 'right' | 'zoom' | 'up';
+const DIRECTIONS: SlideDir[] = ['zoom', 'left', 'right', 'up', 'left'];
+
+function StoryCard({
+  project,
+  index,
+  total,
+  progress,
+  onOpen,
+}: {
+  project: Project;
+  index: number;
+  total: number;
+  progress: ReturnType<typeof useScroll>['scrollYProgress'];
+  onOpen: (p: Project) => void;
+}) {
+  const dir = DIRECTIONS[index % DIRECTIONS.length];
+  const seg = 1 / total;
+  const start = index * seg;
+  const end = start + seg;
+
+  // Step function: snaps between 0 and 1, no interpolation
+  // Card is visible during [start, end] and invisible everywhere else
+  const isVisible = useTransform(progress, [start - 0.001, start, end - 0.001, end], [0, 1, 1, 0]);
+  const opacity = useTransform(isVisible, (v) => (v >= 0.5 ? 1 : 0));
+
+  let xFrom = 0;
+  let yFrom = 0;
+  let scaleFrom = 1;
+  if (dir === 'left') xFrom = -80;
+  else if (dir === 'right') xFrom = 80;
+  else if (dir === 'up') yFrom = 60;
+  else if (dir === 'zoom') scaleFrom = 0.85;
+
+  // Transform: smooth slide in/out, exit persists
+  const transformEnd = Math.min(1, end + seg * 0.4);
+  const transformRange = [start, start + seg * 0.25, end, transformEnd];
+  const x = useTransform(progress, transformRange, [xFrom, 0, 0, -xFrom]);
+  const y = useTransform(progress, transformRange, [yFrom, 0, 0, -yFrom]);
+  const scale = useTransform(progress, transformRange, [scaleFrom, 1, 1, scaleFrom]);
+
+  const num = String(index + 1).padStart(2, '0');
+
+  return (
+    <motion.article
+      className="story-card"
+      style={{ opacity, x, y, scale }}
+      aria-label={`Project ${num}: ${project.title}`}
+    >
+      {/* Image — left side */}
+      <div className="story-card-img" onClick={() => onOpen(project)}>
+        <Image
+          src={project.image}
+          alt={`${project.title} project screenshot`}
+          fill
+          sizes="(max-width: 768px) 90vw, 400px"
+          quality={index === 0 ? 80 : 65}
+          priority={index === 0}
+          loading={index === 0 ? undefined : "lazy"}
+          className="story-card-img-file"
+        />
+        <span className="story-card-num" aria-hidden="true">{num}</span>
+      </div>
+
+      {/* Content — right side */}
+      <div className="story-card-body">
+        <div className="story-card-meta">
+          {project.featured && (
+            <span className="story-card-star">
+              <FaStar aria-hidden="true" /> Featured
+            </span>
+          )}
+          <span className="prj-card-badge">{project.category}</span>
+        </div>
+
+        <h3 className="story-card-title" onClick={() => onOpen(project)}>
+          {project.title}
+        </h3>
+        <p className="story-card-desc">{project.description}</p>
+
+        <div className="prj-card-chips" role="list" aria-label="Technologies used">
+          {project.technologies.map((t) => (
+            <span key={t} className="prj-chip" role="listitem">{t}</span>
+          ))}
+        </div>
+
+        <div className="story-card-actions">
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="story-action-btn story-action-gh"
+            aria-label={`${project.title} source code on GitHub`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <FaGithub aria-hidden="true" />
+            <span>Code</span>
+          </a>
+          <a
+            href={normalizeUrl(project.demoUrl)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="story-action-btn story-action-live"
+            aria-label={`${project.title} live demo`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <FaArrowUpRightFromSquare aria-hidden="true" />
+            <span>Live</span>
+          </a>
+        </div>
+
+        <span className="story-card-index" aria-hidden="true">
+          {num} / {String(total).padStart(2, '0')}
+        </span>
+      </div>
+    </motion.article>
+  );
+}
+
+function ChapterDots({
+  total,
+  progress,
+}: {
+  total: number;
+  progress: ReturnType<typeof useScroll>['scrollYProgress'];
+}) {
+  const seg = 1 / total;
+  const dots = Array.from({ length: total }).map((_, i) => {
+    const segStart = i / total;
+    const segEnd = (i + 1) / total;
+    const pad = seg * 0.15;
+    return { segStart, segEnd, pad };
+  });
+
+  return (
+    <nav className="story-dots" aria-label="Project navigation">
+      {dots.map(({ segStart, segEnd, pad }, i) => {
+        const dotOpacity = useTransform(
+          progress,
+          [Math.max(0, segStart - pad), segStart, segEnd, Math.min(1, segEnd + pad)],
+          [0.25, 1, 1, 0.25]
+        );
+        const dotScale = useTransform(
+          progress,
+          [Math.max(0, segStart - pad), segStart, segEnd, Math.min(1, segEnd + pad)],
+          [0.8, 1.4, 1.4, 0.8]
+        );
+        return (
+          <motion.span
+            key={i}
+            className="story-dot"
+            style={{ opacity: dotOpacity, scale: dotScale }}
+            aria-hidden="true"
+          />
+        );
+      })}
+    </nav>
+  );
+}
+
 function ProjectsContent() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const handleClose = useCallback(() => setSelectedProject(null), []);
   const handleOpen = useCallback((p: Project) => setSelectedProject(p), []);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   return (
-    <div className="main-bg-prj" id="projects">
+    <section className="main-bg-prj" id="projects" aria-label="Projects">
 
-      <motion.div
-        className="prj-heading"
-        variants={titleVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+      {/* Noscript fallback for SEO / no-JS */}
+      <noscript>
+        <div className="prj-heading">
+          <h2>My Recent <span className="prj-accent">Works</span></h2>
+        </div>
+        <div style={{ maxWidth: 780, margin: '0 auto', padding: '0 24px' }}>
+          {projects.map((p) => (
+            <article key={p.id} style={{ marginBottom: 40, color: '#ccc' }}>
+              <h3 style={{ color: '#fff' }}>{p.title}</h3>
+              <p>{p.description}</p>
+              <div>{p.technologies.join(', ')}</div>
+              <a href={p.githubUrl} target="_blank" rel="noopener noreferrer">Code</a>
+              {' · '}
+              <a href={normalizeUrl(p.demoUrl)} target="_blank" rel="noopener noreferrer">Live</a>
+            </article>
+          ))}
+        </div>
+      </noscript>
+
+      {/* Scrollable storytelling container */}
+      <div
+        ref={containerRef}
+        className="story-container"
+        style={{ height: `${projects.length * 100}vh` }}
+        role="region"
+        aria-label="Projects scroll area"
       >
-        <h2>
-          My Recent <span className="prj-accent">Works</span>
-        </h2>
-        <p>Click on any project to explore details</p>
-      </motion.div>
+        <div className="story-sticky">
+          {/* Heading — stays pinned at top */}
+          <motion.div
+            className="prj-heading"
+            variants={titleVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <h2>
+              My Recent <span className="prj-accent">Works</span>
+            </h2>
+            <p>Scroll to explore each project</p>
+          </motion.div>
 
-      <ProjectCarousel
-        projects={projects}
-        onProjectClick={handleOpen}
-      />
+          {/* Progress bar */}
+          <motion.div className="story-progress" style={{ scaleX }} aria-hidden="true" />
+
+          {/* Chapter dots */}
+          <ChapterDots total={projects.length} progress={scrollYProgress} />
+
+          {/* Card area — centered below heading */}
+          <div className="story-card-area">
+            {projects.map((project, i) => (
+              <StoryCard
+                key={project.id}
+                project={project}
+                index={i}
+                total={projects.length}
+                progress={scrollYProgress}
+                onOpen={handleOpen}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
 
       <ProjectModal
         project={selectedProject}
         onClose={handleClose}
       />
-    </div>
+    </section>
   );
 }
 
