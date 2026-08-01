@@ -1436,6 +1436,51 @@ img { max-width: 100%; height: auto; }
 }
 .nav-resume-btn.resume-active .nav-item-icon { color: #060818; }
 
+/* Resume dropdown wrapper */
+.nav-resume-wrapper { position: relative; }
+.nav-resume-chevron {
+  font-size: 0.6rem !important;
+  transition: transform 0.25s ease;
+}
+.nav-resume-wrapper:hover .nav-resume-chevron { transform: rotate(180deg); }
+
+/* Dropdown panel */
+.nav-resume-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 190px;
+  padding: 6px;
+  border-radius: 14px;
+  background: rgba(14, 19, 48, 0.92);
+  border: 1px solid var(--line);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(99, 102, 241, 0.1) inset;
+  backdrop-filter: blur(14px);
+  z-index: 200;
+}
+.nav-resume-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.nav-resume-option:hover {
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--accent-bright);
+}
+.nav-resume-option svg {
+  font-size: 0.85rem;
+  color: var(--accent-bright);
+  flex-shrink: 0;
+}
+
 /* ===== Responsive — collapse labels on smaller screens ===== */
 @media (max-width: 860px) {
   .nav-item-label { display: none; }
