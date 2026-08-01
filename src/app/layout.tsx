@@ -98,7 +98,7 @@ const jsonLd = {
   url: BASE_URL,
   image: `${BASE_URL}/avatar.svg`,
   jobTitle: "Full Stack Developer",
-  email: "naheelmuhammedpk@gmail.com",
+  email: "hello@naheel.me",
   telephone: "+91-7306912910",
   address: {
     "@type": "PostalAddress",

@@ -53,17 +53,16 @@ const HomeContent = () => {
 
           <div className="home-buttons">
             <motion.a
-              href="/Naheel.pdf"
-              download="Naheel-Muhammed-PK-Resume.pdf"
+              href="/resume"
               className="cv-btn"
               variants={itemVariants}
               whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.97 }}
-              title="Download Resume"
-              aria-label="Download Resume"
+              title="View Resume Online"
+              aria-label="View Resume Online"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" width="20" height="20"><path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zM200 248v92.7l34.3-34.3c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6l-64 64c-6.2 6.2-16.4 6.2-22.6 0l-64-64c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0l34.3 34.3V248c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
-              <span>Download Resume</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" width="20" height="20"><path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/></svg>
+              <span>View Resume</span>
             </motion.a>
             <motion.a
               href="https://www.linkedin.com/in/naheel-muhammed"

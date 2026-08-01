@@ -65,8 +65,8 @@ const contactCards = [
   {
     icon: FaEnvelope,
     label: "Email",
-    value: "naheelmuhammedpk@gmail.com",
-    href: "mailto:naheelmuhammedpk@gmail.com",
+    value: "hello@naheel.me",
+    href: "mailto:hello@naheel.me",
   },
   {
     icon: FaPhone,

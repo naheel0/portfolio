@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaHouse, FaUser, FaCode, FaBriefcase, FaEnvelope, FaFileArrowDown } from "react-icons/fa6";
+import { FaHouse, FaUser, FaCode, FaBriefcase, FaEnvelope, FaFileLines } from "react-icons/fa6";
 
 const navItems = [
   { href: "#home",     icon: FaHouse,     section: "home",     label: "Home"     },
@@ -19,8 +21,13 @@ const navVariants = {
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState("home");
+  const router = useRouter();
+  const pathname = usePathname();
+  const isResumePage = pathname === "/resume";
 
   useEffect(() => {
+    if (isResumePage) return;
+
     const handleScroll = () => {
       const scrollPos = window.scrollY + 120;
       const sections = navItems
@@ -38,9 +45,14 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isResumePage]);
 
   const handleNavClick = (href: string) => {
+    if (pathname !== "/") {
+      // Coming from another route (e.g. /resume) — navigate home with hash
+      router.push(`/${href}`);
+      return;
+    }
     const el = document.getElementById(href.replace("#", ""));
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
@@ -60,7 +72,7 @@ const Navbar = () => {
       {/* Section nav group — icon + label buttons with sliding active pill */}
       <div className="nav-section-group">
         {navItems.map((item) => {
-          const isActive = activeSection === item.section;
+          const isActive = !isResumePage && activeSection === item.section;
           const Icon = item.icon;
           return (
             <a
@@ -88,16 +100,16 @@ const Navbar = () => {
       {/* Vertical divider */}
       <span className="nav-divider" aria-hidden="true" />
 
-      {/* Resume download button */}
-      <a
-        className="nav-item nav-resume-btn"
-        href="/Naheel.pdf"
-        download="Naheel-Muhammed-PK-Resume.pdf"
-        aria-label="Download Resume"
+      {/* Resume: online page link (PDF download lives on the resume page) */}
+      <Link
+        className={`nav-item nav-resume-btn ${isResumePage ? "resume-active" : ""}`}
+        href="/resume"
+        aria-label="View Resume"
+        aria-current={isResumePage ? "page" : undefined}
       >
-        <FaFileArrowDown aria-hidden="true" className="nav-item-icon" />
+        <FaFileLines aria-hidden="true" className="nav-item-icon" />
         <span className="nav-item-label">Resume</span>
-      </a>
+      </Link>
     </motion.nav>
   );
 };
