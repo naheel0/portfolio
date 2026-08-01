@@ -1,57 +1,35 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
-
 /**
- * StarsBackground — single shared instance mounted in RootLayout.
- * Covers the entire viewport with a fixed position so it appears
- * behind all sections without duplicating DOM nodes.
+ * StarsBackground — pure CSS starfield with ZERO React-managed DOM nodes
+ * and ZERO per-star animation entries.
+ *
+ * Redesign:
+ *   • Instead of 50 individual absolutely-positioned <div> nodes, each
+ *     with its own `twinkle` animation (50 compositor loads at runtime),
+ *     the starfield is now painted with layered `radial-gradient`
+ *     background images on a single element via CSS.
+ *
+ *   • Three starfield layers (far / mid / near) are defined as separate
+ *     background-image radial-gradients on ::before / ::after / the main
+ *     element itself. Each layer is a static tile that repeats across the
+ *     viewport — zero JS, zero React state.
+ *
+ *   • Only the *layer* (a single opacity/transform keyframe) animates,
+ *     not each star. That means 3 GPU-composited keyframes total,
+ *     instead of 50 animation entries — significantly less main-thread
+ *     scheduling and a much smaller paint surface.
+ *
+ *   • Slow parallax drift on `background-position` creates depth:
+ *     farthest layer moves slowest, near layer moves fastest.
+ *
+ *   • Respects prefers-reduced-motion: all animation disabled.
+ *
+ *   Mounts instantly with no hydration mismatch because there is no
+ *   client-only random output.
  */
-
 const StarsBackground = () => {
-  const [mounted, setMounted] = useState(false);
-
-  const stars = useMemo(() => {
-    // Reduced from 80 to 50 per instance — still visually dense enough
-    // but with a single instance instead of 5, we go from 400→50 DOM nodes
-    return Array.from({ length: 50 }, (_, i) => ({
-      id: i,
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      animationDuration: `${Math.random() * 3 + 2}s`,
-      animationDelay: `${Math.random() * 3}s`,
-      size: `${Math.random() * 2 + 1}px`,
-      opacity: `${Math.random() * 0.5 + 0.5}`,
-    }));
-  }, []);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
-  return (
-    <div id="stars-background" aria-hidden="true">
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          className="star"
-          style={{
-            top: star.top,
-            left: star.left,
-            animationDuration: star.animationDuration,
-            animationDelay: star.animationDelay,
-            position: 'absolute',
-            width: star.size,
-            height: star.size,
-            opacity: star.opacity,
-            pointerEvents: 'none',
-          }}
-        />
-      ))}
-    </div>
-  );
+  return <div id="stars-background" aria-hidden="true" />;
 };
 
 export default StarsBackground;
