@@ -1,11 +1,13 @@
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import { FaGithub, FaArrowUpRightFromSquare, FaStar } from "react-icons/fa6";
 import ProjectModal from "./ProjectModal";
 import { titleVariants } from "@/lib/variants";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://admin.naheel.me";
 
 export interface Project {
   id: number;
@@ -19,7 +21,7 @@ export interface Project {
   featured?: boolean;
 }
 
-const projects: Project[] = [
+const fallbackProjects: Project[] = [
   {
     id: 1,
     title: "Gamehub",
@@ -240,10 +242,32 @@ function ChapterDots({
 }
 
 function ProjectsContent() {
+  const [projects, setProjects] = useState<Project[]>(fallbackProjects);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const handleClose = useCallback(() => setSelectedProject(null), []);
   const handleOpen = useCallback((p: Project) => setSelectedProject(p), []);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/portfolio/projects`)
+      .then(r => r.json())
+      .then((data: any[]) => {
+        if (data.length === 0) return;
+        const mapped = data.map((p, i): Project => ({
+          id: i + 1,
+          title: p.title,
+          description: p.description,
+          image: p.imageUrl || "/images/placeholder.png",
+          githubUrl: p.githubUrl || "#",
+          demoUrl: p.liveUrl || "#",
+          technologies: p.technologies || [],
+          category: p.category,
+          featured: p.featured,
+        }));
+        setProjects(mapped);
+      })
+      .catch(() => {});
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -265,7 +289,7 @@ function ProjectsContent() {
           <h2>My Recent <span className="prj-accent">Works</span></h2>
         </div>
         <div style={{ maxWidth: 780, margin: '0 auto', padding: '0 24px' }}>
-          {projects.map((p) => (
+          {fallbackProjects.map((p) => (
             <article key={p.id} style={{ marginBottom: 40, color: '#ccc' }}>
               <h3 style={{ color: '#fff' }}>{p.title}</h3>
               <p>{p.description}</p>
