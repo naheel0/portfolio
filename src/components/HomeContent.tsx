@@ -6,12 +6,29 @@ import Image from 'next/image';
 import StarsBackground from './StarsBackground';
 import { containerVariants, itemVariants, textVariants, imageVariants } from '@/lib/variants';
 
-const roles = ["Full Stack Developer", ".NET Developer", "React Developer", "Web Developer"];
+const DEFAULT_ROLES = ["Full Stack Developer", ".NET Developer", "React Developer", "Web Developer"];
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://admin.naheel.me";
 
 const HomeContent = () => {
+  const [roles, setRoles] = useState(DEFAULT_ROLES);
+  const [name, setName] = useState("NAHEEL MUHAMMED PK");
+  const [linkedin, setLinkedin] = useState("https://www.linkedin.com/in/naheel-muhammed");
+  const [github, setGithub] = useState("https://github.com/naheel0");
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/portfolio/settings`)
+      .then(r => r.json())
+      .then(s => {
+        if (s.roles?.length) setRoles(s.roles);
+        if (s.name) setName(s.name.toUpperCase());
+        if (s.linkedin) setLinkedin(s.linkedin);
+        if (s.github) setGithub(s.github);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const current = roles[roleIndex];
@@ -29,7 +46,7 @@ const HomeContent = () => {
     }
 
     return () => clearTimeout(timeout);
-  }, [displayed, deleting, roleIndex]);
+  }, [displayed, deleting, roleIndex, roles]);
 
   return (
     <div className="home-section" id="home">
@@ -45,7 +62,7 @@ const HomeContent = () => {
           <motion.h1 variants={itemVariants}>
             Hi There! <span className="wave">👋</span>
             <br />
-            I&apos;M <span className="name-highlight">NAHEEL MUHAMMED PK</span>
+            I&apos;M <span className="name-highlight">{name}</span>
           </motion.h1>
           <motion.h2 className="typewriter" variants={itemVariants}>
             {displayed}<span className="cursor">|</span>
@@ -65,7 +82,7 @@ const HomeContent = () => {
               <span>View Resume</span>
             </motion.a>
             <motion.a
-              href="https://www.linkedin.com/in/naheel-muhammed"
+              href={linkedin}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit LinkedIn profile"
@@ -77,7 +94,7 @@ const HomeContent = () => {
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" width="20" height="20"><path d="M100.3 448H7.4V148.9h92.9V448zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z"/></svg>
             </motion.a>
             <motion.a
-              href="https://github.com/naheel0"
+              href={github}
               target="_blank"
               rel="noopener noreferrer"
                aria-label="Visit Github profile"

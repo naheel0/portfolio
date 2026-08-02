@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEnvelope, FaPhone, FaGithub, FaLinkedin } from "react-icons/fa6";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://admin.naheel.me";
 
 interface FormData {
   name: string;
@@ -63,41 +65,30 @@ const inputFields = [
   { id: "message", label: "Message", type: "textarea", placeholder: "Your Message", delay: 0.6 },
 ];
 
-const contactCards = [
-  {
-    icon: FaEnvelope,
-    label: "Email",
-    value: "hello@naheel.me",
-    href: "mailto:hello@naheel.me",
-    color: "#22d3ee",
-  },
-  {
-    icon: FaPhone,
-    label: "Phone",
-    value: "+91 7306912910",
-    href: "tel:+917306912910",
-    color: "#34d399",
-  },
-  {
-    icon: FaGithub,
-    label: "GitHub",
-    value: "naheel0",
-    href: "https://github.com/naheel0",
-    color: "#c4b5fd",
-  },
-  {
-    icon: FaLinkedin,
-    label: "LinkedIn",
-    value: "Naheel Muhammed",
-    href: "https://www.linkedin.com/in/naheel-muhammed",
-    color: "#60a5fa",
-  },
-];
-
 function ContactContent() {
   const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<FormStatus>("idle");
+  const [contactCards, setContactCards] = useState([
+    { icon: FaEnvelope, label: "Email", value: "hello@naheel.me", href: "mailto:hello@naheel.me", color: "#22d3ee" },
+    { icon: FaPhone, label: "Phone", value: "+91 7306912910", href: "tel:+917306912910", color: "#34d399" },
+    { icon: FaGithub, label: "GitHub", value: "naheel0", href: "https://github.com/naheel0", color: "#c4b5fd" },
+    { icon: FaLinkedin, label: "LinkedIn", value: "Naheel Muhammed", href: "https://www.linkedin.com/in/naheel-muhammed", color: "#60a5fa" },
+  ]);
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/portfolio/settings`)
+      .then(r => r.json())
+      .then(s => {
+        setContactCards([
+          { icon: FaEnvelope, label: "Email", value: s.email || "hello@naheel.me", href: `mailto:${s.email || "hello@naheel.me"}`, color: "#22d3ee" },
+          { icon: FaPhone, label: "Phone", value: s.phone || "+91 7306912910", href: `tel:${(s.phone || "+917306912910").replace(/\s/g, "")}`, color: "#34d399" },
+          { icon: FaGithub, label: "GitHub", value: (s.github || "https://github.com/naheel0").split("/").pop() || "naheel0", href: s.github || "https://github.com/naheel0", color: "#c4b5fd" },
+          { icon: FaLinkedin, label: "LinkedIn", value: s.name || "Naheel Muhammed", href: s.linkedin || "https://www.linkedin.com/in/naheel-muhammed", color: "#60a5fa" },
+        ]);
+      })
+      .catch(() => {});
+  }, []);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
