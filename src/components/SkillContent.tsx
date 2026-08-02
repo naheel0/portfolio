@@ -1,51 +1,34 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, cloneElement } from "react";
-import { FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt, FaGithub } from "react-icons/fa";
-import { SiRedux, SiTailwindcss, SiBootstrap } from "react-icons/si";
-import { DiMsqlServer, DiDotnet } from "react-icons/di";
-import { TbDatabase, TbServer, TbBrandVscode, TbBrandVisualStudio } from "react-icons/tb";
 import { motion } from "framer-motion";
 import { containerVariants, titleVariants } from "@/lib/variants";
 import { useTilt3D } from "@/lib/useTilt3D";
-
-const DotnetIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48" style={{ display: 'block' }} {...props}>
-    <path fill="#6a1b9a" d="M44,24c0,5.694-2.381,10.831-6.2,14.481l-0.006,0.006C34.2,41.9,29.344,44,24,44 C12.956,44,4,35.044,4,24c0-5.338,2.087-10.188,5.5-13.775c0.006-0.013,0.013-0.019,0.019-0.025C13.169,6.381,18.306,4,24,4 C35.044,4,44,12.956,44,24z"/>
-    <path fill="#7b1fa2" d="M38.375,37.862c-0.187,0.213-0.381,0.419-0.575,0.619l-0.006,0.006C34.2,41.9,29.344,44,24,44 C12.956,44,4,35.044,4,24c0-5.338,2.087-10.188,5.5-13.775c0.006-0.013,0.013-0.019,0.019-0.025c0.2-0.194,0.406-0.387,0.619-0.575 L38.375,37.862z"/>
-    <path fill="#fff" d="M8.626,27.281c-0.236,0.004-0.463-0.091-0.625-0.262c-0.167-0.165-0.259-0.39-0.256-0.625 c-0.002-0.234,0.091-0.459,0.256-0.625c0.161-0.174,0.388-0.272,0.625-0.269c0.237-0.001,0.463,0.097,0.625,0.269 c0.169,0.164,0.263,0.39,0.262,0.625c0.002,0.236-0.093,0.462-0.262,0.625C9.087,27.188,8.861,27.283,8.626,27.281z"/>
-    <path fill="#fff" d="M21.044,27.125h-1.638l-5.856-9.087c-0.146-0.224-0.267-0.463-0.363-0.712h-0.05 c0.056,0.519,0.077,1.041,0.062,1.562v8.237h-1.331V15.731h1.731l5.7,8.925c0.237,0.371,0.392,0.625,0.462,0.763h0.031 c-0.066-0.556-0.093-1.115-0.081-1.675v-8.012h1.331V27.125z"/>
-    <path fill="#fff" d="M30.057,27.125h-6.056V15.731h5.775v1.206h-4.412v3.788h4.113v1.2h-4.113v3.95h4.7L30.057,27.125z"/>
-    <path fill="#fff" d="M39.001,16.938h-3.312v10.188h-1.331V16.938h-3.275v-1.206h7.919V16.938z"/>
-  </svg>
-);
-
-const CSharpIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48" style={{ display: 'block' }} {...props}>
-    <path fill="#00c853" d="M22.903,3.286c0.679-0.381,1.515-0.381,2.193,0c3.355,1.883,13.451,7.551,16.807,9.434 C42.582,13.1,43,13.804,43,14.566c0,3.766,0,15.101,0,18.867c0,0.762-0.418,1.466-1.097,1.847 c-3.355,1.883-13.451,7.551-16.807,9.434c-0.679,0.381-1.515,0.381-2.193,0c-3.355-1.883-13.451-7.551-16.807-9.434 C5.418,34.899,5,34.196,5,33.434c0-3.766,0-15.101,0-18.867c0-0.762,0.418-1.466,1.097-1.847 C9.451,10.837,19.549,5.169,22.903,3.286z"/>
-    <path fill="#69f0ae" d="M5.304,34.404C5.038,34.048,5,33.71,5,33.255c0-3.744,0-15.014,0-18.759 c0-0.758,0.417-1.458,1.094-1.836c3.343-1.872,13.405-7.507,16.748-9.38c0.677-0.379,1.594-0.371,2.271,0.008 c3.343,1.872,13.371,7.459,16.714,9.331c0.27,0.152,0.476,0.335,0.66,0.576L5.304,34.404z"/>
-    <path fill="#fff" d="M24,10c-7.73,0-14,6.27-14,14s6.27,14,14,14s14-6.27,14-14S31.73,10,24,10z M24,31 c-3.86,0-7-3.14-7-7s3.14-7,7-7s7,3.14,7,7S27.86,31,24,31z"/>
-    <path fill="#00e676" d="M42.485,13.205c0.516,0.483,0.506,1.211,0.506,1.784c0,3.795-0.032,14.589,0.009,18.384 c0.004,0.396-0.127,0.813-0.323,1.127L23.593,24L42.485,13.205z"/>
-    <path fill="#fff" d="M34 20H35V28H34zM37 20H38V28H37z"/>
-    <path fill="#fff" d="M32 25H40V26H32zM32 22H40V23H32z"/>
-  </svg>
-);
 
 interface Contribution {
   date: string;
   count: number;
 }
 
-// GitHub's exact contribution level thresholds → Midnight Aurora (smooth cyan luminance ramp)
+interface SkillItem {
+  name: string;
+  color: string;
+  icon: React.ComponentType<any>;
+}
+
+interface SkillContentProps {
+  skills: SkillItem[];
+  tools: SkillItem[];
+}
+
 const LEVEL_COLORS = [
-  "#0a0e1f", // 0  — no contributions (navy bg, matches section)
-  "#164e63", // 1  — 1–9  (low)      cyan-900 (darkest visible)
-  "#0e7490", // 2  — 10–19 (medium)   cyan-700
-  "#0891b2", // 3  — 20–29 (high)     cyan-600 (was indigo — now matches theme)
-  "#22d3ee", // 4  — 30+  (max)      cyan-400 (brightest, aurora accent)
+  "#0a0e1f",
+  "#164e63",
+  "#0e7490",
+  "#0891b2",
+  "#22d3ee",
 ] as const;
 
-// Exact GitHub thresholds: 0, 1–9, 10–19, 20–29, 30+
 const getLevel = (count: number): number => {
   if (count === 0) return 0;
   if (count < 10) return 1;
@@ -104,30 +87,6 @@ const mockData: Contribution[] = (() => {
   return data;
 })();
 
-const skills = [
-  { name: "Javascript", icon: <FaJs />, color: "#F7DF1E" },
-  { name: "HTML", icon: <FaHtml5 />, color: "#E34F26" },
-  { name: "CSS", icon: <FaCss3Alt />, color: "#1572B6" },
-  { name: "React", icon: <FaReact />, color: "#61DAFB" },
-  { name: "Git", icon: <FaGitAlt />, color: "#F05032" },
-  { name: "GitHub", icon: <FaGithub />, color: "#22d3ee" },
-  { name: "Redux", icon: <SiRedux />, color: "#764ABC" },
-  { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#38B2AC" },
-  { name: "Bootstrap", icon: <SiBootstrap />, color: "#7952B3" },
-  { name: ".NET", icon: <DotnetIcon />, color: "#6a1b9a" },
-  { name: "C#", icon: <CSharpIcon />, color: "#00c853" },
-  { name: "SQL Server", icon: <DiMsqlServer />, color: "#CC2927" },
-  { name: "ADO.NET", icon: <TbDatabase />, color: "#0078D4" },
-  { name: "Entity Framework", icon: <TbServer />, color: "#7B4F9E" },
-  { name: "ASP.NET", icon: <DiDotnet />, color: "#0E6EC2" },
-];
-
-const tools = [
-  { name: "VS Code", icon: <TbBrandVscode />, color: "#007ACC" },
-  { name: "Visual Studio", icon: <TbBrandVisualStudio />, color: "#5C2D91" },
-  { name: "SQL Server Management Studio", icon: <DiMsqlServer />, color: "#CC2927" },
-];
-
 const skillItemVariants = {
   hidden: { opacity: 0, y: 20, scale: 0.9 },
   visible: {
@@ -138,16 +97,13 @@ const skillItemVariants = {
   },
 };
 
-/* SkillPill — wraps each pill with the useTilt3D hook for a magnetic
- * mouse-tracked 3D tilt on hover. The ref is typed as HTMLDivElement and
- * cast for framer-motion's motion.div. */
 interface SkillPillProps {
   name: string;
   color: string;
-  icon: React.ReactElement<{ 'aria-hidden'?: string }>;
+  icon: React.ComponentType<any>;
 }
 
-function SkillPill({ name, color, icon }: SkillPillProps) {
+function SkillPill({ name, color, icon: Icon }: SkillPillProps) {
   const tiltRef = useTilt3D<HTMLDivElement>();
   return (
     <motion.div
@@ -157,14 +113,14 @@ function SkillPill({ name, color, icon }: SkillPillProps) {
       style={{ "--skill-color": color } as React.CSSProperties}
     >
       <span className="skill-pill-icon" style={{ color }}>
-        {cloneElement(icon, { 'aria-hidden': 'true' })}
+        <Icon aria-hidden="true" />
       </span>
       <span className="skill-pill-name">{name}</span>
     </motion.div>
   );
 }
 
-function SkillContent() {
+function SkillContent({ skills, tools }: SkillContentProps) {
   const [contributions, setContributions] = useState<Contribution[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -259,15 +215,12 @@ function SkillContent() {
     [totalContributions, contributions]
   );
 
-  // Build a 53-column grid aligned by day-of-week, with month label data
   const { gridWeeks, monthLabels } = useMemo(() => {
     if (contributions.length === 0) return { gridWeeks: [], monthLabels: [] };
 
-    // Pad to align first day to its day-of-week (0=Sun)
     const firstDate = new Date(contributions[0].date + "T00:00:00");
-    const startOffset = firstDate.getDay(); // 0-6
+    const startOffset = firstDate.getDay();
 
-    // Build flat array: offset nulls + contributions, chunked into weeks of 7
     const flat: (Contribution | null)[] = [
       ...Array(startOffset).fill(null),
       ...contributions,
@@ -277,7 +230,6 @@ function SkillContent() {
       weeks.push(flat.slice(i, i + 7));
     }
 
-    // Month labels: find first week where a new month starts
     const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const labels: { weekIndex: number; label: string }[] = [];
     let lastMonth = -1;
@@ -395,7 +347,6 @@ function SkillContent() {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <div className="calendar-body">
-            {/* Day-of-week labels (GitHub style: Mon, Wed, Fri) */}
             <div className="calendar-day-labels">
               {["", "Mon", "", "Wed", "", "Fri", ""].map((label, i) => (
                 <div key={i} className="day-label">{label}</div>
@@ -403,7 +354,6 @@ function SkillContent() {
             </div>
 
             <div className="calendar-right">
-              {/* Month labels */}
               <div className="calendar-months">
                 {gridWeeks.map((_, wi) => {
                   const label = monthLabels.find((m) => m.weekIndex === wi);
@@ -415,7 +365,6 @@ function SkillContent() {
                 })}
               </div>
 
-              {/* Grid */}
               <div className="calendar-grid">
                 {gridWeeks.map((week, weekIndex) => (
                   <div key={weekIndex} className="week-column">

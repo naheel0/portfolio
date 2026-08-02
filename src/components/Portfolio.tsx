@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 // so server/client HTML stays identical — no hydration mismatch.
 const HomeContent = dynamic(() => import('./HomeContent'), { ssr: true });
 const AboutContent = dynamic(() => import('./AboutContent'), { ssr: true });
-const SkillContent = dynamic(() => import('./SkillContent'), { ssr: true });
+const SkillsSection = dynamic(() => import('./SkillsSection'), { ssr: true });
 const ProjectsContent = dynamic(() => import('./ProjectsContent'), { ssr: true });
 const ContactContent = dynamic(() => import('./ContactContent'), { ssr: true });
 
@@ -15,7 +15,7 @@ const Portfolio = () => {
     <>
       <HomeContent />
       <AboutContent />
-      <SkillContent />
+      <SkillsSection />
       <ProjectsContent />
       <ContactContent />
     </>
