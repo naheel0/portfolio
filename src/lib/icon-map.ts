@@ -14,7 +14,7 @@ import {
   TbDatabase, TbServer, TbBrandVscode, TbBrandVisualStudio,
   TbBrandFirebase, TbBrandDocker, TbBrandAws,
   TbBrandGit, TbBrandGithub, TbBrandReact, TbBrandNodejs,
-  TbBrandPython, TbBrandTypescript,
+  TbBrandPython, TbBrandTypescript, TbBrandCSharp,
 } from "react-icons/tb"
 
 export const iconMap: Record<string, React.ComponentType<any>> = {
@@ -29,7 +29,7 @@ export const iconMap: Record<string, React.ComponentType<any>> = {
   TbDatabase, TbServer, TbBrandVscode, TbBrandVisualStudio,
   TbBrandFirebase, TbBrandDocker, TbBrandAws,
   TbBrandGit, TbBrandGithub, TbBrandReact, TbBrandNodejs,
-  TbBrandPython, TbBrandTypescript,
+  TbBrandPython, TbBrandTypescript, TbBrandCSharp,
 }
 
 export const availableIcons = Object.keys(iconMap).sort()
