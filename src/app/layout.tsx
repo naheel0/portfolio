@@ -24,23 +24,6 @@ export const metadata: Metadata = {
   },
   description:
     "Portfolio of Naheel Muhammed PK — Full Stack Developer from Kerala, India. Specializing in React, Next.js, .NET, C#, ASP.NET, SQL Server and modern web development.",
-  keywords: [
-    "Naheel Muhammed",
-    "Naheel Muhammed PK",
-    "Full Stack Developer",
-    "web developer",
-    "portfolio",
-    "React",
-    "Next.js",
-    ".NET",
-    "C#",
-    "ASP.NET",
-    "SQL Server",
-    "JavaScript",
-    "TypeScript",
-    "Kerala",
-    "India",
-  ],
   authors: [{ name: "Naheel Muhammed PK" }],
   creator: "Naheel Muhammed PK",
   publisher: "Naheel Muhammed PK",
@@ -141,6 +124,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://api.emailjs.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
