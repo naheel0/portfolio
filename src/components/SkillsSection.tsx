@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useState } from "react"
 import { iconMap } from "@/lib/icon-map"
 import SkillContent from "./SkillContent"
 
@@ -30,7 +33,7 @@ const fallbackSkills: ResolvedSkill[] = [
   { name: "Tailwind CSS", color: "#38B2AC", icon: iconMap.SiTailwindcss },
   { name: "Bootstrap", color: "#7952B3", icon: iconMap.FaBootstrap },
   { name: ".NET", color: "#6a1b9a", icon: iconMap.DiDotnet },
-  { name: "C#", color: "#00c853", icon: iconMap.FaCSharp },
+  { name: "C#", color: "#00c853", icon: iconMap.DiDotnet },
   { name: "SQL Server", color: "#CC2927", icon: iconMap.DiMsqlServer },
   { name: "ADO.NET", color: "#0078D4", icon: iconMap.TbDatabase },
   { name: "Entity Framework", color: "#7B4F9E", icon: iconMap.TbServer },
@@ -39,48 +42,46 @@ const fallbackSkills: ResolvedSkill[] = [
 
 const fallbackTools: ResolvedSkill[] = [
   { name: "VS Code", color: "#007ACC", icon: iconMap.TbBrandVscode },
-  { name: "Visual Studio", color: "#5C2D91", icon: iconMap.SiVisualstudio },
+  { name: "Visual Studio", color: "#5C2D91", icon: iconMap.TbBrandVisualStudio },
   { name: "SQL Server Management Studio", color: "#CC2927", icon: iconMap.DiMsqlServer },
 ]
 
-async function fetchSkills(): Promise<{ skills: ResolvedSkill[]; tools: ResolvedSkill[] }> {
-  try {
-    const res = await fetch(`${API_URL}/api/portfolio/skills`, {
-      next: { revalidate: 3600 },
-    })
-    if (!res.ok) throw new Error(`API returned ${res.status}`)
-    const data: Skill[] = await res.json()
+export default function SkillsSection() {
+  const [skills, setSkills] = useState<ResolvedSkill[]>(fallbackSkills)
+  const [tools, setTools] = useState<ResolvedSkill[]>(fallbackTools)
 
-    const skills: ResolvedSkill[] = []
-    const tools: ResolvedSkill[] = []
+  useEffect(() => {
+    fetch(`${API_URL}/api/portfolio/skills`)
+      .then(res => {
+        if (!res.ok) throw new Error(`API returned ${res.status}`)
+        return res.json() as Promise<Skill[]>
+      })
+      .then(data => {
+        const resolvedSkills: ResolvedSkill[] = []
+        const resolvedTools: ResolvedSkill[] = []
 
-    for (const item of data) {
-      const iconComponent = item.icon ? iconMap[item.icon] : null
-      if (!iconComponent) continue
+        for (const item of data) {
+          const iconComponent = item.icon ? iconMap[item.icon] : null
+          if (!iconComponent) continue
 
-      const resolved = {
-        name: item.name,
-        color: item.color,
-        icon: iconComponent,
-      }
+          const resolved = {
+            name: item.name,
+            color: item.color,
+            icon: iconComponent,
+          }
 
-      if (item.type === "tool") {
-        tools.push(resolved)
-      } else {
-        skills.push(resolved)
-      }
-    }
+          if (item.type === "tool") {
+            resolvedTools.push(resolved)
+          } else {
+            resolvedSkills.push(resolved)
+          }
+        }
 
-    return {
-      skills: skills.length > 0 ? skills : fallbackSkills,
-      tools: tools.length > 0 ? tools : fallbackTools,
-    }
-  } catch {
-    return { skills: fallbackSkills, tools: fallbackTools }
-  }
-}
+        if (resolvedSkills.length > 0) setSkills(resolvedSkills)
+        if (resolvedTools.length > 0) setTools(resolvedTools)
+      })
+      .catch(() => {})
+  }, [])
 
-export default async function SkillsSection() {
-  const { skills, tools } = await fetchSkills()
   return <SkillContent skills={skills} tools={tools} />
 }
