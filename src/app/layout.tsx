@@ -57,11 +57,11 @@ export const metadata: Metadata = {
       "Full Stack Developer specializing in React, Next.js, .NET, C# and modern web technologies. Based in Kerala, India.",
     images: [
       {
-        url: "/og-image.svg",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Naheel Muhammed PK — Full Stack Developer (.NET + React)",
-        type: "image/svg+xml",
+        type: "image/png",
       },
     ],
   },
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     title: "Naheel Muhammed PK | Full Stack Developer Portfolio",
     description:
       "Full Stack Developer specializing in React, Next.js, .NET, C# and modern web technologies.",
-    images: ["/og-image.svg"],
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -141,7 +141,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/avatar.svg" type="image/svg+xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

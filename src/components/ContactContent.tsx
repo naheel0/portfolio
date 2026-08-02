@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaEnvelope, FaPhone, FaGithub, FaLinkedin } from "react-icons/fa6";
 
 interface FormData {
@@ -9,6 +9,8 @@ interface FormData {
   email: string;
   message: string;
 }
+
+type FormStatus = "idle" | "success" | "error";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -95,6 +97,7 @@ const contactCards = [
 function ContactContent() {
   const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<FormStatus>("idle");
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -107,25 +110,26 @@ function ContactContent() {
     async (e: React.FormEvent) => {
       e.preventDefault();
       setIsSubmitting(true);
+      setStatus("idle");
       try {
         const emailjs = await import("@emailjs/browser");
-        emailjs.send(
+        await emailjs.send(
           process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
           process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
           {
             from_name: formData.name,
             reply_to: formData.email,
             message: formData.message,
-          }
+          },
+          { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY! }
         );
-        setTimeout(() => {
-          setIsSubmitting(false);
-          alert("Your message has been sent successfully!");
-          setFormData({ name: "", email: "", message: "" });
-        }, 500);
-      } catch {
+        setStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+      } catch (err) {
+        console.error("EmailJS send failed:", err);
+        setStatus("error");
+      } finally {
         setIsSubmitting(false);
-        alert("Failed to send message. Please try again.");
       }
     },
     [formData]
@@ -252,6 +256,25 @@ function ContactContent() {
                   >
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </motion.button>
+
+                  <AnimatePresence>
+                    {status !== "idle" && (
+                      <motion.p
+                        key={status}
+                        role="status"
+                        aria-live="polite"
+                        className={`form-status form-status-${status}`}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        {status === "success"
+                          ? "✓ Your message has been sent successfully! I'll get back to you soon."
+                          : "✗ Failed to send message. Please try again or email me directly at hello@naheel.me."}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </form>
               </div>
             </motion.div>
