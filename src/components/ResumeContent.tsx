@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -16,6 +17,73 @@ import {
   FaFolderOpen,
   FaLayerGroup,
 } from "react-icons/fa6";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://admin.naheel.me";
+
+// ── Hardcoded fallbacks (used when API is unavailable) ───────────
+
+const FALLBACK_CONTACT = [
+  { icon: FaEnvelope, label: "hello@naheel.me", href: "mailto:hello@naheel.me" },
+  { icon: FaPhone, label: "+91 7306912910", href: "tel:+917306912910" },
+  { icon: FaGithub, label: "github.com/naheel0", href: "https://github.com/naheel0" },
+  { icon: FaLinkedin, label: "linkedin.com/in/naheel-muhammed", href: "https://www.linkedin.com/in/naheel-muhammed" },
+  { icon: FaGlobe, label: "www.naheel.me", href: "https://www.naheel.me" },
+];
+
+const FALLBACK_SUMMARY =
+  "Full Stack Developer (.NET + React) with a BCA and hands-on internship experience building RESTful APIs, JWT-authenticated backends, and responsive frontends. Skilled in Clean Architecture, ASP.NET Core, Entity Framework, and SQL Server. Passionate about building scalable, secure web applications for SaaS, startup, and e-commerce environments. Open to remote and onsite opportunities across India (based in Kerala).";
+
+const FALLBACK_SKILL_GROUPS = [
+  { label: "Frontend", skills: ["React", "JavaScript (ES6)", "HTML5", "CSS3"] },
+  { label: "Backend", skills: ["C#", "ASP.NET Core", "RESTful API", "JWT Authentication"] },
+  { label: "Database & ORM", skills: ["SQL Server", "Entity Framework Core", "ADO.NET"] },
+  { label: "Architecture & Patterns", skills: ["Clean Architecture", "Dependency Injection"] },
+  { label: "Tools & DevOps", skills: ["Git", "GitHub", "Swagger / OpenAPI"] },
+  { label: "Languages", skills: ["English", "Malayalam"] },
+];
+
+const FALLBACK_EXPERIENCE = [
+  {
+    role: "Software Developer Intern",
+    company: "Bridgeon Solutions",
+    period: "Jul 2025 – Present",
+    points: [
+      "Developed production-ready RESTful APIs using ASP.NET Core and Clean Architecture, ensuring scalable and maintainable backend services.",
+      "Implemented JWT-based authentication with refresh tokens and role-based access control to secure multiple backend services.",
+      "Built responsive React frontend components with lazy loading and state management, improving user experience and interface performance.",
+      "Designed normalized SQL Server schemas using Entity Framework Core and ADO.NET, ensuring efficient data access and referential integrity.",
+      "Validated all API endpoints with Swagger and automated token authentication flows to guarantee reliability and security.",
+      "Collaborated in an Agile team using Git/GitHub, actively participating in code reviews, sprint planning, and retrospectives.",
+    ],
+  },
+];
+
+const FALLBACK_PROJECTS = [
+  {
+    name: "Gamehub – Full-Stack E-Commerce Website",
+    githubUrl: "https://github.com/naheel0/GameHub-fullstack",
+    points: [
+      "Implemented secure JWT authentication (access & refresh tokens), middleware-based session validation, and role-based access control.",
+      "Developed scalable backend services with ASP.NET Core following Clean Architecture and RESTful API design principles.",
+      "Designed optimized relational database schemas in SQL Server using Entity Framework and ADO.NET for game listings, user profiles, carts, and orders.",
+      "Integrated Razorpay payment gateway, handling payment callbacks, order confirmation, and transaction status updates.",
+      "Built dynamic cart functionality (add, update, remove, clear) and order processing workflows with real-time total recalculations.",
+      "Created a responsive frontend using React, HTML, CSS, and JavaScript with lazy loading and state management.",
+      "Documented and tested all API endpoints using Swagger, ensuring reliability, security standards, and ease of integration.",
+    ],
+  },
+];
+
+const FALLBACK_EDUCATION = [
+  {
+    degree: "Bachelor of Computer Applications (BCA)",
+    school: "MES KVM College, Valanchery – Calicut University, Kerala",
+    period: "2022 – 2025",
+    coursework: "Data Structures & Algorithms, Web Development, DBMS, OOP, Software Engineering, Computer Networks",
+  },
+];
+
+// ── Animation variants ──────────────────────────────────────────
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -34,66 +102,37 @@ const itemVariants = {
   },
 };
 
-const contactLinks = [
-  { icon: FaEnvelope, label: "hello@naheel.me", href: "mailto:hello@naheel.me" },
-  { icon: FaPhone, label: "+91 7306912910", href: "tel:+917306912910" },
-  { icon: FaGithub, label: "github.com/naheel0", href: "https://github.com/naheel0" },
-  { icon: FaLinkedin, label: "linkedin.com/in/naheel-muhammed", href: "https://www.linkedin.com/in/naheel-muhammed" },
-  { icon: FaGlobe, label: "www.naheel.me", href: "https://www.naheel.me" },
-];
+// ── Types ───────────────────────────────────────────────────────
 
-const skillGroups = [
-  { label: "Frontend", skills: ["React", "JavaScript (ES6)", "HTML5", "CSS3"] },
-  { label: "Backend", skills: ["C#", "ASP.NET Core", "RESTful API", "JWT Authentication"] },
-  { label: "Database & ORM", skills: ["SQL Server", "Entity Framework Core", "ADO.NET"] },
-  { label: "Architecture & Patterns", skills: ["Clean Architecture", "Dependency Injection"] },
-  { label: "Tools & DevOps", skills: ["Git", "GitHub", "Swagger / OpenAPI"] },
-  { label: "Languages", skills: ["English", "Malayalam"] },
-];
+interface SkillGroup { label: string; skills: string[] }
+interface ResumeExp { role: string; company: string; period: string; points: string[] }
+interface ResumeProj { name: string; githubUrl: string | null; points: string[] }
+interface ResumeEdu { degree: string; school: string; period: string; coursework: string | null }
 
-const experience = [
-  {
-    role: "Software Developer Intern",
-    company: "Bridgeon Solutions",
-    period: "Jul 2025 – Present",
-    points: [
-      "Developed production-ready RESTful APIs using ASP.NET Core and Clean Architecture, ensuring scalable and maintainable backend services.",
-      "Implemented JWT-based authentication with refresh tokens and role-based access control to secure multiple backend services.",
-      "Built responsive React frontend components with lazy loading and state management, improving user experience and interface performance.",
-      "Designed normalized SQL Server schemas using Entity Framework Core and ADO.NET, ensuring efficient data access and referential integrity.",
-      "Validated all API endpoints with Swagger and automated token authentication flows to guarantee reliability and security.",
-      "Collaborated in an Agile team using Git/GitHub, actively participating in code reviews, sprint planning, and retrospectives.",
-    ],
-  },
-];
-
-const projects = [
-  {
-    name: "Gamehub – Full-Stack E-Commerce Website",
-    githubUrl: "https://github.com/naheel0/GameHub-fullstack",
-    points: [
-      "Implemented secure JWT authentication (access & refresh tokens), middleware-based session validation, and role-based access control.",
-      "Developed scalable backend services with ASP.NET Core following Clean Architecture and RESTful API design principles.",
-      "Designed optimized relational database schemas in SQL Server using Entity Framework and ADO.NET for game listings, user profiles, carts, and orders.",
-      "Integrated Razorpay payment gateway, handling payment callbacks, order confirmation, and transaction status updates.",
-      "Built dynamic cart functionality (add, update, remove, clear) and order processing workflows with real-time total recalculations.",
-      "Created a responsive frontend using React, HTML, CSS, and JavaScript with lazy loading and state management.",
-      "Documented and tested all API endpoints using Swagger, ensuring reliability, security standards, and ease of integration.",
-    ],
-  },
-];
-
-const education = [
-  {
-    degree: "Bachelor of Computer Applications (BCA)",
-    school: "MES KVM College, Valanchery – Calicut University, Kerala",
-    period: "2022 – 2025",
-    coursework:
-      "Data Structures & Algorithms, Web Development, DBMS, OOP, Software Engineering, Computer Networks",
-  },
-];
+// ── Component ───────────────────────────────────────────────────
 
 function ResumeContent() {
+  const [pdfUrl, setPdfUrl] = useState("/Naheel.pdf");
+  const [summary, setSummary] = useState(FALLBACK_SUMMARY);
+  const [skillGroups, setSkillGroups] = useState<SkillGroup[]>(FALLBACK_SKILL_GROUPS);
+  const [exps, setExps] = useState<ResumeExp[]>(FALLBACK_EXPERIENCE);
+  const [projs, setProjs] = useState<ResumeProj[]>(FALLBACK_PROJECTS);
+  const [edus, setEdus] = useState<ResumeEdu[]>(FALLBACK_EDUCATION);
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/portfolio/resume`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.summary) setSummary(data.summary);
+        if (data.pdfUrl) setPdfUrl(data.pdfUrl);
+        if (data.skillGroups?.length) setSkillGroups(data.skillGroups);
+        if (data.experience?.length) setExps(data.experience);
+        if (data.projects?.length) setProjs(data.projects);
+        if (data.education?.length) setEdus(data.education);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <div className="resume-page" id="resume">
       {/* Sticky action bar */}
@@ -103,8 +142,8 @@ function ResumeContent() {
           <span>Back</span>
         </Link>
         <a
-          href="/Naheel.pdf"
-          download="Naheel-Muhammed-PK-Resume.pdf"
+          href={pdfUrl}
+          download={pdfUrl === "/Naheel.pdf" ? "Naheel-Muhammed-PK-Resume.pdf" : undefined}
           className="resume-action-btn resume-download-btn"
           aria-label="Download Resume PDF"
         >
@@ -124,7 +163,7 @@ function ResumeContent() {
           <h1 className="resume-name">Naheel Muhammed PK</h1>
           <p className="resume-role">Full Stack Developer (.NET + React)</p>
           <div className="resume-contact-row">
-            {contactLinks.map((c) => {
+            {FALLBACK_CONTACT.map((c) => {
               const Icon = c.icon;
               return (
                 <a
@@ -152,13 +191,7 @@ function ResumeContent() {
             <FaLayerGroup aria-hidden="true" className="resume-heading-icon" />
             Professional Summary
           </h2>
-          <p className="resume-text">
-            Full Stack Developer (.NET + React) with a BCA and hands-on internship experience
-            building RESTful APIs, JWT-authenticated backends, and responsive frontends. Skilled in
-            Clean Architecture, ASP.NET Core, Entity Framework, and SQL Server. Passionate about
-            building scalable, secure web applications for SaaS, startup, and e-commerce
-            environments. Open to remote and onsite opportunities across India (based in Kerala).
-          </p>
+          <p className="resume-text">{summary}</p>
         </motion.section>
 
         {/* ===== Skills ===== */}
@@ -173,9 +206,7 @@ function ResumeContent() {
                 <h3 className="resume-skill-group-label">{group.label}</h3>
                 <div className="resume-skill-chips">
                   {group.skills.map((s) => (
-                    <span key={s} className="resume-chip">
-                      {s}
-                    </span>
+                    <span key={s} className="resume-chip">{s}</span>
                   ))}
                 </div>
               </div>
@@ -189,7 +220,7 @@ function ResumeContent() {
             <FaBriefcase aria-hidden="true" className="resume-heading-icon" />
             Work Experience
           </h2>
-          {experience.map((job) => (
+          {exps.map((job) => (
             <article key={job.role} className="resume-entry">
               <div className="resume-entry-head">
                 <div>
@@ -213,19 +244,21 @@ function ResumeContent() {
             <FaFolderOpen aria-hidden="true" className="resume-heading-icon" />
             Projects
           </h2>
-          {projects.map((proj) => (
+          {projs.map((proj) => (
             <article key={proj.name} className="resume-entry">
               <div className="resume-entry-head">
                 <h3 className="resume-entry-title">{proj.name}</h3>
-                <a
-                  href={proj.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="resume-entry-link no-print"
-                  aria-label={`${proj.name} on GitHub`}
-                >
-                  <FaGithub aria-hidden="true" />
-                </a>
+                {proj.githubUrl && (
+                  <a
+                    href={proj.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="resume-entry-link no-print"
+                    aria-label={`${proj.name} on GitHub`}
+                  >
+                    <FaGithub aria-hidden="true" />
+                  </a>
+                )}
               </div>
               <ul className="resume-list">
                 {proj.points.map((p, i) => (
@@ -242,7 +275,7 @@ function ResumeContent() {
             <FaGraduationCap aria-hidden="true" className="resume-heading-icon" />
             Education
           </h2>
-          {education.map((edu) => (
+          {edus.map((edu) => (
             <article key={edu.degree} className="resume-entry">
               <div className="resume-entry-head">
                 <div>
@@ -251,9 +284,11 @@ function ResumeContent() {
                 </div>
                 <span className="resume-entry-period">{edu.period}</span>
               </div>
-              <p className="resume-text resume-coursework">
-                <strong>Relevant Coursework:</strong> {edu.coursework}
-              </p>
+              {edu.coursework && (
+                <p className="resume-text resume-coursework">
+                  <strong>Relevant Coursework:</strong> {edu.coursework}
+                </p>
+              )}
             </article>
           ))}
         </motion.section>
@@ -261,8 +296,8 @@ function ResumeContent() {
         {/* ===== Bottom download CTA ===== */}
         <motion.div className="resume-footer-cta no-print" variants={itemVariants}>
           <a
-            href="/Naheel.pdf"
-            download="Naheel-Muhammed-PK-Resume.pdf"
+            href={pdfUrl}
+            download={pdfUrl === "/Naheel.pdf" ? "Naheel-Muhammed-PK-Resume.pdf" : undefined}
             className="resume-action-btn resume-download-btn resume-download-lg"
             aria-label="Download Resume PDF"
           >
