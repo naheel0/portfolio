@@ -1,11 +1,10 @@
 'use client';
 
 import { useRef, useState, useCallback, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { m, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import { FaGithub, FaArrowUpRightFromSquare, FaStar } from "react-icons/fa6";
 import ProjectModal from "./ProjectModal";
-import { titleVariants } from "@/lib/variants";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://admin.naheel.me";
 
@@ -125,7 +124,7 @@ function StoryCard({
   const num = String(index + 1).padStart(2, '0');
 
   return (
-    <motion.article
+    <m.article
       className="story-card"
       style={{ opacity, x, y, scale }}
       aria-label={`Project ${num}: ${project.title}`}
@@ -198,7 +197,7 @@ function StoryCard({
           {num} / {String(total).padStart(2, '0')}
         </span>
       </div>
-    </motion.article>
+    </m.article>
   );
 }
 
@@ -231,7 +230,7 @@ function ChapterDots({
           [0.8, 1.4, 1.4, 0.8]
         );
         return (
-          <motion.span
+          <m.span
             key={i}
             className="story-dot"
             style={{ opacity: dotOpacity, scale: dotScale }}
@@ -249,6 +248,18 @@ function ProjectsContent() {
   const handleClose = useCallback(() => setSelectedProject(null), []);
   const handleOpen = useCallback((p: Project) => setSelectedProject(p), []);
   const containerRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = headingRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { el.classList.add('visible'); obs.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
     fetch(`${API_URL}/api/portfolio/projects`)
@@ -314,21 +325,18 @@ function ProjectsContent() {
       >
         <div className="story-sticky">
           {/* Heading — stays pinned at top */}
-          <motion.div
-            className="prj-heading"
-            variants={titleVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+          <div
+            className="prj-heading skill-scroll-reveal"
+            ref={headingRef}
           >
             <h2>
               My Recent <span className="prj-accent">Works</span>
             </h2>
             <p>Scroll to explore each project</p>
-          </motion.div>
+          </div>
 
           {/* Progress bar */}
-          <motion.div className="story-progress" style={{ scaleX }} aria-hidden="true" />
+          <m.div className="story-progress" style={{ scaleX }} aria-hidden="true" />
 
           {/* Chapter dots */}
           <ChapterDots total={projects.length} progress={scrollYProgress} />

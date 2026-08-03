@@ -1362,6 +1362,26 @@ img { max-width: 100%; height: auto; }
 }
 
 .skills-section { padding: 80px 40px 40px; text-align: center; width: 100%; content-visibility: auto; contain-intrinsic-size: 0 600px; }
+
+/* Skill section scroll-reveal (CSS-only, replaces framer-motion) */
+.skill-scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.skill-scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.skill-pill-reveal {
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.skill-pill-reveal.visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
 .skills-title { color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 40px; text-shadow: 0 0 10px rgba(34, 211, 238, 0.5); letter-spacing: 0.02em; }
 .skills-title span { color: var(--accent); text-shadow: 0 0 15px rgba(34, 211, 238, 0.7); }
 

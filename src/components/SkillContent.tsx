@@ -1,8 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo, cloneElement } from "react";
-import { motion } from "framer-motion";
-import { containerVariants, titleVariants } from "@/lib/variants";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useTilt3D } from "@/lib/useTilt3D";
 
 interface Contribution {
@@ -87,16 +85,6 @@ const mockData: Contribution[] = (() => {
   return data;
 })();
 
-const skillItemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { type: "spring" as const, stiffness: 100, damping: 10 },
-  },
-};
-
 interface SkillPillProps {
   name: string;
   color: string;
@@ -105,19 +93,46 @@ interface SkillPillProps {
 
 function SkillPill({ name, color, icon: Icon }: SkillPillProps) {
   const tiltRef = useTilt3D<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { el.classList.add('visible'); obs.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <motion.div
-      ref={tiltRef as React.RefObject<HTMLDivElement>}
-      className="skill-pill tilt-3d"
-      variants={skillItemVariants}
+    <div
+      ref={(el) => { (ref as React.MutableRefObject<HTMLDivElement | null>).current = el; (tiltRef as React.MutableRefObject<HTMLDivElement | null>).current = el; }}
+      className="skill-pill tilt-3d skill-pill-reveal"
       style={{ "--skill-color": color } as React.CSSProperties}
     >
       <span className="skill-pill-icon" style={{ color }}>
         <Icon aria-hidden="true" />
       </span>
       <span className="skill-pill-name">{name}</span>
-    </motion.div>
+    </div>
   );
+}
+
+function useScrollReveal(threshold = 0.3) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { el.classList.add('visible'); obs.disconnect(); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return ref;
 }
 
 function SkillContent({ skills, tools }: SkillContentProps) {
@@ -125,6 +140,14 @@ function SkillContent({ skills, tools }: SkillContentProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalContributions, setTotalContributions] = useState(0);
+
+  const skillsTitleRef = useScrollReveal();
+  const skillsPillsRef = useScrollReveal(0.1);
+  const toolsTitleRef = useScrollReveal();
+  const toolsPillsRef = useScrollReveal(0.1);
+  const contribTitleRef = useScrollReveal();
+  const calendarRef = useScrollReveal(0.1);
+  const footerRef = useScrollReveal();
 
   const useDemoData = useCallback((errorMessage: string) => {
     const demoTotal = mockData.reduce((sum, day) => sum + day.count, 0);
@@ -251,18 +274,13 @@ function SkillContent({ skills, tools }: SkillContentProps) {
     return (
       <div className="main-bg" id="skills">
         <div className="contributions-section">
-          <motion.h2
-            className="contributions-title"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <h2 className="contributions-title skill-scroll-reveal visible">
             Days I Code
-          </motion.h2>
+          </h2>
           <div className="loading">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+            <div className="skill-scroll-reveal visible">
               Loading GitHub contributions...
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
@@ -272,22 +290,10 @@ function SkillContent({ skills, tools }: SkillContentProps) {
   return (
     <div className="main-bg" id="skills">
       <div className="skills-section">
-          <motion.h2
-            className="skills-title"
-            variants={titleVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-          >
+          <h2 className="skills-title skill-scroll-reveal" ref={skillsTitleRef}>
             Professional <span>Skillset</span>
-          </motion.h2>
-          <motion.div
-            className="skills-pills"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
+          </h2>
+          <div className="skills-pills skill-scroll-reveal" ref={skillsPillsRef}>
             {skills.map((skill) => (
               <SkillPill
                 key={skill.name}
@@ -296,25 +302,12 @@ function SkillContent({ skills, tools }: SkillContentProps) {
                 icon={skill.icon}
               />
             ))}
-          </motion.div>
+          </div>
 
-          <motion.h2
-            className="skills-title"
-            style={{ marginTop: "60px" }}
-            variants={titleVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-          >
+          <h2 className="skills-title skill-scroll-reveal" ref={toolsTitleRef} style={{ marginTop: "60px" }}>
             Tools <span>I Use</span>
-          </motion.h2>
-          <motion.div
-            className="skills-pills"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
+          </h2>
+          <div className="skills-pills skill-scroll-reveal" ref={toolsPillsRef}>
             {tools.map((tool) => (
               <SkillPill
                 key={tool.name}
@@ -323,29 +316,17 @@ function SkillContent({ skills, tools }: SkillContentProps) {
                 icon={tool.icon}
               />
             ))}
-          </motion.div>
+          </div>
       </div>
 
       <div className="contributions-section">
-        <motion.h2
-          className="contributions-title"
-          variants={titleVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
+        <h2 className="contributions-title skill-scroll-reveal" ref={contribTitleRef}>
           Days I Spent <span>Coding</span>
-        </motion.h2>
+        </h2>
 
         {error && <div className="error-message">{error}</div>}
 
-        <motion.div
-          className="calendar-container"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
+        <div className="calendar-container skill-scroll-reveal" ref={calendarRef}>
           <div className="calendar-body">
             <div className="calendar-day-labels">
               {["", "Mon", "", "Wed", "", "Fri", ""].map((label, i) => (
@@ -392,13 +373,7 @@ function SkillContent({ skills, tools }: SkillContentProps) {
             </div>
           </div>
 
-          <motion.div
-            className="calendar-footer"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          >
+          <div className="calendar-footer skill-scroll-reveal" ref={footerRef}>
             <div className="calendar-legend">
               <span>Less</span>
               <div className="legend-colors">
@@ -414,25 +389,12 @@ function SkillContent({ skills, tools }: SkillContentProps) {
               <span>More</span>
             </div>
 
-            <motion.div
-              className="contributions-count"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 1.3 }}
-            >
-              <motion.strong
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ type: "spring", stiffness: 200, delay: 1.4 }}
-              >
-                {displayTotal.toLocaleString()}
-              </motion.strong>{" "}
+            <div className="contributions-count">
+              <strong>{displayTotal.toLocaleString()}</strong>{" "}
               contributions in the last year
-            </motion.div>
-          </motion.div>
-        </motion.div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
