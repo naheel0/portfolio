@@ -144,7 +144,7 @@ function ContactContent() {
         <div className="contact-row">
           <div className="contact-unified">
             <motion.div className="contact-col contact-info" variants={itemVariants}>
-              <motion.h4
+              <motion.h3
                 className="contact-subtitle"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -152,7 +152,7 @@ function ContactContent() {
                 transition={{ delay: 0.2 }}
               >
                 Get in Touch
-              </motion.h4>
+              </motion.h3>
               <motion.p
                 className="contact-text"
                 initial={{ opacity: 0 }}
