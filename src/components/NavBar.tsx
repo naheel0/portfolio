@@ -145,10 +145,10 @@ const Navbar = () => {
               animate="visible"
               exit="exit"
             >
-              <Link href="/resume" className="nav-resume-option">
+              <a href="/Naheel.pdf" className="nav-resume-option">
                 <FaFileLines aria-hidden="true" />
                 <span>View Resume</span>
-              </Link>
+              </a>
               <a
                 href="/Naheel.pdf"
                 download="Naheel-Muhammed-PK-Resume.pdf"
