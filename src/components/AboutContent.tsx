@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { containerVariants, itemVariants, textVariants } from '@/lib/variants';
 
 const AboutContent = () => {
@@ -45,17 +44,6 @@ const AboutContent = () => {
               <li>🚀 Exploring New Technologies</li>
             </ul>
           </motion.div>
-        </motion.div>
-
-        <motion.div className="about-image" variants={itemVariants} whileHover={{ scale: 1.05 }}>
-          <Image
-            src="/images/about.png"
-            alt="About Me Illustration"
-            width={380}
-            height={380}
-            loading="lazy"
-            sizes="(max-width: 992px) 280px, 380px"
-          />
         </motion.div>
       </motion.div>
     </div>

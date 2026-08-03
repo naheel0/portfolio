@@ -261,7 +261,7 @@ function ProjectsContent() {
           description: p.description,
           image: p.imageUrl || "/images/placeholder.png",
           githubUrl: p.githubUrl || "#",
-          demoUrl: p.liveUrl || "#",
+          demoUrl: p.liveUrl || "",
           technologies: p.technologies || [],
           category: p.category,
           featured: p.featured,
