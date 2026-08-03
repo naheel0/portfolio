@@ -1,23 +1,37 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { containerVariants, itemVariants, textVariants } from '@/lib/variants';
+import { useEffect, useRef } from 'react';
 
 const AboutContent = () => {
+  const textRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    const elements = [textRef.current, titleRef.current, contentRef.current].filter(Boolean);
+    elements.forEach((el) => { if (el) observer.observe(el); });
+    return () => { elements.forEach((el) => { if (el) observer.unobserve(el); }); };
+  }, []);
+
   return (
     <div className="about-section" id="about">
-      <motion.div
-        className="about-container"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <motion.div className="about-text" variants={textVariants}>
-          <motion.h2 className="about-title" variants={itemVariants}>
+      <div className="about-container">
+        <div className="about-text about-scroll-reveal" ref={textRef}>
+          <h2 className="about-title about-title-reveal" ref={titleRef}>
             KNOW WHO <span>I'M</span>
-          </motion.h2>
-          <motion.div className="about-paragraphs" variants={itemVariants}>
+          </h2>
+          <div className="about-paragraphs about-content-reveal" ref={contentRef}>
             <p>
               Hi Everyone! I&apos;m <span className="highlight">Naheel Muhammed PK</span> from <span className="highlight">Kerala, India</span>.
             </p>
@@ -43,9 +57,9 @@ const AboutContent = () => {
               <li>✍️ Writing Tech Blogs</li>
               <li>🚀 Exploring New Technologies</li>
             </ul>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

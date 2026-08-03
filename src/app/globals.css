@@ -45,7 +45,6 @@ body {
     radial-gradient(ellipse 85% 60% at 10% -8%, rgba(34, 211, 238, 0.20) 0%, rgba(34, 211, 238, 0.05) 38%, transparent 65%),
     radial-gradient(ellipse 85% 60% at 90% 108%, rgba(99, 102, 241, 0.24) 0%, rgba(99, 102, 241, 0.06) 38%, transparent 65%),
     radial-gradient(ellipse 70% 50% at 50% 50%, rgba(129, 140, 248, 0.07) 0%, transparent 75%);
-  background-attachment: fixed;
   background-repeat: no-repeat;
 }
 
@@ -279,7 +278,36 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ===== About.css ===== */
-.about-section { background-color: transparent; min-height: 100vh; width: 100%; position: relative; padding: 80px 0; }
+.about-section { background-color: transparent; min-height: 100vh; width: 100%; position: relative; padding: 80px 0; content-visibility: auto; contain-intrinsic-size: 0 800px; }
+
+/* About scroll-reveal animation (CSS-only, replaces framer-motion) */
+.about-scroll-reveal {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.about-scroll-reveal.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.about-title-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+}
+.about-title-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.about-content-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+}
+.about-content-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .about-container {
   display: flex;
@@ -341,7 +369,28 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ===== Contact.css (optimized) ===== */
-.main-bg-contact { background-color: transparent; min-height: 100vh; width: 100%; position: relative; padding: 40px 0 80px; }
+
+/* Contact scroll-reveal animations (CSS-only, replaces framer-motion) */
+.contact-scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.contact-scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.contact-title-reveal {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.contact-title-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.main-bg-contact { background-color: transparent; min-height: 100vh; width: 100%; position: relative; padding: 40px 0 80px; content-visibility: auto; contain-intrinsic-size: 0 800px; }
 .contact-container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 .contact-title { color: #ffffff; font-size: 2.5rem; font-weight: 700; text-align: center; margin-bottom: 0.5rem; letter-spacing: 0.02em; }
 .contact-title span { color: var(--accent); }
@@ -592,6 +641,8 @@ img { max-width: 100%; height: auto; }
   background-color: transparent;
   width: 100%;
   position: relative;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 100vh;
 }
 
 /* Heading */
@@ -1310,7 +1361,7 @@ img { max-width: 100%; height: auto; }
   .calendar-day-labels { padding-top: 16px; }
 }
 
-.skills-section { padding: 80px 40px 40px; text-align: center; width: 100%; }
+.skills-section { padding: 80px 40px 40px; text-align: center; width: 100%; content-visibility: auto; contain-intrinsic-size: 0 600px; }
 .skills-title { color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 40px; text-shadow: 0 0 10px rgba(34, 211, 238, 0.5); letter-spacing: 0.02em; }
 .skills-title span { color: var(--accent); text-shadow: 0 0 15px rgba(34, 211, 238, 0.7); }
 

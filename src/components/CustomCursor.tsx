@@ -66,8 +66,7 @@ export default function CustomCursor(): React.ReactElement | null {
       t.closest(".skill-pill") ||
       t.closest(".prj-card") ||
       t.closest(".nav-item") ||
-      t.closest(".resume-chip") ||
-      window.getComputedStyle(t).cursor === "pointer"
+      t.closest(".resume-chip")
     );
     if (hit !== hovering.current) {
       hovering.current = hit;
