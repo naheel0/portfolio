@@ -179,17 +179,19 @@ function StoryCard({
             <FaGithub aria-hidden="true" />
             <span>Code</span>
           </a>
-          <a
-            href={normalizeUrl(project.demoUrl)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="story-action-btn story-action-live"
-            aria-label={`${project.title} live demo`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <FaArrowUpRightFromSquare aria-hidden="true" />
-            <span>Live</span>
-          </a>
+          {project.demoUrl && (
+            <a
+              href={normalizeUrl(project.demoUrl)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="story-action-btn story-action-live"
+              aria-label={`${project.title} live demo`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FaArrowUpRightFromSquare aria-hidden="true" />
+              <span>Live</span>
+            </a>
+          )}
         </div>
 
         <span className="story-card-index" aria-hidden="true">

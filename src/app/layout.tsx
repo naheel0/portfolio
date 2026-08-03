@@ -95,7 +95,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <MotionConfig reducedMotion="user">
           <div className="app-layout">
             <Navbar />
-            <div className="app-main">{children}</div>
+            <main className="app-main">{children}</main>
             <Footer />
           </div>
         </MotionConfig>
