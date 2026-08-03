@@ -330,26 +330,13 @@ img { max-width: 100%; height: auto; }
   padding-left: 8px;
 }
 
-.about-image img {
-  width: 380px;
-  height: 380px;
-  object-fit: cover;
-  filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.3));
-  transition: filter 0.3s ease;
-}
-
-.about-image:hover img {
-  filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.6));
-}
 
 @media (max-width: 992px) {
   .about-container { flex-direction: column; text-align: center; padding: 40px 30px; margin: 40px auto; }
-  .about-image img { width: 280px; height: 280px; }
   .activities-list { display: inline-block; text-align: left; }
 }
 @media (max-width: 576px) {
   .about-title { font-size: 2rem; }
-  .about-image img { width: 220px; height: 220px; }
   .about-container { padding: 30px 20px; }
 }
 
@@ -1959,12 +1946,6 @@ img { max-width: 100%; height: auto; }
 .intro-avatar:hover img {
   filter: drop-shadow(0 0 26px rgba(99, 102, 241, 0.65));
 }
-.about-image img {
-  filter: drop-shadow(0 0 22px rgba(99, 102, 241, 0.3));
-}
-.about-image:hover img {
-  filter: drop-shadow(0 0 32px rgba(99, 102, 241, 0.55));
-}
 
 /* Project card surface: navy glass with indigo edge */
 .prj-card {
@@ -2504,3 +2485,21 @@ a.resume-contact-item:hover { color: var(--accent-bright); }
   opacity: 0;
   animation: heroFadeUp 0.8s ease forwards;
 }
+
+.home-intro .hero-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  animation: none;
+}
+
+.home-intro.intro-visible .hero-fade-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.home-intro.intro-visible .hero-fade-up:nth-child(1) { transition-delay: 0s; }
+.home-intro.intro-visible .hero-fade-up:nth-child(2) { transition-delay: 0.1s; }
+.home-intro.intro-visible .hero-fade-up:nth-child(3) { transition-delay: 0.2s; }
+.home-intro.intro-visible .hero-fade-up:nth-child(4) { transition-delay: 0.3s; }
+.home-intro.intro-visible .hero-fade-up:nth-child(5) { transition-delay: 0.4s; }
