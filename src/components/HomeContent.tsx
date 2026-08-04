@@ -108,7 +108,7 @@ const HomeContent = () => {
         </div>
 
         <div className="home-illustration float-3d hero-fade-up" style={{ animationDelay: '0.4s' }}>
-          <Image src="/images/home-main.svg" alt="Developer Illustration" width={420} height={420} priority sizes="(max-width: 992px) 280px, 420px" />
+          <Image src="/images/home-main.webp" alt="Developer Illustration" width={347} height={366} priority sizes="(max-width: 992px) 280px, 347px" />
         </div>
       </div>
 

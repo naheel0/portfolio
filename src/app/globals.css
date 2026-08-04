@@ -200,17 +200,6 @@ img { max-width: 100%; height: auto; }
   50% { opacity: 0; }
 }
 
-.home-illustration img {
-  width: 420px;
-  height: 420px;
-  filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.3));
-  transition: filter 0.3s ease;
-}
-
-.home-illustration:hover img {
-  filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.6));
-}
-
 /* Intro row */
 .home-intro {
   display: flex;
@@ -264,7 +253,8 @@ img { max-width: 100%; height: auto; }
 
 @media (max-width: 992px) {
   .home-hero, .home-intro { flex-direction: column; text-align: center; padding: 50px 30px 50px; }
-  .home-illustration img, .intro-avatar img { width: 280px; height: 280px; }
+  .home-illustration img { width: 231px; height: 244px; }
+  .intro-avatar img { width: 280px; height: 280px; }
   .home-text h1 { font-size: 2rem; }
   .typewriter { font-size: 1.3rem; }
   .intro-heading { font-size: 2rem; }
@@ -273,7 +263,8 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 576px) {
   .home-text h1 { font-size: 1.6rem; }
   .typewriter { font-size: 1.1rem; }
-  .home-illustration img, .intro-avatar img { width: 220px; height: 220px; }
+  .home-illustration img { width: 182px; height: 192px; }
+  .intro-avatar img { width: 220px; height: 220px; }
   .home-hero, .home-intro { padding: 40px 20px; }
 }
 
@@ -1537,6 +1528,7 @@ img { max-width: 100%; height: auto; }
 /* Section nav group — holds the 5 section buttons */
 .nav-section-group {
   display: flex; align-items: center; gap: 2px;
+  position: relative;
 }
 
 /* Each nav item — icon + label, with sliding gradient bg on active */
@@ -1567,16 +1559,18 @@ img { max-width: 100%; height: auto; }
   transition: color 0.25s ease;
 }
 
-/* Sliding active background — framer-motion layoutId animates between items */
+/* Sliding active background — positioned inside nav-section-group, CSS transition replaces framer-motion layoutId */
 .nav-item-bg {
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
   border-radius: 10px;
   background: linear-gradient(135deg, rgba(34, 211, 238, 0.18) 0%, rgba(99, 102, 241, 0.2) 100%);
   border: 1px solid rgba(34, 211, 238, 0.4);
   box-shadow: 0 0 16px rgba(34, 211, 238, 0.25), 0 0 4px rgba(99, 102, 241, 0.2) inset;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
+  transition: left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .nav-item:hover {
@@ -1645,7 +1639,7 @@ img { max-width: 100%; height: auto; }
 }
 .nav-resume-wrapper:hover .nav-resume-chevron { transform: rotate(180deg); }
 
-/* Dropdown panel */
+/* Dropdown panel — CSS transitions replace framer-motion AnimatePresence */
 .nav-resume-dropdown {
   position: absolute;
   top: calc(100% + 10px);
@@ -1658,6 +1652,16 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(99, 102, 241, 0.1) inset;
   backdrop-filter: blur(14px);
   z-index: 200;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.12s ease-in, transform 0.12s ease-in;
+}
+.nav-resume-dropdown.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  transition: opacity 0.18s ease-out, transform 0.18s ease-out;
 }
 .nav-resume-option {
   display: flex;
@@ -1876,35 +1880,38 @@ img { max-width: 100%; height: auto; }
   transition: opacity 0.35s ease;
 }
 
-/* Hot pinpoint head */
+/* Hot pinpoint head — centered via negative margin, JS positions via transform (compositor-only) */
 .aurora-head {
   position: absolute;
   width: 6px; height: 6px;
+  margin-left: -3px; margin-top: -3px;
   border-radius: 50%;
   background: #cffafe;
   box-shadow:
     0 0 6px #22d3ee,
     0 0 14px #22d3ee,
     0 0 28px rgba(99, 102, 241, 0.8);
-  transform: translate(-50%, -50%);
   transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
   will-change: transform;
 }
+.aurora-head.on-hover { transform-origin: center; transform: scale(1.6); }
 
-/* Soft halo that blooms on interactive hover */
+/* Soft halo that blooms on interactive hover — centered via negative margin */
 .aurora-flare {
   position: absolute;
   width: 38px; height: 38px;
+  margin-left: -19px; margin-top: -19px;
   border-radius: 50%;
   background: radial-gradient(circle,
     rgba(34, 211, 238, 0.22) 0%,
     rgba(99, 102, 241, 0.12) 45%,
     transparent 70%);
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.3);
+  transform: scale(0.3);
   transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   will-change: transform, opacity;
 }
+.aurora-flare.on-hover { opacity: 1; transform: scale(1); }
 
 /* Trail segments — placed by JS each frame */
 .aurora-trail-seg {
@@ -1917,7 +1924,7 @@ img { max-width: 100%; height: auto; }
     transparent 75%);
   mix-blend-mode: screen;
   filter: blur(0.5px);
-  will-change: transform, opacity, width, height;
+  will-change: transform;
 }
 
 /* Click starburst — 4 tiny rays shooting outward */
@@ -2006,7 +2013,10 @@ img { max-width: 100%; height: auto; }
 
 /* Subtle cyan glow for illustration drop-shadows (was purple) */
 .home-illustration img {
+  width: 347px;
+  height: 366px;
   filter: drop-shadow(0 0 22px rgba(34, 211, 238, 0.28));
+  transition: filter 0.3s ease;
 }
 .home-illustration:hover img {
   filter: drop-shadow(0 0 32px rgba(34, 211, 238, 0.5));
