@@ -1,3 +1,5 @@
+import { cache } from "react"
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://admin.naheel.me"
 
 export interface SiteSettings {
@@ -54,7 +56,7 @@ const defaultSettings: SiteSettings = {
   roles: ["Full Stack Developer", ".NET Developer", "React Developer", "Web Developer"],
 }
 
-export async function getSettings(): Promise<SiteSettings> {
+export const getSettings = cache(async function getSettings(): Promise<SiteSettings> {
   try {
     const res = await fetch(`${API_URL}/api/portfolio/settings`, {
       next: { revalidate: 3600 },
@@ -65,7 +67,7 @@ export async function getSettings(): Promise<SiteSettings> {
   } catch {
     return defaultSettings
   }
-}
+})
 
 function mapProject(p: AdminProject, index: number): PortfolioProject {
   return {

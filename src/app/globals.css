@@ -48,17 +48,7 @@ body {
   background-repeat: no-repeat;
 }
 
-/* Subtle film grain overlay — adds premium texture, ~0 perf cost (CSS only, fixed pseudo-element) */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
+
 
 h1 {
   font-weight: 700;
@@ -2080,8 +2070,8 @@ img { max-width: 100%; height: auto; }
 .aurora-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.55;
+  filter: blur(30px);
+  opacity: 0.35;
   will-change: transform;
   mix-blend-mode: screen;
 }

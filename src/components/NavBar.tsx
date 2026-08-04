@@ -49,17 +49,24 @@ const Navbar = () => {
   // Measure active pill position (CSS replaces framer-motion layoutId)
   useEffect(() => {
     if (isResumePage) return;
-    const idx = navItems.findIndex(item => item.section === activeSection);
-    const el = itemRefs.current[idx];
-    const group = groupRef.current;
-    if (el && group) {
-      const groupRect = group.getBoundingClientRect();
-      const elRect = el.getBoundingClientRect();
-      setPillStyle({
-        left: elRect.left - groupRect.left,
-        width: elRect.width,
-      });
-    }
+
+    const computePill = () => {
+      const idx = navItems.findIndex(item => item.section === activeSection);
+      const el = itemRefs.current[idx];
+      const group = groupRef.current;
+      if (el && group) {
+        const groupRect = group.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        setPillStyle({
+          left: elRect.left - groupRect.left,
+          width: elRect.width,
+        });
+      }
+    };
+
+    computePill();
+    window.addEventListener("resize", computePill, { passive: true });
+    return () => window.removeEventListener("resize", computePill);
   }, [activeSection, isResumePage]);
 
   useEffect(() => {
