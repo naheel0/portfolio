@@ -270,23 +270,6 @@ function SkillContent({ skills, tools }: SkillContentProps) {
     return { gridWeeks: weeks, monthLabels: labels };
   }, [contributions]);
 
-  if (loading) {
-    return (
-      <div className="main-bg" id="skills">
-        <div className="contributions-section">
-          <h2 className="contributions-title skill-scroll-reveal visible">
-            Days I Code
-          </h2>
-          <div className="loading">
-            <div className="skill-scroll-reveal visible">
-              Loading GitHub contributions...
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="main-bg" id="skills">
       <div className="skills-section">
@@ -326,7 +309,14 @@ function SkillContent({ skills, tools }: SkillContentProps) {
 
         {error && <div className="error-message">{error}</div>}
 
-        <div className="calendar-container skill-scroll-reveal" ref={calendarRef}>
+        {loading ? (
+          <div className="loading">
+            <div className="skill-scroll-reveal visible">
+              Loading GitHub contributions...
+            </div>
+          </div>
+        ) : (
+          <div className="calendar-container skill-scroll-reveal" ref={calendarRef}>
           <div className="calendar-body">
             <div className="calendar-day-labels">
               {["", "Mon", "", "Wed", "", "Fri", ""].map((label, i) => (
@@ -395,6 +385,7 @@ function SkillContent({ skills, tools }: SkillContentProps) {
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   );
