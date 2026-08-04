@@ -1,28 +1,11 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useReveal } from "@/lib/useReveal";
 
 const AboutContent = () => {
-  const textRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    const elements = [textRef.current, titleRef.current, contentRef.current].filter(Boolean);
-    elements.forEach((el) => { if (el) observer.observe(el); });
-    return () => { elements.forEach((el) => { if (el) observer.unobserve(el); }); };
-  }, []);
+  const textRef = useReveal<HTMLDivElement>();
+  const titleRef = useReveal<HTMLHeadingElement>();
+  const contentRef = useReveal<HTMLDivElement>();
 
   return (
     <div className="about-section" id="about">

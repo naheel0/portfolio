@@ -1,5 +1,3 @@
-'use client';
-
 /**
  * AuroraOrbs — three floating CSS-only gradient orbs that drift behind the
  * entire app. Pure CSS keyframes (zero JS), GPU-composited via `transform`,

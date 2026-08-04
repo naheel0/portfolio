@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { MotionConfig } from "framer-motion";
 import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { PT_Mono } from "next/font/google";
@@ -92,13 +91,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={ptMono.variable}>
         <CustomCursor />
         <AuroraOrbs />
-        <MotionConfig reducedMotion="user">
-          <div className="app-layout">
-            <Navbar />
-            <main className="app-main">{children}</main>
-            <Footer />
-          </div>
-        </MotionConfig>
+        <div className="app-layout">
+          <Navbar />
+          <main className="app-main">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

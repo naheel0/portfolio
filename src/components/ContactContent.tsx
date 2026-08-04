@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback } from "react";
 import { FaEnvelope, FaPhone, FaGithub, FaLinkedin } from "react-icons/fa6";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://admin.naheel.me";
+import { useReveal } from "@/lib/useReveal";
+import type { SiteSettings } from "@/lib/api";
 
 interface FormData {
   name: string;
@@ -19,52 +19,27 @@ const inputFields = [
   { id: "message", label: "Message", type: "textarea", placeholder: "Your Message" },
 ];
 
-function ContactContent() {
+function ContactContent({ settings }: { settings: SiteSettings }) {
   const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<FormStatus>("idle");
-  const [contactCards, setContactCards] = useState([
-    { icon: FaEnvelope, label: "Email", value: "hello@naheel.me", href: "mailto:hello@naheel.me", color: "#22d3ee" },
-    { icon: FaPhone, label: "Phone", value: "+91 7306912910", href: "tel:+917306912910", color: "#34d399" },
-    { icon: FaGithub, label: "GitHub", value: "naheel0", href: "https://github.com/naheel0", color: "#c4b5fd" },
-    { icon: FaLinkedin, label: "LinkedIn", value: "Naheel Muhammed", href: "https://www.linkedin.com/in/naheel-muhammed", color: "#60a5fa" },
-  ]);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const infoColRef = useRef<HTMLDivElement>(null);
-  const formColRef = useRef<HTMLDivElement>(null);
+  const email = settings.email || "hello@naheel.me";
+  const phone = settings.phone || "+91 7306912910";
+  const github = settings.github || "https://github.com/naheel0";
+  const linkedin = settings.linkedin || "https://www.linkedin.com/in/naheel-muhammed";
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+  const contactCards = [
+    { icon: FaEnvelope, label: "Email", value: email, href: `mailto:${email}`, color: "#22d3ee" },
+    { icon: FaPhone, label: "Phone", value: phone, href: `tel:${phone.replace(/\s/g, "")}`, color: "#34d399" },
+    { icon: FaGithub, label: "GitHub", value: github.split("/").pop() || "naheel0", href: github, color: "#c4b5fd" },
+    { icon: FaLinkedin, label: "LinkedIn", value: settings.name || "Naheel Muhammed", href: linkedin, color: "#60a5fa" },
+  ];
 
-    const elements = [containerRef.current, titleRef.current, infoColRef.current, formColRef.current].filter(Boolean);
-    elements.forEach((el) => { if (el) observer.observe(el); });
-    return () => { elements.forEach((el) => { if (el) observer.unobserve(el); }); };
-  }, []);
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/portfolio/settings`)
-      .then(r => r.json())
-      .then(s => {
-        setContactCards([
-          { icon: FaEnvelope, label: "Email", value: s.email || "hello@naheel.me", href: `mailto:${s.email || "hello@naheel.me"}`, color: "#22d3ee" },
-          { icon: FaPhone, label: "Phone", value: s.phone || "+91 7306912910", href: `tel:${(s.phone || "+917306912910").replace(/\s/g, "")}`, color: "#34d399" },
-          { icon: FaGithub, label: "GitHub", value: (s.github || "https://github.com/naheel0").split("/").pop() || "naheel0", href: s.github || "https://github.com/naheel0", color: "#c4b5fd" },
-          { icon: FaLinkedin, label: "LinkedIn", value: s.name || "Naheel Muhammed", href: s.linkedin || "https://www.linkedin.com/in/naheel-muhammed", color: "#60a5fa" },
-        ]);
-      })
-      .catch(() => {});
-  }, []);
+  const containerRef = useReveal<HTMLDivElement>(0.1);
+  const titleRef = useReveal<HTMLHeadingElement>(0.1);
+  const infoColRef = useReveal<HTMLDivElement>(0.1);
+  const formColRef = useReveal<HTMLDivElement>(0.1);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -194,7 +169,7 @@ function ContactContent() {
                     >
                       {status === "success"
                         ? "✓ Your message has been sent successfully! I'll get back to you soon."
-                        : "✗ Failed to send message. Please try again or email me directly at hello@naheel.me."}
+                        : `✗ Failed to send message. Please try again or email me directly at ${email}.`}
                     </p>
                   )}
                 </form>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ResumeContent from "@/components/ResumeContent";
+import { getResume } from "@/lib/data";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
 
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ResumePage() {
-  return <ResumeContent />;
+export default async function ResumePage() {
+  const data = await getResume();
+  return <ResumeContent data={data} />;
 }

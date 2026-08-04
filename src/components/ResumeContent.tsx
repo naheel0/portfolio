@@ -1,7 +1,3 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   FaEnvelope,
@@ -17,12 +13,15 @@ import {
   FaFolderOpen,
   FaLayerGroup,
 } from "react-icons/fa6";
+import type { ResumeData } from "@/lib/data";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://admin.naheel.me";
+// Entrance stagger — matches the previous on-load spring stagger.
+const ENTRANCE_DURATION = "0.6s";
+const ENTRANCE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+const baseDelay = 0.1;
+const stagger = 0.08;
 
-// ── Hardcoded fallbacks (used when API is unavailable) ───────────
-
-const FALLBACK_CONTACT = [
+const RESUME_CONTACT = [
   { icon: FaEnvelope, label: "hello@naheel.me", href: "mailto:hello@naheel.me" },
   { icon: FaPhone, label: "+91 7306912910", href: "tel:+917306912910" },
   { icon: FaGithub, label: "github.com/naheel0", href: "https://github.com/naheel0" },
@@ -30,108 +29,19 @@ const FALLBACK_CONTACT = [
   { icon: FaGlobe, label: "www.naheel.me", href: "https://www.naheel.me" },
 ];
 
-const FALLBACK_SUMMARY =
-  "Full Stack Developer (.NET + React) with a BCA and hands-on internship experience building RESTful APIs, JWT-authenticated backends, and responsive frontends. Skilled in Clean Architecture, ASP.NET Core, Entity Framework, and SQL Server. Passionate about building scalable, secure web applications for SaaS, startup, and e-commerce environments. Open to remote and onsite opportunities across India (based in Kerala).";
+function enter(i: number): React.CSSProperties {
+  return {
+    opacity: 0,
+    animation: `resumeFadeUp ${ENTRANCE_DURATION} ${ENTRANCE_EASE} both`,
+    animationDelay: `${(baseDelay + i * stagger).toFixed(2)}s`,
+  };
+}
 
-const FALLBACK_SKILL_GROUPS = [
-  { label: "Frontend", skills: ["React", "JavaScript (ES6)", "HTML5", "CSS3"] },
-  { label: "Backend", skills: ["C#", "ASP.NET Core", "RESTful API", "JWT Authentication"] },
-  { label: "Database & ORM", skills: ["SQL Server", "Entity Framework Core", "ADO.NET"] },
-  { label: "Architecture & Patterns", skills: ["Clean Architecture", "Dependency Injection"] },
-  { label: "Tools & DevOps", skills: ["Git", "GitHub", "Swagger / OpenAPI"] },
-  { label: "Languages", skills: ["English", "Malayalam"] },
-];
+function ResumeContent({ data }: { data: ResumeData }) {
+  const { pdfUrl, summary, skillGroups, experience, projects, education } = data;
 
-const FALLBACK_EXPERIENCE = [
-  {
-    role: "Software Developer Intern",
-    company: "Bridgeon Solutions",
-    period: "Jul 2025 – Present",
-    points: [
-      "Developed production-ready RESTful APIs using ASP.NET Core and Clean Architecture, ensuring scalable and maintainable backend services.",
-      "Implemented JWT-based authentication with refresh tokens and role-based access control to secure multiple backend services.",
-      "Built responsive React frontend components with lazy loading and state management, improving user experience and interface performance.",
-      "Designed normalized SQL Server schemas using Entity Framework Core and ADO.NET, ensuring efficient data access and referential integrity.",
-      "Validated all API endpoints with Swagger and automated token authentication flows to guarantee reliability and security.",
-      "Collaborated in an Agile team using Git/GitHub, actively participating in code reviews, sprint planning, and retrospectives.",
-    ],
-  },
-];
-
-const FALLBACK_PROJECTS = [
-  {
-    name: "Gamehub – Full-Stack E-Commerce Website",
-    githubUrl: "https://github.com/naheel0/GameHub-fullstack",
-    points: [
-      "Implemented secure JWT authentication (access & refresh tokens), middleware-based session validation, and role-based access control.",
-      "Developed scalable backend services with ASP.NET Core following Clean Architecture and RESTful API design principles.",
-      "Designed optimized relational database schemas in SQL Server using Entity Framework and ADO.NET for game listings, user profiles, carts, and orders.",
-      "Integrated Razorpay payment gateway, handling payment callbacks, order confirmation, and transaction status updates.",
-      "Built dynamic cart functionality (add, update, remove, clear) and order processing workflows with real-time total recalculations.",
-      "Created a responsive frontend using React, HTML, CSS, and JavaScript with lazy loading and state management.",
-      "Documented and tested all API endpoints using Swagger, ensuring reliability, security standards, and ease of integration.",
-    ],
-  },
-];
-
-const FALLBACK_EDUCATION = [
-  {
-    degree: "Bachelor of Computer Applications (BCA)",
-    school: "MES KVM College, Valanchery – Calicut University, Kerala",
-    period: "2022 – 2025",
-    coursework: "Data Structures & Algorithms, Web Development, DBMS, OOP, Software Engineering, Computer Networks",
-  },
-];
-
-// ── Animation variants ──────────────────────────────────────────
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring" as const, stiffness: 90, damping: 14 },
-  },
-};
-
-// ── Types ───────────────────────────────────────────────────────
-
-interface SkillGroup { label: string; skills: string[] }
-interface ResumeExp { role: string; company: string; period: string; points: string[] }
-interface ResumeProj { name: string; githubUrl: string | null; points: string[] }
-interface ResumeEdu { degree: string; school: string; period: string; coursework: string | null }
-
-// ── Component ───────────────────────────────────────────────────
-
-function ResumeContent() {
-  const [pdfUrl, setPdfUrl] = useState("/Naheel.pdf");
-  const [summary, setSummary] = useState(FALLBACK_SUMMARY);
-  const [skillGroups, setSkillGroups] = useState<SkillGroup[]>(FALLBACK_SKILL_GROUPS);
-  const [exps, setExps] = useState<ResumeExp[]>(FALLBACK_EXPERIENCE);
-  const [projs, setProjs] = useState<ResumeProj[]>(FALLBACK_PROJECTS);
-  const [edus, setEdus] = useState<ResumeEdu[]>(FALLBACK_EDUCATION);
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/portfolio/resume`)
-      .then(r => r.json())
-      .then(data => {
-        if (data.summary) setSummary(data.summary);
-        if (data.pdfUrl) setPdfUrl(data.pdfUrl);
-        if (data.skillGroups?.length) setSkillGroups(data.skillGroups);
-        if (data.experience?.length) setExps(data.experience);
-        if (data.projects?.length) setProjs(data.projects);
-        if (data.education?.length) setEdus(data.education);
-      })
-      .catch(() => {});
-  }, []);
+  let i = 0;
+  const nextDelay = () => i++;
 
   return (
     <div className="resume-page" id="resume">
@@ -152,18 +62,13 @@ function ResumeContent() {
         </a>
       </div>
 
-      <motion.div
-        className="resume-container"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
+      <div className="resume-container">
         {/* ===== Header ===== */}
-        <motion.header className="resume-header" variants={itemVariants}>
+        <header className="resume-header" style={enter(nextDelay())}>
           <h1 className="resume-name">Naheel Muhammed PK</h1>
           <p className="resume-role">Full Stack Developer (.NET + React)</p>
           <div className="resume-contact-row">
-            {FALLBACK_CONTACT.map((c) => {
+            {RESUME_CONTACT.map((c) => {
               const Icon = c.icon;
               return (
                 <a
@@ -183,19 +88,19 @@ function ResumeContent() {
               <span>Kerala, India</span>
             </span>
           </div>
-        </motion.header>
+        </header>
 
         {/* ===== Summary ===== */}
-        <motion.section className="resume-section-block" variants={itemVariants}>
+        <section className="resume-section-block" style={enter(nextDelay())}>
           <h2 className="resume-heading">
             <FaLayerGroup aria-hidden="true" className="resume-heading-icon" />
             Professional Summary
           </h2>
           <p className="resume-text">{summary}</p>
-        </motion.section>
+        </section>
 
         {/* ===== Skills ===== */}
-        <motion.section className="resume-section-block" variants={itemVariants}>
+        <section className="resume-section-block" style={enter(nextDelay())}>
           <h2 className="resume-heading">
             <FaLayerGroup aria-hidden="true" className="resume-heading-icon" />
             Technical Skills
@@ -212,15 +117,15 @@ function ResumeContent() {
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
         {/* ===== Experience ===== */}
-        <motion.section className="resume-section-block" variants={itemVariants}>
+        <section className="resume-section-block" style={enter(nextDelay())}>
           <h2 className="resume-heading">
             <FaBriefcase aria-hidden="true" className="resume-heading-icon" />
             Work Experience
           </h2>
-          {exps.map((job) => (
+          {experience.map((job) => (
             <article key={job.role} className="resume-entry">
               <div className="resume-entry-head">
                 <div>
@@ -230,21 +135,21 @@ function ResumeContent() {
                 <span className="resume-entry-period">{job.period}</span>
               </div>
               <ul className="resume-list">
-                {job.points.map((p, i) => (
-                  <li key={i}>{p}</li>
+                {job.points.map((p, idx) => (
+                  <li key={idx}>{p}</li>
                 ))}
               </ul>
             </article>
           ))}
-        </motion.section>
+        </section>
 
         {/* ===== Projects ===== */}
-        <motion.section className="resume-section-block" variants={itemVariants}>
+        <section className="resume-section-block" style={enter(nextDelay())}>
           <h2 className="resume-heading">
             <FaFolderOpen aria-hidden="true" className="resume-heading-icon" />
             Projects
           </h2>
-          {projs.map((proj) => (
+          {projects.map((proj) => (
             <article key={proj.name} className="resume-entry">
               <div className="resume-entry-head">
                 <h3 className="resume-entry-title">{proj.name}</h3>
@@ -261,21 +166,21 @@ function ResumeContent() {
                 )}
               </div>
               <ul className="resume-list">
-                {proj.points.map((p, i) => (
-                  <li key={i}>{p}</li>
+                {proj.points.map((p, idx) => (
+                  <li key={idx}>{p}</li>
                 ))}
               </ul>
             </article>
           ))}
-        </motion.section>
+        </section>
 
         {/* ===== Education ===== */}
-        <motion.section className="resume-section-block" variants={itemVariants}>
+        <section className="resume-section-block" style={enter(nextDelay())}>
           <h2 className="resume-heading">
             <FaGraduationCap aria-hidden="true" className="resume-heading-icon" />
             Education
           </h2>
-          {edus.map((edu) => (
+          {education.map((edu) => (
             <article key={edu.degree} className="resume-entry">
               <div className="resume-entry-head">
                 <div>
@@ -291,10 +196,10 @@ function ResumeContent() {
               )}
             </article>
           ))}
-        </motion.section>
+        </section>
 
         {/* ===== Bottom download CTA ===== */}
-        <motion.div className="resume-footer-cta no-print" variants={itemVariants}>
+        <div className="resume-footer-cta no-print" style={enter(nextDelay())}>
           <a
             href={pdfUrl}
             download={pdfUrl === "/Naheel.pdf" ? "Naheel-Muhammed-PK-Resume.pdf" : undefined}
@@ -304,8 +209,8 @@ function ResumeContent() {
             <FaFileArrowDown aria-hidden="true" />
             <span>Download PDF Version</span>
           </a>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 }
