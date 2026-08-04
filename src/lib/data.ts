@@ -15,10 +15,10 @@ export interface Contribution {
   count: number
 }
 
-export interface SkillGroup { label: string; skills: string[] }
-export interface ResumeExp { role: string; company: string; period: string; points: string[] }
-export interface ResumeProj { name: string; githubUrl: string | null; points: string[] }
-export interface ResumeEdu { degree: string; school: string; period: string; coursework: string | null }
+interface SkillGroup { label: string; skills: string[] }
+interface ResumeExp { role: string; company: string; period: string; points: string[] }
+interface ResumeProj { name: string; githubUrl: string | null; points: string[] }
+interface ResumeEdu { degree: string; school: string; period: string; coursework: string | null }
 
 export interface ResumeData {
   pdfUrl: string

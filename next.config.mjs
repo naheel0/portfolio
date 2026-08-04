@@ -13,7 +13,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    optimizePackageImports: ['framer-motion', 'react-icons/fa', 'react-icons/fa6', 'react-icons/si', 'react-icons/di', 'react-icons/tb'],
+    optimizePackageImports: ['react-icons/fa', 'react-icons/fa6', 'react-icons/si', 'react-icons/di', 'react-icons/tb'],
   },
   outputFileTracingRoot: process.cwd(),
 };

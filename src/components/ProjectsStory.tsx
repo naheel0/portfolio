@@ -6,13 +6,8 @@ import { FaGithub, FaArrowUpRightFromSquare, FaStar } from 'react-icons/fa6';
 import ProjectModal from './ProjectModal';
 import { useStoryScroll } from '@/lib/useStoryScroll';
 import { useReveal } from '@/lib/useReveal';
+import { normalizeUrl } from '@/lib/url';
 import type { PortfolioProject } from '@/lib/data';
-
-const normalizeUrl = (url: string): string => {
-  if (!url) return '#';
-  if (/^https?:\/\//i.test(url)) return url;
-  return `https://${url}`;
-};
 
 function StoryCard({
   project,

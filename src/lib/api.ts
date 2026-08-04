@@ -72,7 +72,7 @@ function mapProject(p: AdminProject, index: number): PortfolioProject {
     id: index + 1,
     title: p.title,
     description: p.description,
-    image: p.imageUrl || "/images/placeholder.png",
+    image: p.imageUrl || "/images/placeholder.svg",
     githubUrl: p.githubUrl || "#",
     demoUrl: p.liveUrl || "#",
     technologies: p.technologies || [],

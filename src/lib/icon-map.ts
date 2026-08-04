@@ -32,4 +32,4 @@ export const iconMap: Record<string, React.ComponentType<any>> = {
   TbBrandPython, TbBrandTypescript, TbBrandCSharp,
 }
 
-export const availableIcons = Object.keys(iconMap).sort()
+

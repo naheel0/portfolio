@@ -5,19 +5,13 @@ import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { FaXmark, FaGithub, FaArrowUpRightFromSquare, FaCode, FaLayerGroup } from 'react-icons/fa6';
 import { useSpringTo } from '@/lib/useSpringTo';
+import { normalizeUrl } from '@/lib/url';
 import type { PortfolioProject } from '@/lib/data';
 
 interface ProjectModalProps {
   project: PortfolioProject | null;
   onClose: () => void;
 }
-
-/** Normalize a URL — ensures it has an https:// scheme so links don't break */
-const normalizeUrl = (url: string): string => {
-  if (!url) return '#';
-  if (/^https?:\/\//i.test(url)) return url;
-  return `https://${url}`;
-};
 
 const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
   const onCloseRef = useRef(onClose);

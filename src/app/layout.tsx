@@ -3,7 +3,6 @@ import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { PT_Mono } from "next/font/google";
 import "./globals.css";
-import CustomCursor from "@/components/CustomCursor";
 import AuroraOrbs from "@/components/AuroraOrbs";
 import { getSettings } from "@/lib/api";
 
@@ -89,7 +88,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className={ptMono.variable}>
-        <CustomCursor />
         <AuroraOrbs />
         <div className="app-layout">
           <Navbar />
