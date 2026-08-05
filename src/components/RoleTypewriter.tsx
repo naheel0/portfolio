@@ -9,30 +9,41 @@ interface RoleTypewriterProps {
 export default function RoleTypewriter({ roles }: RoleTypewriterProps) {
   const list = roles.length > 0 ? roles : ["Full Stack Developer", ".NET Developer", "React Developer", "Web Developer"];
   const [roleIndex, setRoleIndex] = useState(0);
-  const [displayed, setDisplayed] = useState('');
-  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const current = list[roleIndex];
-    let timeout: ReturnType<typeof setTimeout>;
+    const typeDuration = current.length * 80;
+    const pauseDuration = 1800;
+    const deleteDuration = current.length * 40;
+    const totalCycle = typeDuration + pauseDuration + deleteDuration + 400;
 
-    if (!deleting && displayed.length < current.length) {
-      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 80);
-    } else if (!deleting && displayed.length === current.length) {
-      timeout = setTimeout(() => setDeleting(true), 1800);
-    } else if (deleting && displayed.length > 0) {
-      timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 40);
-    } else if (deleting && displayed.length === 0) {
-      setDeleting(false);
+    const timeout = setTimeout(() => {
       setRoleIndex((i) => (i + 1) % list.length);
-    }
+    }, totalCycle);
 
     return () => clearTimeout(timeout);
-  }, [displayed, deleting, roleIndex, list]);
+  }, [roleIndex, list]);
+
+  const current = list[roleIndex];
+  const typeDuration = current.length * 80;
+  const pauseDuration = 1800;
+  const deleteDuration = current.length * 40;
 
   return (
     <h2 className="typewriter hero-fade-up" style={{ animationDelay: '0s' }}>
-      {displayed}<span className="cursor">|</span>
+      <span
+        className="typewriter-text"
+        style={{
+          '--type-chars': current.length,
+          '--type-duration': `${typeDuration}ms`,
+          '--pause-duration': `${pauseDuration}ms`,
+          '--delete-duration': `${deleteDuration}ms`,
+        } as React.CSSProperties}
+        key={roleIndex}
+      >
+        {current}
+      </span>
+      <span className="cursor">|</span>
     </h2>
   );
 }

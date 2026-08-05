@@ -79,8 +79,8 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
     ? contributions.totalContributions
     : contributions.contributions.reduce((sum, day) => sum + day.count, 0);
 
-  const { gridWeeks, monthLabels, flatDays } = useMemo(() => {
-    if (contributions.contributions.length === 0) return { gridWeeks: [] as (Contribution | null)[][], monthLabels: [] as { weekIndex: number; label: string }[], flatDays: [] as { date: string; count: number; level: number; tooltip: string }[] };
+  const { gridWeeks, monthLabels, dateMap, monthMap } = useMemo(() => {
+    if (contributions.contributions.length === 0) return { gridWeeks: [] as (Contribution | null)[][], monthLabels: [] as { weekIndex: number; label: string }[], dateMap: new Map<string, { level: number; tooltip: string }>(), monthMap: new Map<number, string>() };
 
     const firstDate = new Date(contributions.contributions[0].date + "T00:00:00");
     const startOffset = firstDate.getDay();
@@ -96,6 +96,7 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
 
     const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const labels: { weekIndex: number; label: string }[] = [];
+    const mmap = new Map<number, string>();
     let lastMonth = -1;
     weeks.forEach((week, wi) => {
       const firstDay = week.find((d) => d !== null);
@@ -103,25 +104,22 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
         const m = new Date(firstDay.date + "T00:00:00").getMonth();
         if (m !== lastMonth) {
           labels.push({ weekIndex: wi, label: MONTHS[m] });
+          mmap.set(wi, MONTHS[m]);
           lastMonth = m;
         }
       }
     });
 
-    const precomputed = contributions.contributions.map((c) => {
+    const map = new Map<string, { level: number; tooltip: string }>();
+    for (const c of contributions.contributions) {
       const d = new Date(c.date + "T00:00:00");
-      const month = MONTHS[d.getMonth()];
-      const day = d.getDate();
-      const year = d.getFullYear();
-      return {
-        date: c.date,
-        count: c.count,
+      map.set(c.date, {
         level: getLevel(c.count),
-        tooltip: `${c.count} contribution${c.count !== 1 ? "s" : ""} on ${month} ${day}, ${year}`,
-      };
-    });
+        tooltip: `${c.count} contribution${c.count !== 1 ? "s" : ""} on ${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`,
+      });
+    }
 
-    return { gridWeeks: weeks, monthLabels: labels, flatDays: precomputed };
+    return { gridWeeks: weeks, monthLabels: labels, dateMap: map, monthMap: mmap };
   }, [contributions]);
 
   return (
@@ -185,14 +183,11 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
 
             <div className="calendar-right">
               <div className="calendar-months">
-                {gridWeeks.map((_, wi) => {
-                  const label = monthLabels.find((m) => m.weekIndex === wi);
-                  return (
-                    <div key={wi} className="month-label">
-                      {label ? label.label : ""}
-                    </div>
-                  );
-                })}
+                {gridWeeks.map((_, wi) => (
+                  <div key={wi} className="month-label">
+                    {monthMap.get(wi) || ""}
+                  </div>
+                ))}
               </div>
 
               <div className="calendar-grid">
@@ -202,16 +197,13 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
                       if (!day) {
                         return <div key={`${weekIndex}-${dayIndex}`} className="contribution-day contribution-day-empty" />;
                       }
-                      const flatIndex = weekIndex * 7 + dayIndex - (gridWeeks[0]?.length === 7 ? 0 : 0);
-                      const precomputed = flatDays.find((f) => f.date === day.date);
-                      const level = precomputed?.level ?? 0;
-                      const tooltip = precomputed?.tooltip ?? '';
-                      const colorClass = `contribution-day-l${level}`;
+                      const info = dateMap.get(day.date);
+                      const level = info?.level ?? 0;
                       return (
                         <div
                           key={`${weekIndex}-${dayIndex}`}
-                          className={`contribution-day ${colorClass}`}
-                          title={tooltip}
+                          className={`contribution-day contribution-day-l${level}`}
+                          title={info?.tooltip}
                         />
                       );
                     })}

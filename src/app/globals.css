@@ -190,6 +190,35 @@ img { max-width: 100%; height: auto; }
   50% { opacity: 0; }
 }
 
+/* CSS Typewriter — uses steps() for character-by-character reveal */
+.typewriter-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  border-right: none;
+  animation:
+    type-step var(--type-duration) steps(var(--type-chars), end) forwards,
+    pause-step calc(var(--type-duration) + var(--pause-duration)) steps(1, end) forwards,
+    delete-step var(--delete-duration) steps(var(--type-chars), end) forwards;
+  animation-delay: 0s, 0s, calc(var(--type-duration) + var(--pause-duration));
+}
+
+@keyframes type-step {
+  from { width: 0; }
+  to { width: calc(var(--type-chars) * 1ch); }
+}
+
+@keyframes pause-step {
+  from { width: calc(var(--type-chars) * 1ch); }
+  to { width: calc(var(--type-chars) * 1ch); }
+}
+
+@keyframes delete-step {
+  from { width: calc(var(--type-chars) * 1ch); }
+  to { width: 0; }
+}
+
 /* Intro row */
 .home-intro {
   display: flex;
@@ -231,12 +260,11 @@ img { max-width: 100%; height: auto; }
 .intro-avatar img {
   width: 320px;
   height: 320px;
-  filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.4));
-  transition: filter 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 
 .intro-avatar:hover img {
-  filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.7));
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.7);
 }
 
 .name-highlight { color: var(--accent); }
@@ -1277,8 +1305,6 @@ img { max-width: 100%; height: auto; }
 .contributions-title { color: white; font-size: 2.5rem; font-weight: 700; text-shadow: 0 0 10px rgba(34, 211, 238, 0.5); margin-bottom: 30px; letter-spacing: 0.02em; }
 .contributions-title span { color: var(--accent); text-shadow: 0 0 15px rgba(34, 211, 238, 0.7); }
 .calendar-container {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-radius: 18px;
   padding: 28px 32px;
   max-width: 860px;
@@ -1396,7 +1422,6 @@ img { max-width: 100%; height: auto; }
   border-radius: 999px;
   border: 1px solid rgba(99, 102, 241, 0.4);
   background: rgba(6, 8, 24, 0.6);
-  backdrop-filter: blur(6px);
   color: var(--text-bright);
   font-size: 0.9rem;
   font-weight: 500;
@@ -1451,7 +1476,6 @@ img { max-width: 100%; height: auto; }
   font-size: 1.2rem;
   display: flex;
   align-items: center;
-  filter: drop-shadow(0 0 4px var(--skill-color, var(--accent)));
   transform: translateZ(20px);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -1586,7 +1610,7 @@ img { max-width: 100%; height: auto; }
   border-color: transparent;
 }
 .nav-item.active .nav-item-icon {
-  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.6));
+  color: var(--accent);
 }
 
 .nav-item:focus-visible {
@@ -1790,7 +1814,6 @@ img { max-width: 100%; height: auto; }
     radial-gradient(2.3px 2.3px at 90% 65%,  rgba(255,255,255,0.85) 50%, transparent 51%),
     radial-gradient(2.7px 2.7px at 60% 8%,   rgba(207,250,254,0.95) 50%, transparent 51%);
   background-size: 340px 340px;
-  animation: stars-drift-near 90s linear infinite;
 }
 #stars-background::before {
   content: "";
@@ -1807,7 +1830,6 @@ img { max-width: 100%; height: auto; }
     radial-gradient(1.8px 1.8px at 95% 10%,  rgba(255,255,255,0.65)  50%, transparent 51%),
     radial-gradient(2px   2px   at 18% 58%,  rgba(103,232,249,0.72)  50%, transparent 51%);
   background-size: 260px 260px;
-  animation: stars-drift-mid 140s linear infinite;
 }
 #stars-background::after {
   content: "";
@@ -1826,7 +1848,6 @@ img { max-width: 100%; height: auto; }
     radial-gradient(1.4px 1.4px at 60% 30%,  rgba(255,255,255,0.42) 50%, transparent 51%),
     radial-gradient(1.5px 1.5px at 15% 45%,  rgba(165,180,252,0.48) 50%, transparent 51%);
   background-size: 200px 200px;
-  animation: stars-drift-far 220s linear infinite;
 }
 
 /* Section content must sit above the stars */
@@ -1915,21 +1936,20 @@ img { max-width: 100%; height: auto; }
   background: none;
 }
 
-/* Subtle cyan glow for illustration drop-shadows (was purple) */
+/* Subtle cyan glow for illustration (box-shadow instead of filter) */
 .home-illustration img {
   width: 347px;
   height: 366px;
-  filter: drop-shadow(0 0 22px rgba(34, 211, 238, 0.28));
-  transition: filter 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 .home-illustration:hover img {
-  filter: drop-shadow(0 0 32px rgba(34, 211, 238, 0.5));
+  box-shadow: 0 0 32px rgba(34, 211, 238, 0.5);
 }
 .intro-avatar img {
-  filter: drop-shadow(0 0 16px rgba(99, 102, 241, 0.4));
+  filter: none;
 }
 .intro-avatar:hover img {
-  filter: drop-shadow(0 0 26px rgba(99, 102, 241, 0.65));
+  box-shadow: 0 0 26px rgba(99, 102, 241, 0.65);
 }
 
 /* Skill pill: navy glass with cyan/indigo accent */
@@ -2085,33 +2105,6 @@ img { max-width: 100%; height: auto; }
   width: 640px; height: 640px;
   top: -160px; left: -140px;
   background: radial-gradient(circle, rgba(34, 211, 238, 0.55) 0%, rgba(34, 211, 238, 0.25) 25%, rgba(34, 211, 238, 0.1) 50%, rgba(34, 211, 238, 0.04) 72%, transparent 82%);
-  animation: orbDrift1 18s ease-in-out infinite;
-}
-.aurora-orb-2 {
-  width: 720px; height: 720px;
-  bottom: -200px; right: -160px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.6) 0%, rgba(99, 102, 241, 0.28) 25%, rgba(99, 102, 241, 0.12) 50%, rgba(99, 102, 241, 0.04) 72%, transparent 82%);
-  animation: orbDrift2 22s ease-in-out infinite;
-}
-.aurora-orb-3 {
-  width: 480px; height: 480px;
-  top: 45%; left: 55%;
-  background: radial-gradient(circle, rgba(129, 140, 248, 0.45) 0%, rgba(129, 140, 248, 0.2) 25%, rgba(129, 140, 248, 0.08) 50%, rgba(129, 140, 248, 0.03) 72%, transparent 82%);
-  animation: orbDrift3 26s ease-in-out infinite;
-}
-@keyframes orbDrift1 {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  33%      { transform: translate3d(80px, 60px, 0) scale(1.1); }
-  66%      { transform: translate3d(-40px, 100px, 0) scale(0.95); }
-}
-@keyframes orbDrift2 {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  33%      { transform: translate3d(-90px, -70px, 0) scale(1.08); }
-  66%      { transform: translate3d(50px, -120px, 0) scale(0.92); }
-}
-@keyframes orbDrift3 {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%      { transform: translate3d(-120px, 80px, 0) scale(1.15); }
 }
 
 /* --- 3D skill pill lift on hover --- */
