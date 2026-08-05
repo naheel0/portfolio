@@ -31,7 +31,7 @@ export default function RoleTypewriter({ roles }: RoleTypewriterProps) {
   }, [displayed, deleting, roleIndex, list]);
 
   return (
-    <h2 className="typewriter hero-fade-up" style={{ animationDelay: '0.5s' }}>
+    <h2 className="typewriter hero-fade-up" style={{ animationDelay: '0s' }}>
       {displayed}<span className="cursor">|</span>
     </h2>
   );

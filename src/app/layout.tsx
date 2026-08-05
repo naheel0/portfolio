@@ -5,7 +5,6 @@ import { PT_Mono } from "next/font/google";
 import "./globals.css";
 import AuroraOrbs from "@/components/AuroraOrbs";
 import { getSettings } from "@/lib/api";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const ptMono = PT_Mono({
   subsets: ["latin"],
@@ -93,7 +92,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
        <body className={ptMono.variable}>
         <AuroraOrbs />
-        <SpeedInsights />
         <div className="app-layout">
           <Navbar />
           <main className="app-main">{children}</main>
