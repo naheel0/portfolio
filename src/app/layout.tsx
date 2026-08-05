@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { PT_Mono } from "next/font/google";
 import "./globals.css";
+import AuroraOrbs from "@/components/AuroraOrbs";
 import { getSettings } from "@/lib/api";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-
-const Navbar = dynamic(() => import("@/components/NavBar"), { loading: () => null });
-const AuroraOrbs = dynamic(() => import("@/components/AuroraOrbs"), { loading: () => null });
 
 const ptMono = PT_Mono({
   subsets: ["latin"],
