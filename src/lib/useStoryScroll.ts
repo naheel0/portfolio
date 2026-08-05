@@ -84,17 +84,39 @@ export function useStoryScroll({
         });
       }
 
-      // Story cards.
+      // Story cards — active window only (±1 of current segment).
       const cards = cardRefs.current;
+      const active = Math.min(count - 1, Math.floor(p * count));
+
       for (let index = 0; index < count; index++) {
         const el = cards[index];
         if (!el) continue;
+
+        const inWindow = index >= active - 1 && index <= active + 1;
+
+        if (!inWindow) {
+          if (el.style.visibility !== "hidden") {
+            el.style.visibility = "hidden";
+            el.style.opacity = "0";
+            el.style.transform = "";
+          }
+          el.classList.remove("is-active");
+          el.classList.add("is-hidden");
+          el.style.pointerEvents = "none";
+          continue;
+        }
+
+        if (el.style.visibility === "hidden") {
+          el.style.visibility = "";
+        }
+        el.classList.remove("is-hidden");
+        el.classList.add("is-active");
+        el.style.pointerEvents = index === active ? "auto" : "none";
 
         const dir: Dir = DIRECTIONS[index % DIRECTIONS.length];
         const start = index * seg;
         const end = start + seg;
 
-        // Snap visibility: fully hidden outside its segment, fully visible inside.
         const vis = lerp(p, [start - 0.001, start, end - 0.001, end], [0, 1, 1, 0]);
         const opacity = vis >= 0.5 ? 1 : 0;
 

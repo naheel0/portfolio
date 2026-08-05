@@ -1,17 +1,15 @@
-import { FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt, FaGithub, FaBootstrap, FaMicrosoft } from "react-icons/fa"
+import { FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt, FaGithub, FaBootstrap, FaCode } from "react-icons/fa"
 import { SiRedux, SiTailwindcss, SiDotnet } from "react-icons/si"
-import { DiDotnet, DiDatabase } from "react-icons/di"
+import { DiDotnet, DiDatabase, DiMsqlServer } from "react-icons/di"
 import { VscCode } from "react-icons/vsc"
-import { TbDatabase } from "react-icons/tb"
+import { TbDatabase, TbBrandVisualStudio, TbBrandCSharp } from "react-icons/tb"
 
 export const iconMap: Record<string, React.ComponentType<any>> = {
-  FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt, FaGithub, FaBootstrap,
+  FaJs, FaHtml5, FaCss3Alt, FaReact, FaGitAlt, FaGithub, FaBootstrap, FaCode,
   SiRedux, SiTailwindcss, SiDotnet,
-  DiDotnet, DiDatabase,
+  DiDotnet, DiDatabase, DiMsqlServer,
   VscCode,
-  TbDatabase,
-  // Seed uses names that don't exist in react-icons — map to fallbacks
-  FaCSharp: FaMicrosoft,
-  TbBrandMssql: TbDatabase,
-  SiVisualstudio: VscCode,
+  TbDatabase, TbBrandVisualStudio, TbBrandCSharp,
 }
+
+export const DefaultIcon = FaCode;
