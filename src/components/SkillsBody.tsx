@@ -81,8 +81,8 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
     ? contributions.totalContributions
     : contributions.contributions.reduce((sum, day) => sum + day.count, 0);
 
-  const { gridWeeks, monthLabels } = useMemo(() => {
-    if (contributions.contributions.length === 0) return { gridWeeks: [] as (Contribution | null)[][], monthLabels: [] as { weekIndex: number; label: string }[] };
+  const { gridWeeks, monthLabels, dateMap, monthMap } = useMemo(() => {
+    if (contributions.contributions.length === 0) return { gridWeeks: [] as (Contribution | null)[][], monthLabels: [] as { weekIndex: number; label: string }[], dateMap: new Map<string, { level: number; tooltip: string }>(), monthMap: new Map<number, string>() };
 
     const firstDate = new Date(contributions.contributions[0].date + "T00:00:00");
     const startOffset = firstDate.getDay();
@@ -98,6 +98,7 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
 
     const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const labels: { weekIndex: number; label: string }[] = [];
+    const mmap = new Map<number, string>();
     let lastMonth = -1;
     weeks.forEach((week, wi) => {
       const firstDay = week.find((d) => d !== null);
@@ -105,12 +106,22 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
         const m = new Date(firstDay.date + "T00:00:00").getMonth();
         if (m !== lastMonth) {
           labels.push({ weekIndex: wi, label: MONTHS[m] });
+          mmap.set(wi, MONTHS[m]);
           lastMonth = m;
         }
       }
     });
 
-    return { gridWeeks: weeks, monthLabels: labels };
+    const map = new Map<string, { level: number; tooltip: string }>();
+    for (const c of contributions.contributions) {
+      const d = new Date(c.date + "T00:00:00");
+      map.set(c.date, {
+        level: getLevel(c.count),
+        tooltip: `${c.count} contribution${c.count !== 1 ? "s" : ""} on ${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`,
+      });
+    }
+
+    return { gridWeeks: weeks, monthLabels: labels, dateMap: map, monthMap: mmap };
   }, [contributions]);
 
   return (
@@ -162,34 +173,27 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
 
             <div className="calendar-right">
               <div className="calendar-months">
-                {gridWeeks.map((_, wi) => {
-                  const label = monthLabels.find((m) => m.weekIndex === wi);
-                  return (
-                    <div key={wi} className="month-label">
-                      {label ? label.label : ""}
-                    </div>
-                  );
-                })}
+                {gridWeeks.map((_, wi) => (
+                  <div key={wi} className="month-label">
+                    {monthMap.get(wi) || ""}
+                  </div>
+                ))}
               </div>
 
               <div className="calendar-grid">
                 {gridWeeks.map((week, weekIndex) => (
                   <div key={weekIndex} className="week-column">
                     {week.map((day, dayIndex) => {
-                      const level = day ? getLevel(day.count) : -1;
+                      if (!day) {
+                        return <div key={`${weekIndex}-${dayIndex}`} className="contribution-day contribution-day-empty" />;
+                      }
+                      const info = dateMap.get(day.date);
+                      const level = info?.level ?? 0;
                       return (
                         <div
                           key={`${weekIndex}-${dayIndex}`}
-                          className="contribution-day"
-                          style={{
-                            backgroundColor: level >= 0 ? LEVEL_COLORS[level] : "transparent",
-                            visibility: day ? "visible" : "hidden",
-                          }}
-                          title={
-                            day?.date
-                              ? `${day.count} contribution${day.count !== 1 ? "s" : ""} on ${new Date(day.date + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
-                              : undefined
-                          }
+                          className={`contribution-day contribution-day-l${level}`}
+                          title={info?.tooltip}
                         />
                       );
                     })}

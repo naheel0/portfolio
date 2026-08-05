@@ -10,8 +10,6 @@ export default function AuroraOrbs() {
   return (
     <div className="aurora-orbs" aria-hidden="true">
       <div className="aurora-orb aurora-orb-1" />
-      <div className="aurora-orb aurora-orb-2" />
-      <div className="aurora-orb aurora-orb-3" />
     </div>
   );
 }
