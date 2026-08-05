@@ -975,9 +975,9 @@ img { max-width: 100%; height: auto; }
 .pmd-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(6, 8, 24, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(6, 8, 24, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 10000;
   display: flex;
   align-items: center;
@@ -1502,9 +1502,7 @@ img { max-width: 100%; height: auto; }
   padding: 6px 6px 6px 10px;
   border-radius: 16px;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, rgba(6, 8, 24, 0.9) 0%, rgba(14, 19, 48, 0.85) 100%);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  backdrop-filter: blur(20px) saturate(1.4);
+  background: linear-gradient(135deg, rgba(6, 8, 24, 0.97) 0%, rgba(14, 19, 48, 0.95) 100%);
   border: 1px solid rgba(99, 102, 241, 0.22);
   box-shadow:
     0 0 30px rgba(34, 211, 238, 0.08),
@@ -2078,27 +2076,25 @@ img { max-width: 100%; height: auto; }
 .aurora-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
   opacity: 0.55;
   will-change: transform;
-  mix-blend-mode: screen;
 }
 .aurora-orb-1 {
-  width: 480px; height: 480px;
-  top: -120px; left: -100px;
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.55) 0%, rgba(34, 211, 238, 0.15) 40%, transparent 70%);
+  width: 640px; height: 640px;
+  top: -160px; left: -140px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.55) 0%, rgba(34, 211, 238, 0.25) 25%, rgba(34, 211, 238, 0.1) 50%, rgba(34, 211, 238, 0.04) 72%, transparent 82%);
   animation: orbDrift1 18s ease-in-out infinite;
 }
 .aurora-orb-2 {
-  width: 540px; height: 540px;
-  bottom: -160px; right: -120px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.6) 0%, rgba(99, 102, 241, 0.18) 40%, transparent 70%);
+  width: 720px; height: 720px;
+  bottom: -200px; right: -160px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.6) 0%, rgba(99, 102, 241, 0.28) 25%, rgba(99, 102, 241, 0.12) 50%, rgba(99, 102, 241, 0.04) 72%, transparent 82%);
   animation: orbDrift2 22s ease-in-out infinite;
 }
 .aurora-orb-3 {
-  width: 360px; height: 360px;
+  width: 480px; height: 480px;
   top: 45%; left: 55%;
-  background: radial-gradient(circle, rgba(129, 140, 248, 0.45) 0%, rgba(129, 140, 248, 0.1) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.45) 0%, rgba(129, 140, 248, 0.2) 25%, rgba(129, 140, 248, 0.08) 50%, rgba(129, 140, 248, 0.03) 72%, transparent 82%);
   animation: orbDrift3 26s ease-in-out infinite;
 }
 @keyframes orbDrift1 {

@@ -4,6 +4,7 @@ import AboutContent from "./AboutContent";
 import SkillsSection from "./SkillsSection";
 import ProjectsContent from "./ProjectsContent";
 import ContactContent from "./ContactContent";
+import LazySection from "./LazySection";
 
 const Portfolio = async () => {
   const settings = await getSettings();
@@ -13,7 +14,9 @@ const Portfolio = async () => {
       <AboutContent />
       <SkillsSection />
       <ProjectsContent />
-      <ContactContent settings={settings} />
+      <LazySection>
+        <ContactContent settings={settings} />
+      </LazySection>
     </>
   );
 };
