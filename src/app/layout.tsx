@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/NavBar";
+import dynamic from "next/dynamic";
 import Footer from "@/components/Footer";
 import { PT_Mono } from "next/font/google";
 import "./globals.css";
-import AuroraOrbs from "@/components/AuroraOrbs";
 import { getSettings } from "@/lib/api";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
+const Navbar = dynamic(() => import("@/components/NavBar"), { loading: () => null });
+const AuroraOrbs = dynamic(() => import("@/components/AuroraOrbs"), { loading: () => null });
 
 const ptMono = PT_Mono({
   subsets: ["latin"],
@@ -86,6 +88,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <head>
         <link rel="preconnect" href="https://admin.naheel.me" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" as="image" href="/images/home-main.webp" imageSizes="(max-width: 992px) 280px, 347px" imageSrcSet="/images/home-main.webp" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
        <body className={ptMono.variable}>

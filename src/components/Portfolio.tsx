@@ -1,10 +1,11 @@
+import dynamic from "next/dynamic";
 import { getSettings } from "@/lib/api";
 import HomeContent from "./HomeContent";
-import AboutContent from "./AboutContent";
-import SkillsSection from "./SkillsSection";
-import ProjectsContent from "./ProjectsContent";
-import ContactContent from "./ContactContent";
-import LazySection from "./LazySection";
+
+const AboutContent = dynamic(() => import("./AboutContent"), { loading: () => null });
+const SkillsSection = dynamic(() => import("./SkillsSection"), { loading: () => null });
+const ProjectsContent = dynamic(() => import("./ProjectsContent"), { loading: () => null });
+const ContactContent = dynamic(() => import("./ContactContent"), { loading: () => null });
 
 const Portfolio = async () => {
   const settings = await getSettings();
@@ -14,9 +15,7 @@ const Portfolio = async () => {
       <AboutContent />
       <SkillsSection />
       <ProjectsContent />
-      <LazySection>
-        <ContactContent settings={settings} />
-      </LazySection>
+      <ContactContent settings={settings} />
     </>
   );
 };
