@@ -727,6 +727,14 @@ img { max-width: 100%; height: auto; }
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
+/* --- Story card performance states (toggled by useStoryScroll) --- */
+.story-card.is-active {
+  will-change: transform, opacity;
+}
+.story-card.is-hidden {
+  content-visibility: hidden;
+}
+
 /* Image — left side */
 .story-card-img {
   position: relative;
