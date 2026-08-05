@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { useTilt3D } from "@/lib/useTilt3D";
+import { useTiltContainer } from "@/lib/useTiltContainer";
 import { useReveal } from "@/lib/useReveal";
 import { iconMap, DefaultIcon } from "@/lib/icon-map";
 import type { ResolvedSkill, Contribution, ContributionsData } from '@/lib/data';
@@ -39,15 +39,11 @@ interface SkillPillProps {
 }
 
 function SkillPill({ name, color, icon: Icon }: SkillPillProps) {
-  const tiltRef = useTilt3D<HTMLDivElement>();
   const revealRef = useReveal<HTMLDivElement>(0.3);
 
   return (
     <div
-      ref={(el) => {
-        (revealRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
-        (tiltRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
-      }}
+      ref={revealRef}
       className="skill-pill tilt-3d skill-pill-reveal"
       style={{ "--skill-color": color } as React.CSSProperties}
     >
@@ -71,8 +67,10 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
 
   const skillsTitleRef = useReveal<HTMLHeadingElement>();
   const skillsPillsRef = useReveal<HTMLDivElement>(0.1);
+  const skillsTiltRef = useTiltContainer<HTMLDivElement>();
   const toolsTitleRef = useReveal<HTMLHeadingElement>();
   const toolsPillsRef = useReveal<HTMLDivElement>(0.1);
+  const toolsTiltRef = useTiltContainer<HTMLDivElement>();
   const contribTitleRef = useReveal<HTMLHeadingElement>();
   const calendarRef = useReveal<HTMLDivElement>(0.1);
   const footerRef = useReveal<HTMLDivElement>();
@@ -130,7 +128,13 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
         <h2 className="skills-title skill-scroll-reveal" ref={skillsTitleRef}>
           Professional <span>Skillset</span>
         </h2>
-        <div className="skills-pills skill-scroll-reveal" ref={skillsPillsRef}>
+        <div
+          ref={(el) => {
+            (skillsPillsRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+            (skillsTiltRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+          }}
+          className="skills-pills skill-scroll-reveal"
+        >
           {resolvedSkills.map((skill) => (
             <SkillPill
               key={skill.name}
@@ -144,7 +148,13 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
         <h2 className="skills-title skill-scroll-reveal" ref={toolsTitleRef} style={{ marginTop: "60px" }}>
           Tools <span>I Use</span>
         </h2>
-        <div className="skills-pills skill-scroll-reveal" ref={toolsPillsRef}>
+        <div
+          ref={(el) => {
+            (toolsPillsRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+            (toolsTiltRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+          }}
+          className="skills-pills skill-scroll-reveal"
+        >
           {resolvedTools.map((tool) => (
             <SkillPill
               key={tool.name}
