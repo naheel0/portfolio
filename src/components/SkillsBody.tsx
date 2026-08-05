@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { useTilt3D } from "@/lib/useTilt3D";
 import { useReveal } from "@/lib/useReveal";
 import { iconMap } from "@/lib/icon-map";
+import { FaCode } from "react-icons/fa";
 import type { ResolvedSkill, Contribution, ContributionsData } from '@/lib/data';
 
 interface SkillsBodyProps {
@@ -59,10 +60,13 @@ function SkillPill({ name, color, icon: Icon }: SkillPillProps) {
   );
 }
 
+const DefaultIcon = FaCode;
+
 const resolve = (items: ResolvedSkill[]): ResolvedWithIcon[] =>
-  items
-    .map((it) => ({ ...it, iconComponent: it.icon ? iconMap[it.icon] || null : null }))
-    .filter((it) => it.iconComponent !== null);
+  items.map((it) => ({
+    ...it,
+    iconComponent: it.icon ? iconMap[it.icon] || DefaultIcon : DefaultIcon,
+  }));
 
 function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
   const resolvedSkills = useMemo(() => resolve(skills), [skills]);
