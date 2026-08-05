@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import { PT_Mono } from "next/font/google";
 import "./globals.css";
 import AuroraOrbs from "@/components/AuroraOrbs";
 import { getSettings } from "@/lib/api";
 
-const ptMono = PT_Mono({
-  subsets: ["latin"],
-  weight: ["400"],
+const ptMono = localFont({
+  src: "../fonts/pt-mono-latin.woff2",
   variable: "--font-pt-mono",
   display: "swap",
 });
@@ -85,8 +84,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <head>
         <link rel="preconnect" href="https://admin.naheel.me" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preload" as="image" href="/images/home-main.webp" imageSizes="(max-width: 992px) 280px, 347px" imageSrcSet="/images/home-main.webp" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
