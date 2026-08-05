@@ -2070,8 +2070,8 @@ img { max-width: 100%; height: auto; }
 .aurora-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(30px);
-  opacity: 0.35;
+  filter: blur(60px);
+  opacity: 0.55;
   will-change: transform;
   mix-blend-mode: screen;
 }

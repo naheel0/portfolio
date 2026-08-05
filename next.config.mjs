@@ -1,10 +1,12 @@
+import withBundleAnalyzer from "@next/bundle-analyzer";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
     formats: ['image/avif', 'image/webp'],
-    deviceSizes: [480, 768, 1024, 1280, 1600],
+    deviceSizes: [375, 390, 480, 768, 1024, 1280, 1600],
     remotePatterns: [
       {
         protocol: 'https',
@@ -14,8 +16,11 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['react-icons/fa', 'react-icons/fa6', 'react-icons/si', 'react-icons/di', 'react-icons/tb', 'react-icons/vsc'],
+    optimizeCss: true,
   },
   outputFileTracingRoot: process.cwd(),
 };
 
-export default nextConfig;
+export default withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})(nextConfig);
