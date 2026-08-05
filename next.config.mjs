@@ -17,6 +17,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['react-icons/fa', 'react-icons/fa6', 'react-icons/si', 'react-icons/di', 'react-icons/tb', 'react-icons/vsc'],
     optimizeCss: true,
+    reactCompiler: true,
   },
   outputFileTracingRoot: process.cwd(),
 };
