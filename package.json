@@ -23,7 +23,6 @@
     "@types/node": "^20.17.24",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "plaiceholder": "^3.0.0",
     "typescript": "^5.7.3"
   },
   "overrides": {
