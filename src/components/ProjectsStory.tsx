@@ -1,9 +1,9 @@
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, Suspense, lazy } from 'react';
 import Image from 'next/image';
 import { FaGithub, FaArrowUpRightFromSquare, FaStar } from 'react-icons/fa6';
-import ProjectModal from './ProjectModal';
+const ProjectModal = lazy(() => import('./ProjectModal'));
 import { useStoryScroll } from '@/lib/useStoryScroll';
 import { useReveal } from '@/lib/useReveal';
 import { normalizeUrl } from '@/lib/url';
@@ -204,10 +204,12 @@ function ProjectsStory({ projects }: { projects: PortfolioProject[] }) {
         </div>
       </div>
 
-      <ProjectModal
-        project={selectedProject}
-        onClose={handleClose}
-      />
+      <Suspense fallback={null}>
+        <ProjectModal
+          project={selectedProject}
+          onClose={handleClose}
+        />
+      </Suspense>
     </section>
   );
 }

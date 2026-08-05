@@ -173,14 +173,18 @@ function buildDemoContributions(): Contribution[] {
   return data
 }
 
-const demoContributions: ContributionsData = (() => {
-  const contributions = buildDemoContributions()
-  return {
-    contributions,
-    totalContributions: contributions.reduce((sum, day) => sum + day.count, 0),
-    error: null,
+let _demoContributions: ContributionsData | null = null;
+function getDemoContributions(): ContributionsData {
+  if (!_demoContributions) {
+    const contributions = buildDemoContributions();
+    _demoContributions = {
+      contributions,
+      totalContributions: contributions.reduce((sum, day) => sum + day.count, 0),
+      error: null,
+    };
   }
-})()
+  return _demoContributions;
+}
 
 // ── Public data loaders ──────────────────────────────────────────
 
@@ -229,7 +233,7 @@ export async function getContributions(): Promise<ContributionsData> {
 
   if (!token) {
     return {
-      ...demoContributions,
+      ...getDemoContributions(),
       error: "Add GITHUB_TOKEN to Vercel environment variables for real GitHub data",
     }
   }
@@ -287,7 +291,7 @@ export async function getContributions(): Promise<ContributionsData> {
     }
   } catch (err) {
     return {
-      ...demoContributions,
+      ...getDemoContributions(),
       error: `Real data unavailable: ${err instanceof Error ? err.message : "Unknown error"}`,
     }
   }

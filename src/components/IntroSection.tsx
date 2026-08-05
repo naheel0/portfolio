@@ -1,26 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { useRef, useState, useEffect } from 'react';
-
-function useInView(ref: React.RefObject<HTMLElement | null>, threshold = 0.3) {
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } }, { threshold });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return inView;
-}
+import { useReveal } from '@/lib/useReveal';
 
 function IntroSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref);
+  const ref = useReveal<HTMLDivElement>();
 
   return (
-    <div ref={ref} className={`home-intro ${inView ? 'intro-visible' : ''}`}>
+    <div ref={ref} className="home-intro visible">
       <div className="intro-text">
         <h2 className="intro-heading hero-fade-up">
           LET ME <span>INTRODUCE</span> MYSELF
@@ -43,7 +30,7 @@ function IntroSection() {
       </div>
 
       <div className="intro-avatar float-3d hero-fade-up" style={{ animationDelay: '0.2s' }}>
-        <Image src="/avatar.svg" alt="Naheel Muhammed PK Avatar" width={320} height={320} loading="eager" decoding="async" />
+        <Image src="/avatar.svg" alt="Naheel Muhammed PK Avatar" width={320} height={320} loading="lazy" decoding="async" />
       </div>
     </div>
   );
