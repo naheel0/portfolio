@@ -143,7 +143,11 @@ export function useStoryScroll({
       if (raf == null) raf = requestAnimationFrame(apply);
     };
 
-    apply();
+    if (typeof requestIdleCallback !== 'undefined') {
+      requestIdleCallback(schedule);
+    } else {
+      setTimeout(schedule, 0);
+    }
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     window.addEventListener("load", schedule);

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { useTilt3D } from "@/lib/useTilt3D";
+import { useTiltContainer } from "@/lib/useTiltContainer";
 import { useReveal } from "@/lib/useReveal";
 import { iconMap, DefaultIcon } from "@/lib/icon-map";
 import type { ResolvedSkill, Contribution, ContributionsData } from '@/lib/data';
@@ -39,15 +39,11 @@ interface SkillPillProps {
 }
 
 function SkillPill({ name, color, icon: Icon }: SkillPillProps) {
-  const tiltRef = useTilt3D<HTMLDivElement>();
   const revealRef = useReveal<HTMLDivElement>(0.3);
 
   return (
     <div
-      ref={(el) => {
-        (revealRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
-        (tiltRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
-      }}
+      ref={revealRef}
       className="skill-pill tilt-3d skill-pill-reveal"
       style={{ "--skill-color": color } as React.CSSProperties}
     >
@@ -71,8 +67,10 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
 
   const skillsTitleRef = useReveal<HTMLHeadingElement>();
   const skillsPillsRef = useReveal<HTMLDivElement>(0.1);
+  const skillsTiltRef = useTiltContainer<HTMLDivElement>();
   const toolsTitleRef = useReveal<HTMLHeadingElement>();
   const toolsPillsRef = useReveal<HTMLDivElement>(0.1);
+  const toolsTiltRef = useTiltContainer<HTMLDivElement>();
   const contribTitleRef = useReveal<HTMLHeadingElement>();
   const calendarRef = useReveal<HTMLDivElement>(0.1);
   const footerRef = useReveal<HTMLDivElement>();
@@ -81,8 +79,8 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
     ? contributions.totalContributions
     : contributions.contributions.reduce((sum, day) => sum + day.count, 0);
 
-  const { gridWeeks, monthLabels } = useMemo(() => {
-    if (contributions.contributions.length === 0) return { gridWeeks: [] as (Contribution | null)[][], monthLabels: [] as { weekIndex: number; label: string }[] };
+  const { gridWeeks, monthLabels, flatDays } = useMemo(() => {
+    if (contributions.contributions.length === 0) return { gridWeeks: [] as (Contribution | null)[][], monthLabels: [] as { weekIndex: number; label: string }[], flatDays: [] as { date: string; count: number; level: number; tooltip: string }[] };
 
     const firstDate = new Date(contributions.contributions[0].date + "T00:00:00");
     const startOffset = firstDate.getDay();
@@ -110,7 +108,20 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
       }
     });
 
-    return { gridWeeks: weeks, monthLabels: labels };
+    const precomputed = contributions.contributions.map((c) => {
+      const d = new Date(c.date + "T00:00:00");
+      const month = MONTHS[d.getMonth()];
+      const day = d.getDate();
+      const year = d.getFullYear();
+      return {
+        date: c.date,
+        count: c.count,
+        level: getLevel(c.count),
+        tooltip: `${c.count} contribution${c.count !== 1 ? "s" : ""} on ${month} ${day}, ${year}`,
+      };
+    });
+
+    return { gridWeeks: weeks, monthLabels: labels, flatDays: precomputed };
   }, [contributions]);
 
   return (
@@ -119,7 +130,13 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
         <h2 className="skills-title skill-scroll-reveal" ref={skillsTitleRef}>
           Professional <span>Skillset</span>
         </h2>
-        <div className="skills-pills skill-scroll-reveal" ref={skillsPillsRef}>
+        <div
+          ref={(el) => {
+            (skillsPillsRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+            (skillsTiltRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+          }}
+          className="skills-pills skill-scroll-reveal"
+        >
           {resolvedSkills.map((skill) => (
             <SkillPill
               key={skill.name}
@@ -133,7 +150,13 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
         <h2 className="skills-title skill-scroll-reveal" ref={toolsTitleRef} style={{ marginTop: "60px" }}>
           Tools <span>I Use</span>
         </h2>
-        <div className="skills-pills skill-scroll-reveal" ref={toolsPillsRef}>
+        <div
+          ref={(el) => {
+            (toolsPillsRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+            (toolsTiltRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+          }}
+          className="skills-pills skill-scroll-reveal"
+        >
           {resolvedTools.map((tool) => (
             <SkillPill
               key={tool.name}
@@ -176,20 +199,19 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
                 {gridWeeks.map((week, weekIndex) => (
                   <div key={weekIndex} className="week-column">
                     {week.map((day, dayIndex) => {
-                      const level = day ? getLevel(day.count) : -1;
+                      if (!day) {
+                        return <div key={`${weekIndex}-${dayIndex}`} className="contribution-day contribution-day-empty" />;
+                      }
+                      const flatIndex = weekIndex * 7 + dayIndex - (gridWeeks[0]?.length === 7 ? 0 : 0);
+                      const precomputed = flatDays.find((f) => f.date === day.date);
+                      const level = precomputed?.level ?? 0;
+                      const tooltip = precomputed?.tooltip ?? '';
+                      const colorClass = `contribution-day-l${level}`;
                       return (
                         <div
                           key={`${weekIndex}-${dayIndex}`}
-                          className="contribution-day"
-                          style={{
-                            backgroundColor: level >= 0 ? LEVEL_COLORS[level] : "transparent",
-                            visibility: day ? "visible" : "hidden",
-                          }}
-                          title={
-                            day?.date
-                              ? `${day.count} contribution${day.count !== 1 ? "s" : ""} on ${new Date(day.date + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
-                              : undefined
-                          }
+                          className={`contribution-day ${colorClass}`}
+                          title={tooltip}
                         />
                       );
                     })}

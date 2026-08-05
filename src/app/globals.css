@@ -1319,6 +1319,12 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 0 8px rgba(34, 211, 238, 0.6);
   z-index: 2;
 }
+.contribution-day-empty { visibility: hidden; }
+.contribution-day-l0 { background-color: #0a0e1f; }
+.contribution-day-l1 { background-color: #164e63; }
+.contribution-day-l2 { background-color: #0e7490; }
+.contribution-day-l3 { background-color: #0891b2; }
+.contribution-day-l4 { background-color: #22d3ee; }
 .calendar-footer { display: flex; justify-content: space-between; align-items: center; color: var(--accent); flex-wrap: wrap; gap: 15px; margin-top: 14px; }
 .calendar-legend { display: flex; align-items: center; gap: 8px; font-size: 12px; }
 .legend-colors { display: flex; gap: 3px; }
