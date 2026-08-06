@@ -1,3 +1,6 @@
+'use client';
+
+import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   FaEnvelope,
@@ -13,15 +16,25 @@ import {
   FaFolderOpen,
   FaLayerGroup,
 } from "react-icons/fa6";
-import type { ResumeData } from "@/lib/data";
 
-// Entrance stagger — matches the previous on-load spring stagger.
-const ENTRANCE_DURATION = "0.6s";
-const ENTRANCE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
-const baseDelay = 0.1;
-const stagger = 0.08;
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+};
 
-const RESUME_CONTACT = [
+const itemVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 90, damping: 14 },
+  },
+};
+
+const contactLinks = [
   { icon: FaEnvelope, label: "hello@naheel.me", href: "mailto:hello@naheel.me" },
   { icon: FaPhone, label: "+91 7306912910", href: "tel:+917306912910" },
   { icon: FaGithub, label: "github.com/naheel0", href: "https://github.com/naheel0" },
@@ -29,20 +42,58 @@ const RESUME_CONTACT = [
   { icon: FaGlobe, label: "www.naheel.me", href: "https://www.naheel.me" },
 ];
 
-function enter(i: number): React.CSSProperties {
-  return {
-    opacity: 0,
-    animation: `resumeFadeUp ${ENTRANCE_DURATION} ${ENTRANCE_EASE} both`,
-    animationDelay: `${(baseDelay + i * stagger).toFixed(2)}s`,
-  };
-}
+const skillGroups = [
+  { label: "Frontend", skills: ["React", "JavaScript (ES6)", "HTML5", "CSS3"] },
+  { label: "Backend", skills: ["C#", "ASP.NET Core", "RESTful API", "JWT Authentication"] },
+  { label: "Database & ORM", skills: ["SQL Server", "Entity Framework Core", "ADO.NET"] },
+  { label: "Architecture & Patterns", skills: ["Clean Architecture", "Dependency Injection"] },
+  { label: "Tools & DevOps", skills: ["Git", "GitHub", "Swagger / OpenAPI"] },
+  { label: "Languages", skills: ["English", "Malayalam"] },
+];
 
-function ResumeContent({ data }: { data: ResumeData }) {
-  const { pdfUrl, summary, skillGroups, experience, projects, education } = data;
+const experience = [
+  {
+    role: "Software Developer Intern",
+    company: "Bridgeon Solutions",
+    period: "Jul 2025 – Present",
+    points: [
+      "Developed production-ready RESTful APIs using ASP.NET Core and Clean Architecture, ensuring scalable and maintainable backend services.",
+      "Implemented JWT-based authentication with refresh tokens and role-based access control to secure multiple backend services.",
+      "Built responsive React frontend components with lazy loading and state management, improving user experience and interface performance.",
+      "Designed normalized SQL Server schemas using Entity Framework Core and ADO.NET, ensuring efficient data access and referential integrity.",
+      "Validated all API endpoints with Swagger and automated token authentication flows to guarantee reliability and security.",
+      "Collaborated in an Agile team using Git/GitHub, actively participating in code reviews, sprint planning, and retrospectives.",
+    ],
+  },
+];
 
-  let i = 0;
-  const nextDelay = () => i++;
+const projects = [
+  {
+    name: "Gamehub – Full-Stack E-Commerce Website",
+    githubUrl: "https://github.com/naheel0/GameHub-fullstack",
+    points: [
+      "Implemented secure JWT authentication (access & refresh tokens), middleware-based session validation, and role-based access control.",
+      "Developed scalable backend services with ASP.NET Core following Clean Architecture and RESTful API design principles.",
+      "Designed optimized relational database schemas in SQL Server using Entity Framework and ADO.NET for game listings, user profiles, carts, and orders.",
+      "Integrated Razorpay payment gateway, handling payment callbacks, order confirmation, and transaction status updates.",
+      "Built dynamic cart functionality (add, update, remove, clear) and order processing workflows with real-time total recalculations.",
+      "Created a responsive frontend using React, HTML, CSS, and JavaScript with lazy loading and state management.",
+      "Documented and tested all API endpoints using Swagger, ensuring reliability, security standards, and ease of integration.",
+    ],
+  },
+];
 
+const education = [
+  {
+    degree: "Bachelor of Computer Applications (BCA)",
+    school: "MES KVM College, Valanchery – Calicut University, Kerala",
+    period: "2022 – 2025",
+    coursework:
+      "Data Structures & Algorithms, Web Development, DBMS, OOP, Software Engineering, Computer Networks",
+  },
+];
+
+function ResumeContent() {
   return (
     <div className="resume-page" id="resume">
       {/* Sticky action bar */}
@@ -52,8 +103,8 @@ function ResumeContent({ data }: { data: ResumeData }) {
           <span>Back</span>
         </Link>
         <a
-          href={pdfUrl}
-          download={pdfUrl === "/Naheel.pdf" ? "Naheel-Muhammed-PK-Resume.pdf" : undefined}
+          href="/Naheel.pdf"
+          download="Naheel-Muhammed-PK-Resume.pdf"
           className="resume-action-btn resume-download-btn"
           aria-label="Download Resume PDF"
         >
@@ -62,13 +113,18 @@ function ResumeContent({ data }: { data: ResumeData }) {
         </a>
       </div>
 
-      <div className="resume-container">
+      <motion.div
+        className="resume-container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {/* ===== Header ===== */}
-        <header className="resume-header" style={enter(nextDelay())}>
+        <motion.header className="resume-header" variants={itemVariants}>
           <h1 className="resume-name">Naheel Muhammed PK</h1>
           <p className="resume-role">Full Stack Developer (.NET + React)</p>
           <div className="resume-contact-row">
-            {RESUME_CONTACT.map((c) => {
+            {contactLinks.map((c) => {
               const Icon = c.icon;
               return (
                 <a
@@ -88,19 +144,25 @@ function ResumeContent({ data }: { data: ResumeData }) {
               <span>Kerala, India</span>
             </span>
           </div>
-        </header>
+        </motion.header>
 
         {/* ===== Summary ===== */}
-        <section className="resume-section-block" style={enter(nextDelay())}>
+        <motion.section className="resume-section-block" variants={itemVariants}>
           <h2 className="resume-heading">
             <FaLayerGroup aria-hidden="true" className="resume-heading-icon" />
             Professional Summary
           </h2>
-          <p className="resume-text">{summary}</p>
-        </section>
+          <p className="resume-text">
+            Full Stack Developer (.NET + React) with a BCA and hands-on internship experience
+            building RESTful APIs, JWT-authenticated backends, and responsive frontends. Skilled in
+            Clean Architecture, ASP.NET Core, Entity Framework, and SQL Server. Passionate about
+            building scalable, secure web applications for SaaS, startup, and e-commerce
+            environments. Open to remote and onsite opportunities across India (based in Kerala).
+          </p>
+        </motion.section>
 
         {/* ===== Skills ===== */}
-        <section className="resume-section-block" style={enter(nextDelay())}>
+        <motion.section className="resume-section-block" variants={itemVariants}>
           <h2 className="resume-heading">
             <FaLayerGroup aria-hidden="true" className="resume-heading-icon" />
             Technical Skills
@@ -111,16 +173,18 @@ function ResumeContent({ data }: { data: ResumeData }) {
                 <h3 className="resume-skill-group-label">{group.label}</h3>
                 <div className="resume-skill-chips">
                   {group.skills.map((s) => (
-                    <span key={s} className="resume-chip">{s}</span>
+                    <span key={s} className="resume-chip">
+                      {s}
+                    </span>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* ===== Experience ===== */}
-        <section className="resume-section-block" style={enter(nextDelay())}>
+        <motion.section className="resume-section-block" variants={itemVariants}>
           <h2 className="resume-heading">
             <FaBriefcase aria-hidden="true" className="resume-heading-icon" />
             Work Experience
@@ -135,16 +199,16 @@ function ResumeContent({ data }: { data: ResumeData }) {
                 <span className="resume-entry-period">{job.period}</span>
               </div>
               <ul className="resume-list">
-                {job.points.map((p, idx) => (
-                  <li key={idx}>{p}</li>
+                {job.points.map((p, i) => (
+                  <li key={i}>{p}</li>
                 ))}
               </ul>
             </article>
           ))}
-        </section>
+        </motion.section>
 
         {/* ===== Projects ===== */}
-        <section className="resume-section-block" style={enter(nextDelay())}>
+        <motion.section className="resume-section-block" variants={itemVariants}>
           <h2 className="resume-heading">
             <FaFolderOpen aria-hidden="true" className="resume-heading-icon" />
             Projects
@@ -153,29 +217,27 @@ function ResumeContent({ data }: { data: ResumeData }) {
             <article key={proj.name} className="resume-entry">
               <div className="resume-entry-head">
                 <h3 className="resume-entry-title">{proj.name}</h3>
-                {proj.githubUrl && (
-                  <a
-                    href={proj.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="resume-entry-link no-print"
-                    aria-label={`${proj.name} on GitHub`}
-                  >
-                    <FaGithub aria-hidden="true" />
-                  </a>
-                )}
+                <a
+                  href={proj.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="resume-entry-link no-print"
+                  aria-label={`${proj.name} on GitHub`}
+                >
+                  <FaGithub aria-hidden="true" />
+                </a>
               </div>
               <ul className="resume-list">
-                {proj.points.map((p, idx) => (
-                  <li key={idx}>{p}</li>
+                {proj.points.map((p, i) => (
+                  <li key={i}>{p}</li>
                 ))}
               </ul>
             </article>
           ))}
-        </section>
+        </motion.section>
 
         {/* ===== Education ===== */}
-        <section className="resume-section-block" style={enter(nextDelay())}>
+        <motion.section className="resume-section-block" variants={itemVariants}>
           <h2 className="resume-heading">
             <FaGraduationCap aria-hidden="true" className="resume-heading-icon" />
             Education
@@ -189,28 +251,26 @@ function ResumeContent({ data }: { data: ResumeData }) {
                 </div>
                 <span className="resume-entry-period">{edu.period}</span>
               </div>
-              {edu.coursework && (
-                <p className="resume-text resume-coursework">
-                  <strong>Relevant Coursework:</strong> {edu.coursework}
-                </p>
-              )}
+              <p className="resume-text resume-coursework">
+                <strong>Relevant Coursework:</strong> {edu.coursework}
+              </p>
             </article>
           ))}
-        </section>
+        </motion.section>
 
         {/* ===== Bottom download CTA ===== */}
-        <div className="resume-footer-cta no-print" style={enter(nextDelay())}>
+        <motion.div className="resume-footer-cta no-print" variants={itemVariants}>
           <a
-            href={pdfUrl}
-            download={pdfUrl === "/Naheel.pdf" ? "Naheel-Muhammed-PK-Resume.pdf" : undefined}
+            href="/Naheel.pdf"
+            download="Naheel-Muhammed-PK-Resume.pdf"
             className="resume-action-btn resume-download-btn resume-download-lg"
             aria-label="Download Resume PDF"
           >
             <FaFileArrowDown aria-hidden="true" />
             <span>Download PDF Version</span>
           </a>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

@@ -1,20 +1,24 @@
 'use client';
 
-import { useReveal } from "@/lib/useReveal";
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { containerVariants, itemVariants, textVariants } from '@/lib/variants';
 
 const AboutContent = () => {
-  const textRef = useReveal<HTMLDivElement>();
-  const titleRef = useReveal<HTMLHeadingElement>();
-  const contentRef = useReveal<HTMLDivElement>();
-
   return (
     <div className="about-section" id="about">
-      <div className="about-container">
-        <div className="about-text about-scroll-reveal" ref={textRef}>
-          <h2 className="about-title about-title-reveal" ref={titleRef}>
+      <motion.div
+        className="about-container"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <motion.div className="about-text" variants={textVariants}>
+          <motion.h2 className="about-title" variants={itemVariants}>
             KNOW WHO <span>I'M</span>
-          </h2>
-          <div className="about-paragraphs about-content-reveal" ref={contentRef}>
+          </motion.h2>
+          <motion.div className="about-paragraphs" variants={itemVariants}>
             <p>
               Hi Everyone! I&apos;m <span className="highlight">Naheel Muhammed PK</span> from <span className="highlight">Kerala, India</span>.
             </p>
@@ -40,9 +44,20 @@ const AboutContent = () => {
               <li>✍️ Writing Tech Blogs</li>
               <li>🚀 Exploring New Technologies</li>
             </ul>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+
+        <motion.div className="about-image" variants={itemVariants} whileHover={{ scale: 1.05 }}>
+          <Image
+            src="/images/about.png"
+            alt="About Me Illustration"
+            width={380}
+            height={380}
+            loading="lazy"
+            sizes="(max-width: 992px) 280px, 380px"
+          />
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
