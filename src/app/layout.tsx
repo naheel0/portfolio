@@ -84,7 +84,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <head>
         <link rel="preconnect" href="https://admin.naheel.me" />
-        <link rel="preload" as="image" href="/images/home-main.webp" imageSizes="(max-width: 992px) 280px, 347px" imageSrcSet="/images/home-main.webp" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
        <body className={ptMono.variable}>
