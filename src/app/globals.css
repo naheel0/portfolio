@@ -1936,14 +1936,10 @@ img { max-width: 100%; height: auto; }
   background: none;
 }
 
-/* Subtle cyan glow for illustration (box-shadow instead of filter) */
+/* Hero illustration sizing */
 .home-illustration img {
   width: 347px;
   height: 366px;
-  transition: box-shadow 0.3s ease;
-}
-.home-illustration:hover img {
-  box-shadow: 0 0 32px rgba(34, 211, 238, 0.5);
 }
 .intro-avatar img {
   filter: none;
