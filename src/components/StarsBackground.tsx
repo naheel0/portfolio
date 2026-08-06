@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * StarsBackground — pure CSS starfield with ZERO React-managed DOM nodes
  * and ZERO per-star animation entries.

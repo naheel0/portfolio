@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * AuroraOrbs — three floating CSS-only gradient orbs that drift behind the
  * entire app. Pure CSS keyframes (zero JS), GPU-composited via `transform`,
@@ -10,6 +12,8 @@ export default function AuroraOrbs() {
   return (
     <div className="aurora-orbs" aria-hidden="true">
       <div className="aurora-orb aurora-orb-1" />
+      <div className="aurora-orb aurora-orb-2" />
+      <div className="aurora-orb aurora-orb-3" />
     </div>
   );
 }

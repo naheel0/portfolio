@@ -1,34 +1,23 @@
-import { lazy, Suspense } from 'react';
-import { getSettings } from "@/lib/api";
-import HomeContent from "./HomeContent";
-import LazySection from "./LazySection";
+'use client';
 
-const AboutContent = lazy(() => import("./AboutContent"));
-const SkillsSection = lazy(() => import("./SkillsSection"));
-const ProjectsContent = lazy(() => import("./ProjectsContent"));
-const ContactContent = lazy(() => import("./ContactContent"));
+import dynamic from "next/dynamic";
 
-const SectionLoader = () => <div style={{ minHeight: '50vh' }} />;
+// Code-split all sections (separate chunks) but keep SSR enabled
+// so server/client HTML stays identical — no hydration mismatch.
+const HomeContent = dynamic(() => import('./HomeContent'), { ssr: true });
+const AboutContent = dynamic(() => import('./AboutContent'), { ssr: true });
+const SkillContent = dynamic(() => import('./SkillContent'), { ssr: true });
+const ProjectsContent = dynamic(() => import('./ProjectsContent'), { ssr: true });
+const ContactContent = dynamic(() => import('./ContactContent'), { ssr: true });
 
-const Portfolio = async () => {
-  const settings = await getSettings();
+const Portfolio = () => {
   return (
     <>
       <HomeContent />
-      <Suspense fallback={<SectionLoader />}>
-        <AboutContent />
-      </Suspense>
-      <Suspense fallback={<SectionLoader />}>
-        <SkillsSection />
-      </Suspense>
-      <Suspense fallback={<SectionLoader />}>
-        <ProjectsContent />
-      </Suspense>
-      <LazySection>
-        <Suspense fallback={<SectionLoader />}>
-          <ContactContent settings={settings} />
-        </Suspense>
-      </LazySection>
+      <AboutContent />
+      <SkillContent />
+      <ProjectsContent />
+      <ContactContent />
     </>
   );
 };
