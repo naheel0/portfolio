@@ -60,7 +60,7 @@ const HomeContent = async () => {
           </div>
         </div>
 
-        <div className="home-illustration hero-fade-up" style={{ animationDelay: '0.4s' }}>
+        <div className="home-illustration">
           <Image src="/images/home-main.webp" alt="Developer Illustration" width={694} height={732} priority sizes="(max-width: 992px) 280px, 347px" />
         </div>
       </div>
