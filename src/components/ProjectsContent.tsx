@@ -1,6 +1,6 @@
 import { getProjects } from "@/lib/data";
 import type { PortfolioProject } from "@/lib/data";
-import ProjectsStory from "./ProjectsStory";
+import ProjectsStack from "./ProjectsStack";
 import LazySection from "./LazySection";
 
 const FALLBACK_PROJECTS: PortfolioProject[] = [
@@ -63,7 +63,7 @@ export default async function ProjectsContent() {
 
   return (
     <LazySection>
-      <ProjectsStory projects={projects} />
+      <ProjectsStack projects={projects} />
     </LazySection>
   );
 }
