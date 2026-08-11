@@ -2,6 +2,7 @@
 
 import { useCallback, useLayoutEffect, useRef, type ReactNode } from "react";
 import Lenis from "lenis";
+import { FaChevronDown } from "react-icons/fa6";
 
 type LenisInstance = Lenis;
 
@@ -64,6 +65,7 @@ const ScrollStack = ({
   onStackComplete,
 }: ScrollStackProps) => {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const indicatorRef = useRef<HTMLDivElement | null>(null);
   const stackCompletedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const lenisRef = useRef<LenisInstance | null>(null);
@@ -229,9 +231,17 @@ const ScrollStack = ({
     getElementOffset,
   ]);
 
+  const updateIndicator = useCallback(() => {
+    const indicator = indicatorRef.current;
+    if (!indicator) return;
+    const { scrollTop } = getScrollData();
+    indicator.classList.toggle("scroll-stack-indicator-hidden", scrollTop > 40);
+  }, [getScrollData]);
+
   const handleScroll = useCallback(() => {
     updateCardTransforms();
-  }, [updateCardTransforms]);
+    updateIndicator();
+  }, [updateCardTransforms, updateIndicator]);
 
   useLayoutEffect(() => {
     const scroller = scrollerRef.current;
@@ -317,12 +327,14 @@ const ScrollStack = ({
       if (!pausedRef.current) {
         lenis?.raf(time);
         updateCardTransforms();
+        updateIndicator();
       }
       animationFrameRef.current = requestAnimationFrame(raf);
     };
     animationFrameRef.current = requestAnimationFrame(raf);
 
     updateCardTransforms();
+    updateIndicator();
 
     return () => {
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
@@ -346,12 +358,18 @@ const ScrollStack = ({
     useWindowScroll,
     onStackComplete,
     handleScroll,
+    updateIndicator,
   ]);
 
   return (
     <div className={`scroll-stack-scroller ${className}`.trim()} ref={scrollerRef}>
       <div className="scroll-stack-inner">{children}</div>
       <div className="scroll-stack-end" />
+      <div className="scroll-stack-indicator" ref={indicatorRef} aria-hidden="true">
+        <span className="scroll-indicator-icon">
+          <FaChevronDown />
+        </span>
+      </div>
     </div>
   );
 };

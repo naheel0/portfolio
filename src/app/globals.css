@@ -711,6 +711,40 @@ img { max-width: 100%; height: auto; }
   height: 1px;
 }
 
+/* Scroll indicator — bottom-center of scroller, GPU-only animation */
+.scroll-stack-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(6, 8, 24, 0.55);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  z-index: 4;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.scroll-stack-indicator-hidden {
+  opacity: 0;
+}
+.scroll-indicator-icon {
+  display: flex;
+  color: var(--accent);
+  font-size: 0.9rem;
+  animation: scrollIndicatorBounce 1.8s ease-in-out infinite;
+}
+@keyframes scrollIndicatorBounce {
+  0%, 100% { transform: translateY(-3px); }
+  50% { transform: translateY(3px); }
+}
+
 /* ── Stacked card — contained, no modal ── */
 .scroll-stack-card {
   position: relative;
@@ -955,6 +989,7 @@ img { max-width: 100%; height: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-stack-card { transform: none !important; }
+  .scroll-indicator-icon { animation: none; }
   .stack-action-btn { transition: none; }
   .prj-chip { transition: none; }
 }
