@@ -180,43 +180,24 @@ img { max-width: 100%; height: auto; }
   transform: translateY(-3px);
 }
 
-.cursor {
-  animation: blink 0.8s step-end infinite;
-  color: var(--accent);
+/* TextType role — rendered by the ReactBits-derived RoleTypewriter */
+.texttype-text {
+  white-space: pre-wrap;
+}
+.texttype-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.05em;
+  margin-left: 3px;
+  border-radius: 2px;
+  vertical-align: text-bottom;
+  background: var(--accent);
+  animation: blink 0.7s step-end infinite;
 }
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-}
-
-/* CSS Typewriter — uses steps() for character-by-character reveal */
-.typewriter-text {
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 0;
-  border-right: none;
-  animation:
-    type-step var(--type-duration) steps(var(--type-chars), end) forwards,
-    pause-step calc(var(--type-duration) + var(--pause-duration)) steps(1, end) forwards,
-    delete-step var(--delete-duration) steps(var(--type-chars), end) forwards;
-  animation-delay: 0s, 0s, calc(var(--type-duration) + var(--pause-duration));
-}
-
-@keyframes type-step {
-  from { width: 0; }
-  to { width: calc(var(--type-chars) * 1ch); }
-}
-
-@keyframes pause-step {
-  from { width: calc(var(--type-chars) * 1ch); }
-  to { width: calc(var(--type-chars) * 1ch); }
-}
-
-@keyframes delete-step {
-  from { width: calc(var(--type-chars) * 1ch); }
-  to { width: 0; }
 }
 
 /* Intro row */
@@ -1609,13 +1590,6 @@ img { max-width: 100%; height: auto; }
   -webkit-text-fill-color: #ffffff;
   background: none;
   text-shadow: none;
-}
-
-/* Cursor caret in typewriter stays solid cyan for visibility */
-.cursor {
-  -webkit-text-fill-color: var(--accent);
-  color: var(--accent);
-  background: none;
 }
 
 /* Contribution legend + count text — keep readable, use soft cyan */
