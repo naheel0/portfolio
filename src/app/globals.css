@@ -692,9 +692,9 @@ img { max-width: 100%; height: auto; }
   position: relative;
   width: min(900px, 92vw);
   margin: 0 auto;
-  height: 78vh;
-  min-height: 560px;
-  max-height: 720px;
+  height: 100vh;
+  min-height: 700px;
+  max-height: 1000px;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: none;
@@ -726,6 +726,7 @@ img { max-width: 100%; height: auto; }
   backdrop-filter: blur(10px);
   overflow: hidden;
   min-height: clamp(440px, 60vh, 600px);
+  height: auto;
 }
 .scroll-stack-card::before {
   content: "";
@@ -770,7 +771,7 @@ img { max-width: 100%; height: auto; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, rgba(34, 211, 238, 0.08) 0%, rgba(6, 8, 24, 0.25) 60%);
+  background: transparent;
   pointer-events: none;
 }
 .stack-card-img-file {
@@ -781,14 +782,7 @@ img { max-width: 100%; height: auto; }
   transform: scale(1.04);
 }
 .stack-card-img-fade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to right,
-    rgba(6, 8, 24, 0) 55%,
-    rgba(11, 14, 34, 0.92) 100%
-  );
-  pointer-events: none;
+  display: none;
 }
 
 /* Content — right column */
@@ -857,10 +851,6 @@ img { max-width: 100%; height: auto; }
   color: rgba(255, 255, 255, 0.65);
   line-height: 1.65;
   margin-bottom: 18px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .stack-card-actions {
@@ -938,31 +928,24 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 768px) {
   .prj-heading { padding-top: 40px; margin-bottom: 12px; }
   .prj-heading h2 { font-size: 2rem; }
-  .scroll-stack-scroller { height: 72vh; min-height: 500px; }
+  .scroll-stack-scroller { height: 90vh; min-height: 620px; }
   .stack-card-img { width: 38%; }
   .stack-card-content { padding: 32px 30px; }
   .stack-card-title { font-size: 1.3rem; }
-  .stack-card-desc { font-size: 0.84rem; -webkit-line-clamp: 3; }
+  .stack-card-desc { font-size: 0.84rem; }
 }
 
 @media (max-width: 576px) {
   .prj-heading { padding-top: 30px; margin-bottom: 8px; }
   .prj-heading h2 { font-size: 1.7rem; }
-  .scroll-stack-scroller { width: 94vw; height: 66vh; min-height: 460px; border-radius: 14px; }
+  .scroll-stack-scroller { width: 94vw; height: 82vh; min-height: 540px; border-radius: 14px; }
   .scroll-stack-inner { padding: 4px 8px 96px; }
   .scroll-stack-card { min-height: clamp(380px, 56vh, 520px); flex-direction: column; }
   .stack-card-img { width: 100%; min-height: 150px; max-height: 170px; }
-  .stack-card-img-fade {
-    background: linear-gradient(
-      to bottom,
-      rgba(6, 8, 24, 0) 45%,
-      rgba(11, 14, 34, 0.9) 100%
-    );
-  }
   .stack-card-content { padding: 26px 22px; }
   .stack-card-num { font-size: 2.4rem; bottom: 10px; left: 14px; }
   .stack-card-title { font-size: 1.2rem; }
-  .stack-card-desc { font-size: 0.8rem; line-height: 1.55; -webkit-line-clamp: 3; }
+  .stack-card-desc { font-size: 0.8rem; line-height: 1.55; }
   .stack-card-meta { gap: 8px; margin-bottom: 12px; }
   .prj-card-chips { gap: 4px; margin-bottom: 14px; }
   .prj-chip { padding: 3px 9px; font-size: 0.68rem; }
