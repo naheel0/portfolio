@@ -5,10 +5,6 @@ import { notFound } from "next/navigation";
 import {
   FaArrowUpRightFromSquare,
   FaCode,
-  FaCircleCheck,
-  FaTriangleExclamation,
-  FaChartLine,
-  FaRocket,
   FaEnvelope,
   FaGithub,
 } from "react-icons/fa6";
@@ -20,9 +16,7 @@ import ProjectToc from "@/components/ProjectToc";
 import DepthCarousel from "@/components/DepthCarousel/DepthCarousel";
 import ArchitectureDiagram from "@/components/ArchitectureDiagram";
 import MermaidDiagram from "@/components/MermaidDiagram";
-import GrainOverlay from "@/components/GrainOverlay";
 import ScrollReveal from "@/components/ScrollReveal";
-import ThemeToggle from "@/components/ThemeToggle";
 import "./page.css";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
@@ -182,14 +176,14 @@ export default async function ProjectDetailPage({ params }: Props) {
   })) || [];
 
   const toc = [
-    { id: "architecture", label: "Architecture", show: !!project.architectureMermaid || (project.architectureStack?.length ?? 0) > 0 },
-    { id: "screenshots", label: "Screenshots", show: carouselItems.length > 0 },
     { id: "overview", label: "Overview", show: !!project.overview },
     { id: "problem", label: "Problem & Solution", show: !!project.problem || !!project.solution },
     { id: "features", label: "Features", show: (project.features?.length ?? 0) > 0 },
+    { id: "architecture", label: "Architecture", show: !!project.architectureMermaid || (project.architectureStack?.length ?? 0) > 0 },
+    { id: "screenshots", label: "Screenshots", show: carouselItems.length > 0 },
     { id: "contribution", label: "Contribution", show: (project.contribution?.length ?? 0) > 0 },
-    { id: "results", label: "Results", show: (project.results?.length ?? 0) > 0 },
     { id: "challenges", label: "Challenges", show: (project.challenges?.length ?? 0) > 0 },
+    { id: "results", label: "Results", show: (project.results?.length ?? 0) > 0 },
     { id: "learnings", label: "Learnings", show: (project.learnings?.length ?? 0) > 0 },
     { id: "future", label: "Future", show: (project.futureImprovements?.length ?? 0) > 0 },
   ].filter((s) => s.show);
@@ -198,31 +192,12 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <main className="project-detail">
-      <GrainOverlay />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       <div className="project-detail-inner">
-        {/* Nav */}
-        <nav className="pd-nav">
-          <Link href="/#projects" className="pd-back">
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 1.06L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z" /></svg>
-            projects
-          </Link>
-          <div className="pd-nav-right">
-            <div className="pd-breadcrumb" aria-label="Breadcrumb">
-              <Link href="/#projects">naheel0</Link>
-              <span className="pd-breadcrumb-sep" aria-hidden="true">/</span>
-              <Link href="/#projects">projects</Link>
-              <span className="pd-breadcrumb-sep" aria-hidden="true">/</span>
-              <span className="pd-breadcrumb-current">{project.slug}</span>
-            </div>
-            <ThemeToggle />
-          </div>
-        </nav>
-
-        {/* Hero: Split Layout */}
+        {/* Hero */}
         <ScrollReveal delay={0.08} distance={30} blur={false}>
           <section className="pd-hero" aria-label={`${project.title} project hero`}>
             <div className="pd-hero-text">
@@ -267,49 +242,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         {/* Grid */}
         <div className="pd-grid">
           <div className="pd-content">
-            {hasArch && (
-              <ScrollReveal className="pd-section" delay={0.05}>
-                <div id="architecture" />
-                <h2 className="pd-section-title">Architecture</h2>
-                {project.architectureMermaid ? (
-                  <MermaidDiagram code={project.architectureMermaid} />
-                ) : project.architectureStack ? (
-                  <ArchitectureDiagram stack={project.architectureStack} layout={project.architectureLayout} />
-                ) : null}
-              </ScrollReveal>
-            )}
-
-            {carouselItems.length > 0 && (
-              <ScrollReveal className="pd-section" delay={0.05}>
-                <div id="screenshots" />
-                <h2 className="pd-section-title">Screenshots</h2>
-                <div className="pd-carousel-wrap">
-                  <DepthCarousel
-                    items={carouselItems}
-                    cardWidth={560}
-                    cardHeight={380}
-                    radius={8}
-                    tint="#09090b"
-                    depth={260}
-                    spread={110}
-                    tilt={28}
-                    tiltDirection="right"
-                    perspective={1500}
-                    visibleCards={3}
-                    falloff={0.18}
-                    blur={7}
-                    duration={750}
-                    ease="power3.out"
-                    autoplay={false}
-                    loop={true}
-                    showControls={true}
-                    showIndicators={true}
-                    className="pd-carousel"
-                  />
-                </div>
-              </ScrollReveal>
-            )}
-
+            {/* Overview */}
             {project.overview && (
               <ScrollReveal className="pd-section" delay={0.05}>
                 <div id="overview" />
@@ -320,6 +253,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               </ScrollReveal>
             )}
 
+            {/* Problem & Solution */}
             {(project.problem || project.solution) && (
               <ScrollReveal className="pd-section" delay={0.05}>
                 <div id="problem" />
@@ -348,6 +282,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               </ScrollReveal>
             )}
 
+            {/* Features */}
             {project.features && project.features.length > 0 && (
               <ScrollReveal className="pd-section" delay={0.05}>
                 <div id="features" />
@@ -363,6 +298,52 @@ export default async function ProjectDetailPage({ params }: Props) {
               </ScrollReveal>
             )}
 
+            {/* Architecture */}
+            {hasArch && (
+              <ScrollReveal className="pd-section" delay={0.05}>
+                <div id="architecture" />
+                <h2 className="pd-section-title">Architecture</h2>
+                {project.architectureMermaid ? (
+                  <MermaidDiagram code={project.architectureMermaid} />
+                ) : project.architectureStack ? (
+                  <ArchitectureDiagram stack={project.architectureStack} layout={project.architectureLayout} />
+                ) : null}
+              </ScrollReveal>
+            )}
+
+            {/* Screenshots */}
+            {carouselItems.length > 0 && (
+              <ScrollReveal className="pd-section" delay={0.05}>
+                <div id="screenshots" />
+                <h2 className="pd-section-title">Screenshots</h2>
+                <div className="pd-carousel-wrap">
+                  <DepthCarousel
+                    items={carouselItems}
+                    cardWidth={560}
+                    cardHeight={380}
+                    radius={8}
+                    tint="#060818"
+                    depth={260}
+                    spread={110}
+                    tilt={28}
+                    tiltDirection="right"
+                    perspective={1500}
+                    visibleCards={3}
+                    falloff={0.18}
+                    blur={7}
+                    duration={750}
+                    ease="power3.out"
+                    autoplay={false}
+                    loop={true}
+                    showControls={true}
+                    showIndicators={true}
+                    className="pd-carousel"
+                  />
+                </div>
+              </ScrollReveal>
+            )}
+
+            {/* Contribution */}
             {project.contribution && project.contribution.length > 0 && (
               <ScrollReveal className="pd-section" delay={0.05}>
                 <div id="contribution" />
@@ -378,21 +359,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               </ScrollReveal>
             )}
 
-            {project.results && project.results.length > 0 && (
-              <ScrollReveal className="pd-section" delay={0.05}>
-                <div id="results" />
-                <h2 className="pd-section-title">Results</h2>
-                <div className="pd-results">
-                  {project.results.map((result, i) => (
-                    <div className="pd-result-card" key={i}>
-                      <FaChartLine className="pd-result-icon" aria-hidden="true" />
-                      <p>{result}</p>
-                    </div>
-                  ))}
-                </div>
-              </ScrollReveal>
-            )}
-
+            {/* Challenges */}
             {project.challenges && project.challenges.length > 0 && (
               <ScrollReveal className="pd-section" delay={0.05}>
                 <div id="challenges" />
@@ -401,12 +368,10 @@ export default async function ProjectDetailPage({ params }: Props) {
                   {project.challenges.map((item, i) => (
                     <div className="pd-challenge" key={i}>
                       <div className="pd-challenge-q">
-                        <FaTriangleExclamation className="pd-challenge-icon" aria-hidden="true" />
                         <span>{item.challenge}</span>
                       </div>
                       {item.solution && (
                         <div className="pd-challenge-a">
-                          <FaCircleCheck className="pd-challenge-icon" aria-hidden="true" />
                           <span>{item.solution}</span>
                         </div>
                       )}
@@ -416,6 +381,22 @@ export default async function ProjectDetailPage({ params }: Props) {
               </ScrollReveal>
             )}
 
+            {/* Results */}
+            {project.results && project.results.length > 0 && (
+              <ScrollReveal className="pd-section" delay={0.05}>
+                <div id="results" />
+                <h2 className="pd-section-title">Results</h2>
+                <div className="pd-results">
+                  {project.results.map((result, i) => (
+                    <div className="pd-result-card" key={i}>
+                      <p>{result}</p>
+                    </div>
+                  ))}
+                </div>
+              </ScrollReveal>
+            )}
+
+            {/* Learnings */}
             {project.learnings && project.learnings.length > 0 && (
               <ScrollReveal className="pd-section" delay={0.05}>
                 <div id="learnings" />
@@ -431,6 +412,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               </ScrollReveal>
             )}
 
+            {/* Future Work */}
             {project.futureImprovements && project.futureImprovements.length > 0 && (
               <ScrollReveal className="pd-section" delay={0.05}>
                 <div id="future" />
@@ -438,7 +420,6 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <div className="pd-future">
                   {project.futureImprovements.map((point, i) => (
                     <div className="pd-future-item" key={i}>
-                      <FaRocket className="pd-future-icon" aria-hidden="true" />
                       <p>{point}</p>
                     </div>
                   ))}
@@ -446,6 +427,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               </ScrollReveal>
             )}
 
+            {/* CTA */}
             <ScrollReveal className="pd-section" delay={0.05}>
               <div id="links" />
               <div className="pd-cta-row">
