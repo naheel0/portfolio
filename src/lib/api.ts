@@ -38,7 +38,6 @@ export interface AdminProject {
   featured: boolean
   order: number
   published?: boolean
-  showInList?: boolean
   showDetailPage?: boolean
   screenshots?: string[]
   features?: string[]
@@ -200,7 +199,7 @@ export async function getProjects(): Promise<ProjectListItem[]> {
     const data: AdminProject[] = await res.json()
     if (data.length === 0) return []
     return data
-      .filter((p) => p.published !== false && p.showInList !== false)
+      .filter((p) => p.published !== false)
       .sort((a, b) => a.order - b.order)
       .map(mapListItem)
   } catch {
