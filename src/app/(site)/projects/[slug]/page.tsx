@@ -14,7 +14,6 @@ import { iconMap, DefaultIcon } from "@/lib/icon-map";
 import { techBrandColor } from "@/lib/brand-colors";
 import ProjectToc from "@/components/ProjectToc";
 import DepthCarousel from "@/components/DepthCarousel/DepthCarousel";
-import ArchitectureDiagram from "@/components/ArchitectureDiagram";
 import MermaidDiagram from "@/components/MermaidDiagram";
 import ScrollReveal from "@/components/ScrollReveal";
 import "./page.css";
@@ -179,7 +178,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     { id: "overview", label: "Overview", show: !!project.overview },
     { id: "problem", label: "Problem & Solution", show: !!project.problem || !!project.solution },
     { id: "features", label: "Features", show: (project.features?.length ?? 0) > 0 },
-    { id: "architecture", label: "Architecture", show: !!project.architectureMermaid || (project.architectureStack?.length ?? 0) > 0 },
+    { id: "architecture", label: "Architecture", show: !!project.architectureMermaid },
     { id: "screenshots", label: "Screenshots", show: carouselItems.length > 0 },
     { id: "contribution", label: "Contribution", show: (project.contribution?.length ?? 0) > 0 },
     { id: "challenges", label: "Challenges", show: (project.challenges?.length ?? 0) > 0 },
@@ -188,7 +187,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     { id: "future", label: "Future", show: (project.futureImprovements?.length ?? 0) > 0 },
   ].filter((s) => s.show);
 
-  const hasArch = !!project.architectureMermaid || !!(project.architectureStack && project.architectureStack.length > 0);
+  const hasArch = !!project.architectureMermaid;
 
   return (
     <main className="project-detail">
@@ -305,8 +304,6 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <h2 className="pd-section-title">Architecture</h2>
                 {project.architectureMermaid ? (
                   <MermaidDiagram code={project.architectureMermaid} />
-                ) : project.architectureStack ? (
-                  <ArchitectureDiagram stack={project.architectureStack} layout={project.architectureLayout} />
                 ) : null}
               </ScrollReveal>
             )}

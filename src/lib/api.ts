@@ -23,21 +23,6 @@ export interface ProjectChallenge {
   solution: string
 }
 
-export interface ArchitectureNode {
-  title: string
-  icon?: string | null
-  color?: string | null
-}
-
-export interface ArchitectureLevel {
-  label?: string | null
-  nodes: ArchitectureNode[]
-}
-
-export type ArchitectureStack = ArchitectureLevel[]
-
-export type ArchitectureLayout = "stack" | "flow" | "clustered"
-
 // ── Admin API raw shape (single endpoint returns all fields) ────────
 
 export interface AdminProject {
@@ -62,8 +47,6 @@ export interface AdminProject {
   problem?: string | null
   solution?: string | null
   architecture?: string[]
-  architectureStack?: ArchitectureStack
-  architectureLayout?: ArchitectureLayout
   architectureMermaid?: string | null
   contribution?: string[]
   challenges?: ProjectChallenge[]
@@ -108,8 +91,6 @@ export interface ProjectDetail {
   problem?: string
   solution?: string
   architecture?: string[]
-  architectureStack?: ArchitectureStack
-  architectureLayout?: ArchitectureLayout
   architectureMermaid?: string | null
   contribution?: string[]
   challenges?: ProjectChallenge[]
@@ -147,55 +128,7 @@ export const getSettings = cache(async function getSettings(): Promise<SiteSetti
   }
 })
 
-// ── Architecture normalizers ────────────────────────────────────────
-
-function normalizeNode(n: Record<string, unknown>): ArchitectureNode {
-  return {
-    title: typeof n.title === "string" ? n.title : "",
-    icon: typeof n.icon === "string" ? n.icon : null,
-    color: typeof n.color === "string" ? n.color : null,
-  }
-}
-
-function normalizeStack(value: unknown): ArchitectureStack {
-  if (!Array.isArray(value)) return []
-  const levels: ArchitectureLevel[] = []
-  for (const level of value) {
-    if (Array.isArray(level)) {
-      const nodes = level
-        .filter((n) => !!n && typeof n === "object")
-        .map((n) => normalizeNode(n as Record<string, unknown>))
-        .filter((node) => node.title)
-      if (nodes.length) levels.push({ label: null, nodes })
-      continue
-    }
-    if (level && typeof level === "object") {
-      const asLevel = level as Record<string, unknown>
-      const nodes = (Array.isArray(asLevel.nodes) ? asLevel.nodes : [])
-        .filter((n) => !!n && typeof n === "object")
-        .map((n) => normalizeNode(n as Record<string, unknown>))
-        .filter((node) => node.title)
-      if (!nodes.length) continue
-      levels.push({
-        label: typeof asLevel.label === "string" && asLevel.label.trim() ? asLevel.label.trim() : null,
-        nodes,
-      })
-    }
-  }
-  return levels
-}
-
-function legacyStack(architecture?: string[]): ArchitectureStack {
-  if (!architecture?.length) return []
-  return architecture
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => ({ label: null, nodes: [{ title: line }] }))
-}
-
-function normalizeLayout(value: unknown): ArchitectureLayout {
-  return value === "flow" || value === "clustered" ? value : "stack"
-}
+// ── Helpers ──────────────────────────────────────────────────────────
 
 function normalizeChallenges(raw: unknown): ProjectChallenge[] {
   if (!Array.isArray(raw)) return []
@@ -227,7 +160,6 @@ function mapListItem(p: AdminProject, index: number): ProjectListItem {
 }
 
 function mapDetail(p: AdminProject): ProjectDetail {
-  const stack = normalizeStack(p.architectureStack)
   return {
     id: 0,
     slug: p.slug,
@@ -246,8 +178,6 @@ function mapDetail(p: AdminProject): ProjectDetail {
     problem: p.problem ?? undefined,
     solution: p.solution ?? undefined,
     architecture: p.architecture || [],
-    architectureStack: stack.length ? stack : legacyStack(p.architecture),
-    architectureLayout: normalizeLayout(p.architectureLayout),
     architectureMermaid: typeof p.architectureMermaid === "string" && p.architectureMermaid.trim() ? p.architectureMermaid : null,
     contribution: p.contribution || [],
     challenges: normalizeChallenges(p.challenges),
