@@ -70,13 +70,15 @@ const ProjectsStack = ({ projects }: ProjectsStackProps) => {
                 </div>
 
                 <div className="stack-card-actions">
-                  <a
-                    href={`/projects/${project.slug}`}
-                    className="stack-action-btn stack-action-details"
-                    aria-label={`${project.title} details`}
-                  >
-                    <span>Details</span>
-                  </a>
+                  {project.showDetailPage !== false && (
+                    <a
+                      href={`/projects/${project.slug}`}
+                      className="stack-action-btn stack-action-details"
+                      aria-label={`${project.title} details`}
+                    >
+                      <span>Details</span>
+                    </a>
+                  )}
                   <a
                     href={project.githubUrl}
                     target="_blank"

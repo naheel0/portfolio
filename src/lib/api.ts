@@ -69,6 +69,7 @@ export interface ProjectListItem {
   category: string
   featured?: boolean
   year: string | number | null
+  showDetailPage?: boolean
 }
 
 // ── Detail (full case-study page) ───────────────────────────────────
@@ -156,6 +157,7 @@ function mapListItem(p: AdminProject, index: number): ProjectListItem {
     category: p.category,
     featured: p.featured,
     year: p.year ?? null,
+    showDetailPage: p.showDetailPage !== false,
   }
 }
 
