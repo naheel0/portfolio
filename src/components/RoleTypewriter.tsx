@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface RoleTypewriterProps {
   roles: string[];
@@ -23,7 +23,7 @@ export default function RoleTypewriter({ roles }: RoleTypewriterProps) {
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const textArray = useMemo(() => list, [list]);
+  const textArray = list;
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;

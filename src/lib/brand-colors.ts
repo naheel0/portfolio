@@ -46,55 +46,10 @@ export const BRAND_COLORS: Record<string, string> = {
   next: "#E6EDF3",
 };
 
-const BRAND_ICON_COLORS: Record<string, string> = {
-  fareact: "#61DAFB",
-  sireact: "#61DAFB",
-  fireact: "#61DAFB",
-  "tb brandreact": "#61DAFB",
-  "tb brand react": "#61DAFB",
-  sinextdotjs: "#E6EDF3",
-  sitailwindcss: "#38BDF8",
-  sitypescript: "#3178C6",
-  sitdotnet: "#512BD4",
-  "tb brandcsharp": "#68217A",
-  "tb brand c sharp": "#68217A",
-  didotnet: "#512BD4",
-  dimsqlserver: "#CC2927",
-  sidatabase: "#E38C00",
-  didatabase: "#E38C00",
-  sireazorpay: "#3395FF",
-  facloud: "#3448C5",
-  tblock: "#E3B341",
-  tbserver: "#7C3AED",
-  faustertie: "#58a6ff",
-  falock: "#E3B341",
-  "fajs": "#F7DF1E",
-  "fahmtml5": "#E34F26",
-  "facss3alt": "#1572B6",
-  "fadocker": "#2496ED",
-  "fapython": "#3776AB",
-  "fajava": "#007396",
-  "sipostgresql": "#336791",
-  "simongodb": "#47A248",
-  "siredis": "#FF4438",
-  "sifirebase": "#FFCA28",
-  "sivercel": "#E6EDF3",
-  "sinetlify": "#00C7B7",
-};
-
 export function techBrandColor(name: string): string | null {
   const lower = name.toLowerCase();
   for (const [term, color] of Object.entries(BRAND_COLORS)) {
     if (lower.includes(term)) return color;
-  }
-  return null;
-}
-
-export function iconKeyBrandColor(icon?: string | null): string | null {
-  if (!icon) return null;
-  const lower = icon.toLowerCase().replace(/[^a-z0-9]/g, "");
-  for (const [key, color] of Object.entries(BRAND_ICON_COLORS)) {
-    if (lower === key) return color;
   }
   return null;
 }

@@ -77,7 +77,7 @@ const FALLBACK_EXPERIENCE: ResumeExp[] = [
   {
     role: "Software Developer Intern",
     company: "Bridgeon Solutions",
-    period: "Jul 2025 – Present",
+    period: "Jul 2025 – Aug 2025",
     points: [
       "Developed production-ready RESTful APIs using ASP.NET Core and Clean Architecture, ensuring scalable and maintainable backend services.",
       "Implemented JWT-based authentication with refresh tokens and role-based access control to secure multiple backend services.",
@@ -196,7 +196,7 @@ export async function getSkills(): Promise<{ skills: ResolvedSkill[]; tools: Res
     const skills: ResolvedSkill[] = []
     const tools: ResolvedSkill[] = []
     for (const item of data) {
-      if (!item || !item.icon || typeof item.icon !== "string") continue
+      if (!item || !item.name || typeof item.name !== "string" || !item.color || typeof item.color !== "string" || !item.icon || typeof item.icon !== "string") continue
       const resolved: ResolvedSkill = { name: item.name, color: item.color, icon: item.icon }
       if (item.type === "tool") tools.push(resolved)
       else skills.push(resolved)
