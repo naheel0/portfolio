@@ -130,8 +130,8 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
         </h2>
         <div
           ref={(el) => {
-            (skillsPillsRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
-            (skillsTiltRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+            (skillsPillsRef as React.RefObject<HTMLDivElement | null>).current = el;
+            (skillsTiltRef as React.RefObject<HTMLDivElement | null>).current = el;
           }}
           className="skills-pills skill-scroll-reveal"
         >
@@ -150,8 +150,8 @@ function SkillsBody({ skills, tools, contributions }: SkillsBodyProps) {
         </h2>
         <div
           ref={(el) => {
-            (toolsPillsRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
-            (toolsTiltRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+            (toolsPillsRef as React.RefObject<HTMLDivElement | null>).current = el;
+            (toolsTiltRef as React.RefObject<HTMLDivElement | null>).current = el;
           }}
           className="skills-pills skill-scroll-reveal"
         >

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Navbar from "@/components/NavBar";
-import Footer from "@/components/Footer";
 import "./globals.css";
 import AuroraOrbs from "@/components/AuroraOrbs";
 import { getSettings } from "@/lib/api";
@@ -13,6 +11,7 @@ const ptMono = localFont({
 });
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
+const API_HOST = new URL(process.env.NEXT_PUBLIC_API_URL || "https://admin.naheel.me").origin;
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
@@ -83,16 +82,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://admin.naheel.me" />
+        <link rel="preconnect" href={API_HOST} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
-       <body className={ptMono.variable}>
+      <body className={ptMono.variable}>
         <AuroraOrbs />
-        <div className="app-layout">
-          <Navbar />
-          <main className="app-main">{children}</main>
-          <Footer />
-        </div>
+        <div className="app-layout">{children}</div>
       </body>
     </html>
   );

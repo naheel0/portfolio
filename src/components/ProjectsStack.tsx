@@ -4,10 +4,10 @@ import Image from "next/image";
 import ScrollStack, { ScrollStackItem } from "./ScrollStack";
 import { FaGithub, FaArrowUpRightFromSquare, FaStar } from "react-icons/fa6";
 import { normalizeUrl } from "@/lib/url";
-import type { PortfolioProject } from "@/lib/data";
+import type { ProjectListItem } from "@/lib/data";
 
 interface ProjectsStackProps {
-  projects: PortfolioProject[];
+  projects: ProjectListItem[];
 }
 
 /**
@@ -71,6 +71,13 @@ const ProjectsStack = ({ projects }: ProjectsStackProps) => {
 
                 <div className="stack-card-actions">
                   <a
+                    href={`/projects/${project.slug}`}
+                    className="stack-action-btn stack-action-details"
+                    aria-label={`${project.title} details`}
+                  >
+                    <span>Details</span>
+                  </a>
+                  <a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -80,7 +87,7 @@ const ProjectsStack = ({ projects }: ProjectsStackProps) => {
                     <FaGithub aria-hidden="true" />
                     <span>Code</span>
                   </a>
-                  {project.demoUrl && (
+                  {project.demoUrl && project.demoUrl !== "#" && (
                     <a
                       href={normalizeUrl(project.demoUrl)}
                       target="_blank"

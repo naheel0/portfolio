@@ -88,7 +88,7 @@ const Navbar = () => {
     const el = document.getElementById(href.replace("#", ""));
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
-      window.history.pushState(null, "", href);
+      window.history.pushState("", "", href);
     }
   };
 

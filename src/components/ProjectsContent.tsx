@@ -1,11 +1,12 @@
 import { getProjects } from "@/lib/data";
-import type { PortfolioProject } from "@/lib/data";
+import type { ProjectListItem } from "@/lib/data";
 import ProjectsStack from "./ProjectsStack";
 import LazySection from "./LazySection";
 
-const FALLBACK_PROJECTS: PortfolioProject[] = [
+const FALLBACK_PROJECTS: ProjectListItem[] = [
   {
     id: 1,
+    slug: "gamehub",
     title: "Gamehub",
     description: "Full-Stack E-Commerce Website for gaming products. Implemented secure JWT authentication (access & refresh tokens), middleware-based session validation, and role-based access control. Developed scalable backend services with ASP.NET Core following Clean Architecture principles and RESTful API design. Integrated Razorpay payment gateway with dynamic cart functionality and order processing workflows.",
     image: "/images/gamehub.webp",
@@ -14,9 +15,11 @@ const FALLBACK_PROJECTS: PortfolioProject[] = [
     technologies: ["React.js", "ASP.NET Core", "C#", "Entity Framework", "SQL Server", "JWT", "Razorpay"],
     category: "Full Stack",
     featured: true,
+    year: 2024,
   },
   {
     id: 2,
+    slug: "justdial-clone",
     title: "justDial",
     description: "A clone of JustDial website built with HTML, CSS, and JavaScript.",
     image: "/images/just.webp",
@@ -24,9 +27,11 @@ const FALLBACK_PROJECTS: PortfolioProject[] = [
     demoUrl: "https://naheel0.github.io/justdial-clone/",
     technologies: ["HTML", "CSS", "JavaScript"],
     category: "Frontend",
+    year: 2023,
   },
   {
     id: 3,
+    slug: "weather-app",
     title: "Weather App",
     description: "A weather application that provides current weather information using a live weather API with dynamic UI updates based on weather conditions.",
     image: "/images/weather-app.webp",
@@ -34,9 +39,11 @@ const FALLBACK_PROJECTS: PortfolioProject[] = [
     demoUrl: "https://naheel0.github.io/react-weather-app/",
     technologies: ["React.js", "API", "Tailwind CSS", "JavaScript"],
     category: "Frontend",
+    year: 2023,
   },
   {
     id: 4,
+    slug: "w3school-navbar",
     title: "W3 School Navbar",
     description: "A responsive navigation bar built with HTML, CSS, and JavaScript.",
     image: "/images/nav-bar.webp",
@@ -44,9 +51,11 @@ const FALLBACK_PROJECTS: PortfolioProject[] = [
     demoUrl: "https://naheel0.github.io/w3school-nav-bar/",
     technologies: ["HTML", "CSS", "JavaScript"],
     category: "Frontend",
+    year: 2023,
   },
   {
     id: 5,
+    slug: "facebook-clone",
     title: "Facebook Clone",
     description: "A pixel-perfect clone of the Facebook homepage built with HTML, CSS, and JavaScript focusing on UI fidelity and responsive design.",
     image: "/images/fb.webp",
@@ -54,6 +63,7 @@ const FALLBACK_PROJECTS: PortfolioProject[] = [
     demoUrl: "https://naheel0.github.io/facebook-login-clone/",
     technologies: ["HTML", "CSS", "JavaScript"],
     category: "Frontend",
+    year: 2023,
   },
 ];
 

@@ -212,7 +212,7 @@ export async function getSkills(): Promise<{ skills: ResolvedSkill[]; tools: Res
 
 export async function getResume(): Promise<ResumeData> {
   try {
-    const res = await fetch(`${API_URL}/api/portfolio/resume`, { next: { revalidate: 3600 } })
+    const res = await fetch(`${API_URL}/api/portfolio/resume`, { next: { revalidate: 60 } })
     if (!res.ok) throw new Error(`API returned ${res.status}`)
     const data = await res.json()
     return {
@@ -298,5 +298,5 @@ export async function getContributions(): Promise<ContributionsData> {
 }
 
 // Re-export the portfolio project type + loader so sections share one source of truth
-export { getSettings, getProjects } from "./api"
-export type { SiteSettings, PortfolioProject } from "./api"
+export { getSettings, getProjects, getProject } from "./api"
+export type { SiteSettings, ProjectListItem, ProjectDetail } from "./api"

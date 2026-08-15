@@ -726,19 +726,19 @@ img { max-width: 100%; height: auto; }
   50% { transform: translateY(3px); }
 }
 
-/* ── Stacked card — contained, no modal ── */
+/* ── Stacked card — glass-morphism ── */
 .scroll-stack-card {
   position: relative;
   display: flex;
   border-radius: 22px;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.94) 0%, rgba(23, 21, 58, 0.9) 55%, rgba(30, 27, 75, 0.86) 100%);
-  border: 1.5px solid rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(23, 21, 58, 0.55) 55%, rgba(30, 27, 75, 0.5) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.55),
-    0 0 70px rgba(34, 211, 238, 0.07),
-    0 0 80px rgba(99, 102, 241, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(10px);
+    0 24px 70px rgba(0, 0, 0, 0.45),
+    0 0 50px rgba(34, 211, 238, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   overflow: hidden;
   min-height: clamp(440px, 60vh, 600px);
   height: auto;
@@ -750,18 +750,17 @@ img { max-width: 100%; height: auto; }
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.8), rgba(99, 102, 241, 0.8), transparent);
-  opacity: 0.7;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.9), rgba(99, 102, 241, 0.9), transparent);
+  opacity: 0.85;
   pointer-events: none;
   z-index: 5;
 }
 .scroll-stack-card:hover {
   border-color: rgba(34, 211, 238, 0.45);
   box-shadow:
-    0 28px 80px rgba(0, 0, 0, 0.6),
-    0 0 80px rgba(34, 211, 238, 0.12),
-    0 0 90px rgba(99, 102, 241, 0.09),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 28px 80px rgba(0, 0, 0, 0.55),
+    0 0 70px rgba(34, 211, 238, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
 }
 .scroll-stack-card:last-child {
   margin-bottom: 0 !important;
@@ -883,6 +882,19 @@ img { max-width: 100%; height: auto; }
   font-weight: 600;
   text-decoration: none;
   transition: all 0.25s ease;
+}
+.stack-action-details {
+  color: #cffafe;
+  background: rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  backdrop-filter: blur(8px);
+}
+.stack-action-details:hover {
+  color: #ffffff;
+  background: rgba(34, 211, 238, 0.25);
+  border-color: rgba(34, 211, 238, 0.6);
+  box-shadow: 0 4px 16px rgba(34, 211, 238, 0.25);
+  transform: translateY(-1px);
 }
 .stack-action-gh {
   color: rgba(255, 255, 255, 0.75);
@@ -2137,8 +2149,11 @@ a.resume-contact-item:hover { color: var(--accent-bright); }
   .calendar-container,
   .contact-form-inner,
   .nav-resume-dropdown,
-  .resume-container {
+  .resume-container,
+  .project-section,
+  .project-detail-header {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
 }
+

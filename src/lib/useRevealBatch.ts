@@ -9,26 +9,25 @@ import { useEffect, useRef, useCallback } from 'react';
  *
  * Usage: call `register` with a ref callback for each element you want to reveal.
  */
-const observerMap = new Map<Element, IntersectionObserver>();
-let sharedObserver: IntersectionObserver | null = null;
+const observerMap = new Map<string, IntersectionObserver>();
 
 function getSharedObserver(threshold: number): IntersectionObserver {
   const key = `t${threshold}`;
-  if (!sharedObserver || (sharedObserver as any)._key !== key) {
-    sharedObserver = new IntersectionObserver(
+  if (!observerMap.has(key)) {
+    const obs = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            sharedObserver!.unobserve(entry.target);
+            obs.unobserve(entry.target);
           }
         }
       },
       { threshold }
     );
-    (sharedObserver as any)._key = key;
+    observerMap.set(key, obs);
   }
-  return sharedObserver;
+  return observerMap.get(key)!;
 }
 
 export function useRevealBatch<T extends HTMLElement = HTMLDivElement>(
@@ -37,8 +36,10 @@ export function useRevealBatch<T extends HTMLElement = HTMLDivElement>(
   const ref = useRef<T | null>(null);
 
   const setRef = useCallback((el: T | null) => {
-    if (ref.current && sharedObserver) {
-      sharedObserver.unobserve(ref.current);
+    if (ref.current) {
+      const oldKey = `t${threshold}`;
+      const oldObs = observerMap.get(oldKey);
+      if (oldObs) oldObs.unobserve(ref.current);
     }
     ref.current = el;
     if (el) {
@@ -49,8 +50,10 @@ export function useRevealBatch<T extends HTMLElement = HTMLDivElement>(
 
   useEffect(() => {
     return () => {
-      if (ref.current && sharedObserver) {
-        sharedObserver.unobserve(ref.current);
+      if (ref.current) {
+        const key = `t${threshold}`;
+        const obs = observerMap.get(key);
+        if (obs) obs.unobserve(ref.current);
       }
     };
   }, [threshold]);

@@ -1,5 +1,5 @@
 /**
- * AuroraOrbs — three floating CSS-only gradient orbs that drift behind the
+ * AuroraOrbs — a single CSS-only gradient orb that floats behind the
  * entire app. Pure CSS keyframes (zero JS), GPU-composited via `transform`,
  * and disabled entirely under `prefers-reduced-motion` (see globals.css).
  *
