@@ -1,0 +1,323 @@
+/* ============================================================
+   RESUME PAGE (/resume) — online resume + PDF download
+   ============================================================ */
+
+.resume-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 130px 20px 100px;
+}
+
+/* Sticky action bar (Back / Download PDF) */
+.resume-actions {
+  position: fixed;
+  top: 86px;
+  right: 24px;
+  z-index: 60;
+  display: flex;
+  gap: 10px;
+}
+
+.resume-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 1.1rem;
+  height: 42px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.resume-action-btn:hover { transform: translateY(-2px); }
+.resume-action-btn:active { transform: scale(0.96); }
+
+.resume-back-btn {
+  color: var(--text-soft);
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.resume-back-btn:hover {
+  color: var(--accent-bright);
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow: 0 4px 16px rgba(34, 211, 238, 0.25);
+}
+
+.resume-download-btn {
+  color: #060818;
+  background: linear-gradient(135deg, #22d3ee 0%, #6366f1 100%);
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  box-shadow: 0 4px 16px rgba(34, 211, 238, 0.35);
+}
+
+.resume-download-btn:hover {
+  box-shadow: 0 8px 26px rgba(34, 211, 238, 0.5);
+  filter: brightness(1.08);
+}
+
+.resume-download-lg { height: 50px; padding: 0 1.8rem; font-size: 0.95rem; }
+
+/* Resume sheet */
+.resume-container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 56px 60px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(14, 19, 48, 0.85), rgba(10, 14, 31, 0.9));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(12px);
+}
+
+/* Header */
+.resume-header {
+  text-align: center;
+  padding-bottom: 28px;
+  margin-bottom: 34px;
+  border-bottom: 1px solid var(--line);
+}
+
+.resume-name {
+  font-size: clamp(1.9rem, 4.5vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--aurora-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--text-bright);
+}
+
+.resume-role {
+  margin: 8px 0 18px;
+  font-size: 1.05rem;
+  color: var(--accent-bright);
+  letter-spacing: 0.04em;
+}
+
+.resume-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+}
+
+.resume-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.resume-contact-item svg { color: var(--accent-bright); font-size: 0.85rem; }
+a.resume-contact-item:hover { color: var(--accent-bright); }
+.resume-contact-static { cursor: default; }
+
+/* Section blocks */
+.resume-section-block { margin-bottom: 36px; }
+
+.resume-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-bright);
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.resume-heading-icon { color: var(--accent-bright); font-size: 1rem; }
+
+.resume-text { color: var(--text); font-size: 0.92rem; line-height: 1.75; margin-bottom: 0; }
+.resume-coursework { margin-top: 10px; }
+.resume-coursework strong { color: var(--text-bright); }
+
+/* Skill groups */
+.resume-skill-groups { display: flex; flex-direction: column; gap: 14px; }
+.resume-skill-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; }
+
+.resume-skill-group-label {
+  flex: 0 0 175px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-bright);
+}
+
+.resume-skill-chips { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
+
+.resume-chip {
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+  cursor: default;
+}
+
+.resume-chip:hover {
+  background: rgba(34, 211, 238, 0.14);
+  border-color: rgba(34, 211, 238, 0.5);
+  color: var(--text-bright);
+}
+
+/* Entries (experience / projects / education) */
+.resume-entry { margin-bottom: 24px; }
+.resume-entry:last-child { margin-bottom: 0; }
+
+.resume-entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.resume-entry-title { font-size: 1rem; font-weight: 700; color: var(--text-bright); }
+.resume-entry-sub { font-size: 0.88rem; color: var(--text-soft); margin-top: 2px; }
+
+.resume-entry-period {
+  flex-shrink: 0;
+  padding: 3px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  color: var(--accent-bright);
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  white-space: nowrap;
+}
+
+.resume-entry-link {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--text-soft);
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  transition: color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.resume-entry-link:hover {
+  color: var(--accent-bright);
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+  transform: translateY(-2px);
+}
+
+.resume-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.resume-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.resume-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+}
+
+/* Bottom CTA */
+.resume-footer-cta {
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+  margin-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+/* ===== Resume entrance (CSS-only, replaces framer-motion stagger) ===== */
+@keyframes resumeFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .resume-page { padding: 120px 14px 80px; }
+  .resume-container { padding: 36px 24px; }
+  .resume-skill-group-label { flex: 0 0 100%; }
+  .resume-actions { top: auto; bottom: 18px; right: 50%; transform: translateX(50%); }
+  .resume-entry-head { flex-direction: column; gap: 6px; }
+  .resume-entry-period { align-self: flex-start; }
+}
+
+/* Print — browser "Save as PDF" produces a clean light document */
+@media print {
+  .no-print,
+  .pill-navbar,
+  .footer-simple,
+  .aurora-orbs,
+  body::before { display: none !important; }
+
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+  .resume-page { padding: 0; min-height: auto; }
+  .resume-container {
+    max-width: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  .resume-name {
+    background: none;
+    -webkit-text-fill-color: #111827;
+    color: #111827;
+  }
+  .resume-role { color: #4f46e5; }
+  .resume-contact-item, .resume-contact-item svg { color: #374151 !important; }
+  .resume-heading {
+    color: #111827;
+    border-bottom-color: #d1d5db;
+    break-after: avoid;
+  }
+  .resume-heading-icon { color: #4f46e5; }
+  .resume-section-block { break-inside: avoid; }
+  .resume-text, .resume-list li { color: #1f2937; }
+  .resume-entry-title { color: #111827; }
+  .resume-entry-sub { color: #4b5563; }
+  .resume-entry-period { color: #4f46e5; background: #eef2ff; border-color: #c7d2fe; }
+  .resume-chip { color: #374151; background: #f3f4f6; border-color: #d1d5db; }
+  .resume-skill-group-label { color: #4f46e5; }
+  .resume-list li::before { background: #4f46e5; }
+  .resume-coursework strong { color: #111827; }
+}
