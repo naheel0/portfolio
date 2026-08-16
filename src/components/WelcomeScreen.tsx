@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
 
 const NAME = "NAHEEL MUHAMMED PK";
 const TAGLINE = "Full Stack Developer";
-const MIN_DISPLAY_MS = 2000;
-const MAX_DISPLAY_MS = 5000;
+const MIN_DISPLAY_MS = 4000;
+const MAX_DISPLAY_MS = 7000;
 
 export default function WelcomeScreen() {
   const [show, setShow] = useState(false);
@@ -31,8 +30,13 @@ export default function WelcomeScreen() {
       return () => clearTimeout(t);
     }
 
+    let cancelled = false;
     let dismissed = false;
-    const dismiss = () => {
+    let minTimer: ReturnType<typeof setTimeout>;
+    let maxTimer: ReturnType<typeof setTimeout>;
+    let cleanup: (() => void) | undefined;
+
+    const dismiss = (gsap: typeof import("gsap").gsap) => {
       if (dismissed) return;
       dismissed = true;
       gsap.to(el, {
@@ -48,55 +52,61 @@ export default function WelcomeScreen() {
 
     const startTime = Date.now();
 
-    const checkReady = () => {
+    const checkReady = (gsap: typeof import("gsap").gsap) => {
       const elapsed = Date.now() - startTime;
-      const minTimeDone = elapsed >= MIN_DISPLAY_MS;
-      if (minTimeDone) dismiss();
+      if (elapsed >= MIN_DISPLAY_MS) dismiss(gsap);
     };
 
-    const minTimer = setTimeout(checkReady, MIN_DISPLAY_MS);
-    const maxTimer = setTimeout(dismiss, MAX_DISPLAY_MS);
+    (async () => {
+      const { gsap } = await import("gsap");
+      if (cancelled) return;
 
-    const onReady = () => {
-      setTimeout(checkReady, 100);
-    };
+      const onReady = () => {
+        setTimeout(() => checkReady(gsap), 100);
+      };
 
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(onReady);
-    }
-    window.addEventListener("load", onReady);
+      minTimer = setTimeout(() => checkReady(gsap), MIN_DISPLAY_MS);
+      maxTimer = setTimeout(() => dismiss(gsap), MAX_DISPLAY_MS);
 
-    const tl = gsap.timeline();
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(onReady);
+      }
+      window.addEventListener("load", onReady);
 
-    tl.fromTo(
-      el.querySelector(".ws-name"),
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
-    )
-      .fromTo(
-        el.querySelector(".ws-line"),
-        { scaleX: 0 },
-        { scaleX: 1, duration: 0.6, ease: "power3.out" },
-        "-=0.3"
+      cleanup = () => window.removeEventListener("load", onReady);
+
+      const tl = gsap.timeline();
+
+      tl.fromTo(
+        el.querySelector(".ws-name"),
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
       )
-      .fromTo(
-        el.querySelector(".ws-tagline"),
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
-        "-=0.3"
-      )
-      .fromTo(
-        el.querySelector(".ws-spinner"),
-        { opacity: 0 },
-        { opacity: 1, duration: 0.4, ease: "power2.out" },
-        "-=0.2"
-      );
+        .fromTo(
+          el.querySelector(".ws-line"),
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.6, ease: "power3.out" },
+          "-=0.3"
+        )
+        .fromTo(
+          el.querySelector(".ws-tagline"),
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+          "-=0.3"
+        )
+        .fromTo(
+          el.querySelector(".ws-spinner"),
+          { opacity: 0 },
+          { opacity: 1, duration: 0.4, ease: "power2.out" },
+          "-=0.2"
+        );
+    })();
 
     return () => {
-      tl.kill();
+      cancelled = true;
+      cleanup?.();
       clearTimeout(minTimer);
       clearTimeout(maxTimer);
-      window.removeEventListener("load", onReady);
     };
   }, [show]);
 
