@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import AuroraOrbs from "@/components/AuroraOrbs";
+import WelcomeScreen from "@/components/WelcomeScreen";
 import { getSettings } from "@/lib/api";
 
 const ptMono = localFont({
@@ -86,6 +87,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className={ptMono.variable}>
+        <WelcomeScreen />
         <AuroraOrbs />
         <div className="app-layout">{children}</div>
       </body>
