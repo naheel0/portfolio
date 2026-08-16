@@ -245,7 +245,7 @@ img { max-width: 100%; height: auto; }
 }
 
 .intro-avatar:hover img {
-  box-shadow: 0 0 25px rgba(99, 102, 241, 0.7);
+  box-shadow: none;
 }
 
 .name-highlight { color: var(--accent); }
@@ -1626,7 +1626,7 @@ img { max-width: 100%; height: auto; }
   filter: none;
 }
 .intro-avatar:hover img {
-  box-shadow: 0 0 26px rgba(99, 102, 241, 0.65);
+  box-shadow: none;
 }
 
 /* Skill pill: navy glass with cyan/indigo accent */

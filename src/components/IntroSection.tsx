@@ -29,7 +29,7 @@ function IntroSection() {
         </p>
       </div>
 
-      <div className="intro-avatar float-3d hero-fade-up" style={{ animationDelay: '0.2s' }}>
+      <div className="intro-avatar hero-fade-up" style={{ animationDelay: '0.2s' }}>
         <Image src="/avatar.svg" alt="Naheel Muhammed PK Avatar" width={320} height={320} loading="lazy" decoding="async" />
       </div>
     </div>

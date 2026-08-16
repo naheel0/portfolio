@@ -50,6 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: desc,
       images: [ogImage],
     },
+    keywords: ["Naheel Muhammed PK", "Full Stack Developer", ".NET Developer", "React Developer", "Portfolio", "Web Developer", "Kerala", "India"],
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
     alternates: { canonical: BASE_URL },
   };
@@ -83,6 +84,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <head>
+        <meta name="theme-color" content="#060818" />
+        <link rel="icon" href="/icon.svg" />
         <link rel="preconnect" href={API_HOST} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
