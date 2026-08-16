@@ -48,9 +48,12 @@ function ContactContent({ settings }: { settings: SiteSettings }) {
     []
   );
 
+  const [honeypot, setHoneypot] = useState("");
+
   const sendEmail = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
+      if (honeypot) return;
       setIsSubmitting(true);
       setStatus("idle");
       try {
@@ -157,6 +160,31 @@ function ContactContent({ settings }: { settings: SiteSettings }) {
                       )}
                     </div>
                   ))}
+
+                  <div
+                    aria-hidden="true"
+                    tabIndex={-1}
+                    style={{
+                      position: "absolute",
+                      left: "-9999px",
+                      top: "-9999px",
+                      height: 0,
+                      width: 0,
+                      overflow: "hidden",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <label htmlFor="website">Leave this empty</label>
+                    <input
+                      type="text"
+                      id="website"
+                      name="website"
+                      autoComplete="off"
+                      tabIndex={-1}
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                    />
+                  </div>
 
                   <button
                     type="submit"
