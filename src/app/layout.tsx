@@ -90,6 +90,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className={ptMono.variable}>
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <WelcomeScreen />
         <AuroraOrbs />
         <div className="app-layout">{children}</div>
