@@ -69,7 +69,8 @@ export default function WelcomeScreen() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-zinc-950"
+      className="fixed inset-0 z-[2000] flex flex-col items-center justify-center"
+      style={{ backgroundColor: "#09090b" }}
       aria-hidden="true"
     >
       <h1 className="ws-name text-4xl md:text-6xl font-bold text-white tracking-tight opacity-0">
