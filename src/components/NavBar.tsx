@@ -17,6 +17,8 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [resumeOpen, setResumeOpen] = useState(false);
   const [pillStyle, setPillStyle] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
+  const [pdfUrl, setPdfUrl] = useState("/Naheel.pdf");
+  const [pdfName, setPdfName] = useState("Naheel-Muhammed-PK-Resume.pdf");
   const resumeRef = useRef<HTMLDivElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -79,6 +81,16 @@ const Navbar = () => {
     document.addEventListener("mousedown", onClick, { passive: true });
     return () => document.removeEventListener("mousedown", onClick);
   }, [resumeOpen]);
+
+  useEffect(() => {
+    fetch("/api/portfolio/resume")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.pdfUrl) setPdfUrl(data.pdfUrl);
+        if (data.pdfName) setPdfName(data.pdfName);
+      })
+      .catch(() => {});
+  }, []);
 
   const handleNavClick = (href: string) => {
     if (pathname !== "/") {
@@ -145,13 +157,13 @@ const Navbar = () => {
         </Link>
 
         <div className={`nav-resume-dropdown${resumeOpen ? " open" : ""}`}>
-          <a href="/Naheel.pdf" className="nav-resume-option">
+          <a href={pdfUrl} className="nav-resume-option">
             <FaFileLines aria-hidden="true" />
             <span>View Resume</span>
           </a>
           <a
-            href="/Naheel.pdf"
-            download="Naheel-Muhammed-PK-Resume.pdf"
+            href={pdfUrl}
+            download={pdfName}
             className="nav-resume-option"
           >
             <FaFilePdf aria-hidden="true" />

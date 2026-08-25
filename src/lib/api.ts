@@ -16,6 +16,8 @@ export interface SiteSettings {
   avatar: string | null
   ogImage: string | null
   roles: string[]
+  googleVerification: string | null
+  bingVerification: string | null
 }
 
 export interface ProjectChallenge {
@@ -113,6 +115,8 @@ const defaultSettings: SiteSettings = {
   avatar: null,
   ogImage: null,
   roles: ["Full Stack Developer", ".NET Developer", "React Developer", "Web Developer"],
+  googleVerification: null,
+  bingVerification: null,
 }
 
 export const getSettings = cache(async function getSettings(): Promise<SiteSettings> {

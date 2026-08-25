@@ -1,9 +1,10 @@
-"use client";
-import React, { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+'use client';
 
-if (typeof window !== "undefined") {
+import React, { useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
@@ -13,7 +14,7 @@ interface ScrollRevealProps {
   delay?: number;
   duration?: number;
   distance?: number;
-  direction?: "vertical" | "horizontal";
+  direction?: 'vertical' | 'horizontal';
   blur?: boolean;
   scale?: number;
   threshold?: number;
@@ -22,11 +23,11 @@ interface ScrollRevealProps {
 
 export default function ScrollReveal({
   children,
-  className = "",
+  className = '',
   delay = 0,
   duration = 1,
   distance = 60,
-  direction = "vertical",
+  direction = 'vertical',
   blur = true,
   scale = 1,
   threshold = 0.15,
@@ -38,15 +39,23 @@ export default function ScrollReveal({
     const el = ref.current;
     if (!el) return;
 
-    const axis = direction === "horizontal" ? "x" : "y";
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      gsap.set(el, { opacity: 1, y: 0, x: 0, scale: 1, filter: 'blur(0px)', visibility: 'visible' });
+      el.classList.add('visible');
+      return;
+    }
+
+    const axis = direction === 'horizontal' ? 'x' : 'y';
     const startPct = (1 - threshold) * 100;
 
     gsap.set(el, {
       [axis]: distance,
       scale,
       opacity: 0,
-      filter: blur ? "blur(8px)" : "blur(0px)",
-      willChange: "opacity, filter, transform",
+      filter: blur ? 'blur(8px)' : 'blur(0px)',
+      visibility: 'visible',
+      willChange: 'opacity, filter, transform',
     });
 
     const tl = gsap.timeline({ paused: true, delay });
@@ -54,16 +63,23 @@ export default function ScrollReveal({
       [axis]: 0,
       scale: 1,
       opacity: 1,
-      filter: "blur(0px)",
+      filter: 'blur(0px)',
       duration,
-      ease: "power3.out",
+      ease: 'power3.out',
     });
 
     const st = ScrollTrigger.create({
       trigger: el,
       start: `top ${startPct}%`,
       once,
-      onEnter: () => tl.play(),
+      onEnter: () => {
+        el.classList.add('visible');
+        tl.play();
+      },
+      onEnterBack: () => {
+        el.classList.add('visible');
+        tl.play();
+      },
     });
 
     return () => {
@@ -73,7 +89,7 @@ export default function ScrollReveal({
   }, []);
 
   return (
-    <div ref={ref} className={`scroll-reveal ${className}`}>
+    <div ref={ref} className={`scroll-reveal ${className}`} style={{ visibility: 'hidden' }}>
       {children}
     </div>
   );

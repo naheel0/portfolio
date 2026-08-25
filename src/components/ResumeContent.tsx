@@ -14,20 +14,13 @@ import {
   FaLayerGroup,
 } from "react-icons/fa6";
 import type { ResumeData } from "@/lib/data";
+import type { SiteSettings } from "@/lib/api";
 
 // Entrance stagger — matches the previous on-load spring stagger.
 const ENTRANCE_DURATION = "0.6s";
 const ENTRANCE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const baseDelay = 0.1;
 const stagger = 0.08;
-
-const RESUME_CONTACT = [
-  { icon: FaEnvelope, label: "hello@naheel.me", href: "mailto:hello@naheel.me" },
-  { icon: FaPhone, label: "+91 7306912910", href: "tel:+917306912910" },
-  { icon: FaGithub, label: "github.com/naheel0", href: "https://github.com/naheel0" },
-  { icon: FaLinkedin, label: "linkedin.com/in/naheel-muhammed", href: "https://www.linkedin.com/in/naheel-muhammed" },
-  { icon: FaGlobe, label: "www.naheel.me", href: "https://www.naheel.me" },
-];
 
 function enter(i: number): React.CSSProperties {
   return {
@@ -37,8 +30,28 @@ function enter(i: number): React.CSSProperties {
   };
 }
 
-function ResumeContent({ data }: { data: ResumeData }) {
+function ResumeContent({ data, settings }: { data: ResumeData; settings: SiteSettings | null }) {
   const { pdfUrl, summary, skillGroups, experience, projects, education } = data;
+
+  const displayName = settings?.name || "Naheel Muhammed PK";
+  const displayRole = settings?.title || "Full Stack Developer (.NET + React)";
+
+  const RESUME_CONTACT = [
+    settings?.email && { icon: FaEnvelope, label: settings.email, href: `mailto:${settings.email}` },
+    settings?.phone && { icon: FaPhone, label: settings.phone, href: `tel:${settings.phone}` },
+    settings?.github && { icon: FaGithub, label: settings.github.replace(/^https?:\/\//, ""), href: settings.github },
+    settings?.linkedin && { icon: FaLinkedin, label: settings.linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//, "linkedin.com/in/"), href: settings.linkedin },
+    settings?.website && { icon: FaGlobe, label: settings.website.replace(/^https?:\/\//, ""), href: settings.website },
+  ].filter(Boolean) as { icon: React.ElementType; label: string; href: string }[];
+
+  if (RESUME_CONTACT.length === 0) {
+    RESUME_CONTACT.push(
+      { icon: FaEnvelope, label: "hello@naheel.me", href: "mailto:hello@naheel.me" },
+      { icon: FaGithub, label: "github.com/naheel0", href: "https://github.com/naheel0" },
+      { icon: FaLinkedin, label: "linkedin.com/in/naheel-muhammed", href: "https://www.linkedin.com/in/naheel-muhammed" },
+      { icon: FaGlobe, label: "www.naheel.me", href: "https://www.naheel.me" },
+    );
+  }
 
   let i = 0;
   const nextDelay = () => i++;
@@ -65,8 +78,8 @@ function ResumeContent({ data }: { data: ResumeData }) {
       <div className="resume-container">
         {/* ===== Header ===== */}
         <header className="resume-header" style={enter(nextDelay())}>
-          <h1 className="resume-name">Naheel Muhammed PK</h1>
-          <p className="resume-role">Full Stack Developer (.NET + React)</p>
+          <h1 className="resume-name">{displayName}</h1>
+          <p className="resume-role">{displayRole}</p>
           <div className="resume-contact-row">
             {RESUME_CONTACT.map((c) => {
               const Icon = c.icon;

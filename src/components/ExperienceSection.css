@@ -1,0 +1,248 @@
+﻿/* ===== Experience / Timeline Section ===== */
+
+.experience-section {
+  background-color: transparent;
+  width: 100%;
+  position: relative;
+  padding: 80px 0 60px;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 700px;
+}
+
+.experience-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* -- Heading -- */
+
+.experience-title-wrap {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.experience-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.experience-title span {
+  background: var(--aurora-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--accent);
+}
+
+/* -- Timeline wrapper -- */
+
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+/* Vertical line */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--accent-dark));
+  border-radius: 2px;
+}
+
+/* -- Entry -- */
+
+.timeline-entry {
+  position: relative;
+  padding-bottom: 48px;
+}
+
+.timeline-entry:last-child {
+  padding-bottom: 0;
+}
+
+/* Glowing dot on the line */
+.timeline-dot {
+  position: absolute;
+  left: -40px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.5), 0 0 20px rgba(34, 211, 238, 0.2);
+  z-index: 1;
+}
+
+/* Dot breathing glow */
+@keyframes dotGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(34, 211, 238, 0.4), 0 0 16px rgba(34, 211, 238, 0.15); }
+  50%      { box-shadow: 0 0 14px rgba(34, 211, 238, 0.6), 0 0 28px rgba(34, 211, 238, 0.25); }
+}
+
+.timeline-entry.visible .timeline-dot {
+  animation: dotGlow 3s ease-in-out infinite;
+}
+
+/* Small inner circle */
+.timeline-dot::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+/* -- Content card -- */
+
+.timeline-content {
+  background: var(--bg-elev-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 24px 28px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: opacity, transform;
+}
+
+.timeline-content:hover {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-card);
+}
+
+/* -- Period badge -- */
+
+.timeline-period {
+  display: inline-block;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}
+
+/* -- Role / Degree -- */
+
+.timeline-role {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+}
+
+/* -- Company / School -- */
+
+.timeline-company {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  margin-bottom: 16px;
+  letter-spacing: 0.01em;
+}
+
+/* -- Bullets -- */
+
+.timeline-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.timeline-bullets li {
+  position: relative;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  padding-left: 18px;
+  margin-bottom: 8px;
+}
+
+.timeline-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.6;
+}
+
+.timeline-bullets li:last-child {
+  margin-bottom: 0;
+}
+
+/* -- Reduced motion -- */
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-dot {
+    animation: none !important;
+  }
+}
+
+/* -- Mobile -- */
+
+@media (max-width: 992px) {
+  .experience-container {
+    padding: 0 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .experience-section {
+    padding: 60px 0 40px;
+  }
+
+  .experience-container {
+    padding: 0 20px;
+  }
+
+  .experience-title {
+    font-size: 2rem;
+    margin-bottom: 36px;
+  }
+
+  .timeline {
+    padding-left: 32px;
+  }
+
+  .timeline-dot {
+    left: -32px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .timeline-dot::after {
+    inset: 3px;
+  }
+
+  .timeline-content {
+    padding: 18px 20px;
+  }
+
+  .timeline-role {
+    font-size: 1rem;
+  }
+
+  .timeline-company {
+    font-size: 0.85rem;
+  }
+
+  .timeline-bullets li {
+    font-size: 0.85rem;
+  }
+}

@@ -9,6 +9,7 @@ import {
   FaGithub,
 } from "react-icons/fa6";
 import { getProject } from "@/lib/data";
+import { getSettings } from "@/lib/api";
 import { normalizeUrl } from "@/lib/url";
 import { iconMap, DefaultIcon } from "@/lib/icon-map";
 import { techBrandColor } from "@/lib/brand-colors";
@@ -83,11 +84,12 @@ function TechIcon({ name }: { name: string }) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const project = await getProject(slug);
+  const [project, s] = await Promise.all([getProject(slug), getSettings()]);
+  const name = s.name || "Naheel Muhammed PK";
 
   if (!project) {
     return {
-      title: "Project Not Found | Naheel Me",
+      title: `Project Not Found | ${name}`,
       description: "The requested project could not be found.",
       robots: { index: false, follow: false },
     };
@@ -96,7 +98,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const url = `${BASE_URL}/projects/${project.slug}`;
 
   return {
-    title: `${project.title} - ${project.category} Project Case Study by Naheel`,
+    title: `${project.title} - ${project.category} Project Case Study by ${name}`,
     description: project.description,
     alternates: { canonical: url },
     keywords: [
@@ -108,7 +110,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "full stack",
       "project case study",
     ],
-    authors: [{ name: "Naheel" }],
+    authors: [{ name }],
     openGraph: {
       title: `${project.title} - ${project.category} Project Case Study`,
       description: project.description,
@@ -119,7 +121,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       section: project.category,
       tags: project.technologies || [],
       images: [{ url: project.image, width: 1200, height: 675, alt: `${project.title} project screenshot` }],
-      siteName: "Naheel Me - Portfolio",
+      siteName: `${name} - Portfolio`,
       locale: "en_US",
     },
     twitter: {
@@ -127,8 +129,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${project.title} - ${project.category} Project Case Study`,
       description: project.description,
       images: [{ url: project.image, alt: `${project.title} project screenshot` }],
-      creator: "@naheel0",
-      site: "@naheel0",
     },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } },
   };
@@ -136,7 +136,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
-  const project = await getProject(slug);
+  const [project, s] = await Promise.all([getProject(slug), getSettings()]);
+  const name = s.name || "Naheel Muhammed PK";
 
   if (!project) notFound();
 
@@ -151,7 +152,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     applicationCategory: project.category,
     operatingSystem: "Web",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    author: { "@type": "Person", name: "Naheel", url: BASE_URL },
+    author: { "@type": "Person", name, url: BASE_URL },
     datePublished: project.year ? `${project.year}-01-01` : undefined,
     ...(project.technologies?.length && { keywords: project.technologies.join(", ") }),
     ...(project.screenshots?.length && { screenshot: project.screenshots.map((s) => ({ "@type": "ImageObject", url: s })) }),

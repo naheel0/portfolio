@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import AuroraOrbs from "@/components/AuroraOrbs";
 import WelcomeScreen from "@/components/WelcomeScreen";
+import AnalyticsTracker from "@/components/analytics-tracker";
 import { getSettings } from "@/lib/api";
 
 const ptMono = localFont({
@@ -50,9 +53,13 @@ export async function generateMetadata(): Promise<Metadata> {
       description: desc,
       images: [ogImage],
     },
-    keywords: ["Naheel Muhammed PK", "Full Stack Developer", ".NET Developer", "React Developer", "Portfolio", "Web Developer", "Kerala", "India"],
+    keywords: [name, title, ...(s.roles || []), "Portfolio", "Web Developer", "Kerala", "India"],
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
     alternates: { canonical: BASE_URL },
+    verification: {
+      ...(s.googleVerification ? { google: s.googleVerification } : {}),
+    },
+    ...(s.bingVerification ? { other: { "msvalidate.01": s.bingVerification } } : {}),
   };
 }
 
@@ -93,6 +100,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <a href="#main-content" className="skip-link">Skip to content</a>
         <WelcomeScreen />
         <AuroraOrbs />
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
+        <Analytics />
         <div className="app-layout">{children}</div>
       </body>
     </html>
