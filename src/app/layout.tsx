@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import Script from "next/script";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
@@ -21,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
   const name = s.name || "Naheel Muhammed PK";
   const title = s.title || "Full Stack Developer";
-  const desc = s.bio || `Portfolio of ${name} — ${title} from Kerala, India.`;
+  const desc = s.bio || `Portfolio of ${name}, ${title} from Kerala, India.`;
   const ogImage = s.ogImage || "/og-image.png";
   const avatar = s.avatar || "/avatar.svg";
 
@@ -36,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: name,
     publisher: name,
     category: "Technology",
-    applicationName: `${name} — Portfolio`,
+    applicationName: `${name} | Portfolio`,
     formatDetection: { telephone: true, email: true, address: true },
     openGraph: {
       type: "website",
@@ -45,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: name,
       title: `${name} | ${title} Portfolio`,
       description: desc,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: `${name} — ${title}` }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: `${name} | ${title}` }],
     },
     twitter: {
       card: "summary_large_image",
@@ -88,6 +89,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     alumniOf: { "@type": "EducationalOrganization", name: "Bachelor of Computer Applications" },
   };
 
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: `${name} — Portfolio`,
+    url: BASE_URL,
+    author: { "@type": "Person", name },
+    description: s.bio || `Portfolio of ${name}, ${title} from Kerala, India.`,
+    inLanguage: "en-US",
+  };
+
   return (
     <html lang="en">
       <head>
@@ -95,6 +106,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="icon" href="/icon.svg" />
         <link rel="preconnect" href={API_HOST} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
+        {s.analyticsId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${s.analyticsId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${s.analyticsId}');`}
+            </Script>
+          </>
+        )}
       </head>
       <body className={ptMono.variable}>
         <a href="#main-content" className="skip-link">Skip to content</a>
