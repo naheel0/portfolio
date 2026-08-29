@@ -226,3 +226,25 @@ export async function getProject(slug: string): Promise<ProjectDetail | null> {
     return null
   }
 }
+
+export interface PageSeoData {
+  title: string | null
+  description: string | null
+  keywords: string[]
+  ogImage: string | null
+  robots: string | null
+  canonical: string | null
+}
+
+export const getPageSeo = cache(async function getPageSeo(path: string): Promise<PageSeoData | null> {
+  try {
+    const res = await fetch(`${API_URL}/api/portfolio/seo?path=${encodeURIComponent(path)}`, {
+      next: { revalidate: 3600 },
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.page || null
+  } catch {
+    return null
+  }
+})

@@ -3,13 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
+  FaArrowUp,
   FaArrowUpRightFromSquare,
   FaCode,
   FaEnvelope,
   FaGithub,
 } from "react-icons/fa6";
 import { getProject } from "@/lib/data";
-import { getSettings } from "@/lib/api";
+import { getSettings, getPageSeo } from "@/lib/api";
 import { normalizeUrl } from "@/lib/url";
 import { iconMap, DefaultIcon } from "@/lib/icon-map";
 import { techBrandColor } from "@/lib/brand-colors";
@@ -84,7 +85,7 @@ function TechIcon({ name }: { name: string }) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const [project, s] = await Promise.all([getProject(slug), getSettings()]);
+  const [project, s, pageSeo] = await Promise.all([getProject(slug), getSettings(), getPageSeo(`/projects/${slug}`)]);
   const name = s.name || "Naheel Muhammed PK";
 
   if (!project) {
@@ -95,42 +96,42 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const url = `${BASE_URL}/projects/${project.slug}`;
+  const url = pageSeo?.canonical || `${BASE_URL}/projects/${project.slug}`;
+  const title = pageSeo?.title || `${project.title} - ${project.category} Project Case Study by ${name}`;
+  const description = pageSeo?.description || project.description;
+  const keywords = pageSeo?.keywords?.length
+    ? pageSeo.keywords
+    : [project.title, project.category, ...(project.technologies || []), "portfolio", "web development", "full stack", "project case study"];
+  const ogImage = pageSeo?.ogImage || project.image;
 
   return {
-    title: `${project.title} - ${project.category} Project Case Study by ${name}`,
-    description: project.description,
+    title,
+    description,
     alternates: { canonical: url },
-    keywords: [
-      project.title,
-      project.category,
-      ...(project.technologies || []),
-      "portfolio",
-      "web development",
-      "full stack",
-      "project case study",
-    ],
+    keywords,
     authors: [{ name }],
     openGraph: {
-      title: `${project.title} - ${project.category} Project Case Study`,
-      description: project.description,
+      title,
+      description,
       url,
       type: "article",
       publishedTime: project.year ? new Date(Number(project.year), 0, 1).toISOString() : undefined,
       modifiedTime: new Date().toISOString(),
       section: project.category,
       tags: project.technologies || [],
-      images: [{ url: project.image, width: 1200, height: 675, alt: `${project.title} project screenshot` }],
+      images: [{ url: ogImage, width: 1200, height: 675, alt: `${project.title} project screenshot` }],
       siteName: `${name} - Portfolio`,
       locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} - ${project.category} Project Case Study`,
-      description: project.description,
-      images: [{ url: project.image, alt: `${project.title} project screenshot` }],
+      title,
+      description,
+      images: [{ url: ogImage, alt: `${project.title} project screenshot` }],
     },
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } },
+    robots: pageSeo?.robots
+      ? { index: pageSeo.robots.includes("noindex") ? false : true, follow: pageSeo.robots.includes("nofollow") ? false : true }
+      : { index: true, follow: true, googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } },
   };
 }
 
@@ -202,14 +203,14 @@ export default async function ProjectDetailPage({ params }: Props) {
           <section className="pd-hero" aria-label={`${project.title} project hero`}>
             <div className="pd-hero-text">
               <div className="pd-hero-eyebrow">
-                {project.category}{project.year ? ` · ${project.year}` : ""}
+                <strong>{project.category}</strong>{project.year ? ` · ${project.year}` : ""}
               </div>
               <h1 className="pd-hero-title">{project.title}</h1>
               <p className="pd-hero-desc">{project.description}</p>
               <div className="pd-hero-actions">
                 {project.githubUrl && project.githubUrl !== "#" && (
                   <a href={project.githubUrl} target="_blank" rel="noopener noreferrer nofollow" className="pd-btn pd-btn-primary">
-                    <FaCode aria-hidden="true" /> Code
+                    <FaCode aria-hidden="true" /> Source Code
                   </a>
                 )}
                 {project.demoUrl && project.demoUrl !== "#" && (
@@ -440,7 +441,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                   </a>
                 )}
                 <a href="/contact" className="pd-btn pd-btn-ghost">
-                  <FaEnvelope aria-hidden="true" /> Get in Touch
+                  <FaEnvelope aria-hidden="true" /> Contact
                 </a>
               </div>
             </ScrollReveal>
@@ -464,9 +465,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       </div>
 
       <a href="#" className="pd-back-top" aria-label="Back to top">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-          <path d="M3.47 7.78 7.5 3.75a.75.75 0 0 1 1.06 0l4.03 4.03a.75.75 0 1 1-1.06 1.06L8.5 5.81v7.44a.75.75 0 0 1-1.5 0V5.81L4.53 8.84a.75.75 0 1 1-1.06-1.06Z" />
-        </svg>
+        <FaArrowUp aria-hidden="true" />
       </a>
     </main>
   );
