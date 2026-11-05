@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import Script from "next/script";
 import localFont from "next/font/local";
-import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import AuroraOrbs from "@/components/AuroraOrbs";
 import WelcomeScreen from "@/components/WelcomeScreen";
-import AnalyticsTracker from "@/components/analytics-tracker";
 import { getSettings } from "@/lib/api";
 
 const ptMono = localFont({
@@ -107,29 +103,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="preconnect" href={API_HOST} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-        {s.analyticsId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${s.analyticsId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${s.analyticsId}');`}
-            </Script>
-          </>
-        )}
       </head>
       <body className={ptMono.variable}>
         <a href="#main-content" className="skip-link">Skip to content</a>
         <WelcomeScreen />
         <AuroraOrbs />
-        <Suspense fallback={null}>
-          <AnalyticsTracker />
-        </Suspense>
-        <Analytics />
         <div className="app-layout">{children}</div>
       </body>
     </html>
