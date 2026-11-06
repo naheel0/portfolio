@@ -10,7 +10,7 @@ import {
   FaGithub,
 } from "react-icons/fa6";
 import { getProject } from "@/lib/data";
-import { getSettings, getPageSeo } from "@/lib/api";
+import { getSettings } from "@/lib/api";
 import { normalizeUrl } from "@/lib/url";
 import { iconMap, DefaultIcon } from "@/lib/icon-map";
 import { techBrandColor } from "@/lib/brand-colors";
@@ -85,7 +85,7 @@ function TechIcon({ name }: { name: string }) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const [project, s, pageSeo] = await Promise.all([getProject(slug), getSettings(), getPageSeo(`/projects/${slug}`)]);
+  const [project, s] = await Promise.all([getProject(slug), getSettings()]);
   const name = s.name || "Naheel Muhammed PK";
 
   if (!project) {
@@ -96,13 +96,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const url = pageSeo?.canonical || `${BASE_URL}/projects/${project.slug}`;
-  const title = pageSeo?.title || `${project.title} - ${project.category} Project Case Study by ${name}`;
-  const description = pageSeo?.description || project.description;
-  const keywords = pageSeo?.keywords?.length
-    ? pageSeo.keywords
-    : [project.title, project.category, ...(project.technologies || []), "portfolio", "web development", "full stack", "project case study"];
-  const ogImage = pageSeo?.ogImage || project.image;
+  const url = `${BASE_URL}/projects/${project.slug}`;
+  const title = `${project.title} - ${project.category} Project Case Study by ${name}`;
+  const description = project.description;
+  const keywords = [
+    project.title,
+    project.category,
+    ...(project.technologies || []),
+    "portfolio",
+    "web development",
+    "full stack",
+    "project case study",
+  ];
+  const ogImage = project.image;
 
   return {
     title,
@@ -129,9 +135,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       images: [{ url: ogImage, alt: `${project.title} project screenshot` }],
     },
-    robots: pageSeo?.robots
-      ? { index: pageSeo.robots.includes("noindex") ? false : true, follow: pageSeo.robots.includes("nofollow") ? false : true }
-      : { index: true, follow: true, googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 } },
   };
 }
 

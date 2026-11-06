@@ -70,7 +70,6 @@ export interface ProjectListItem {
   category: string
   featured?: boolean
   year: string | number | null
-  showDetailPage?: boolean
 }
 
 // ── Detail (full case-study page) ───────────────────────────────────
@@ -160,7 +159,6 @@ function mapListItem(p: AdminProject, index: number): ProjectListItem {
     category: p.category,
     featured: p.featured,
     year: p.year ?? null,
-    showDetailPage: p.showDetailPage !== false,
   }
 }
 
@@ -202,10 +200,7 @@ export async function getProjects(): Promise<ProjectListItem[]> {
     if (!res.ok) throw new Error(`API returned ${res.status}`)
     const data: AdminProject[] = await res.json()
     if (data.length === 0) return []
-    return data
-      .filter((p) => p.published !== false)
-      .sort((a, b) => a.order - b.order)
-      .map(mapListItem)
+    return data.map(mapListItem)
   } catch {
     return []
   }
@@ -218,31 +213,10 @@ export async function getProject(slug: string): Promise<ProjectDetail | null> {
     })
     if (!res.ok) return null
     const p: AdminProject = await res.json()
-    if (p.published === false || p.showDetailPage === false) return null
     return mapDetail(p)
   } catch {
     return null
   }
 }
 
-export interface PageSeoData {
-  title: string | null
-  description: string | null
-  keywords: string[]
-  ogImage: string | null
-  robots: string | null
-  canonical: string | null
-}
 
-export const getPageSeo = cache(async function getPageSeo(path: string): Promise<PageSeoData | null> {
-  try {
-    const res = await fetch(`${API_URL}/api/portfolio/seo?path=${encodeURIComponent(path)}`, {
-      next: { revalidate: 3600 },
-    })
-    if (!res.ok) return null
-    const data = await res.json()
-    return data.page || null
-  } catch {
-    return null
-  }
-})

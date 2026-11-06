@@ -7,9 +7,7 @@ export async function GET() {
   try {
     const projects = await getProjects()
 
-    const projectPages = projects
-      .filter(p => p.showDetailPage !== false)
-      .map(p => ({
+    const projectPages = projects.map(p => ({
         path: `/projects/${p.slug}`,
         label: p.title,
         type: "project" as const,
