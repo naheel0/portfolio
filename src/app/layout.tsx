@@ -18,17 +18,21 @@ export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
   const name = s.name || "Naheel Muhammed PK";
   const title = s.title || "Full Stack Developer";
-  const desc = s.bio || `Portfolio of ${name}, ${title} from Kerala, India.`;
+  const autoTitle = `${name} | ${title} Portfolio`;
+  const autoDesc = s.bio || `Portfolio of ${name}, ${title} from Kerala, India.`;
+  // Manual override from the admin SEO form; automatic assembly stays the fallback.
+  const pageTitle = s.metaTitle || autoTitle;
+  const pageDesc = s.metaDescription || autoDesc;
   const ogImage = s.ogImage || "/og-image.png";
-  const avatar = s.avatar || "/avatar.svg";
+  const ogImageUrl = ogImage.startsWith("/") ? `${BASE_URL}${ogImage}` : ogImage;
 
   return {
     metadataBase: new URL(BASE_URL),
     title: {
-      default: `${name} | ${title} Portfolio`,
+      default: pageTitle,
       template: `%s | ${name}`,
     },
-    description: desc,
+    description: pageDesc,
     authors: [{ name }],
     creator: name,
     publisher: name,
@@ -40,15 +44,15 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "en_US",
       url: BASE_URL,
       siteName: name,
-      title: `${name} | ${title} Portfolio`,
-      description: desc,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: `${name} | ${title}` }],
+      title: pageTitle,
+      description: pageDesc,
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: `${name} | ${title}` }],
     },
     twitter: {
-      card: "summary_large_image",
-      title: `${name} | ${title} Portfolio`,
-      description: desc,
-      images: [ogImage],
+      card: ogImage ? "summary_large_image" : "summary",
+      title: pageTitle,
+      description: pageDesc,
+      images: [{ url: ogImageUrl, alt: `${name} | ${title}` }],
     },
     keywords: [name, title, ...(s.roles || []), "Portfolio", "Web Developer", "Kerala", "India"],
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
@@ -64,25 +68,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const s = await getSettings();
   const name = s.name || "Naheel Muhammed PK";
   const title = s.title || "Full Stack Developer";
-  const avatar = s.avatar || `${BASE_URL}/avatar.svg`;
-  const email = s.email || "hello@naheel.me";
-  const phone = s.phone || "+91-7306912910";
-  const github = s.github || "https://github.com/naheel0";
-  const linkedin = s.linkedin || "https://www.linkedin.com/in/naheel-muhammed";
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
     name,
     url: BASE_URL,
-    image: avatar,
     jobTitle: title,
-    email,
-    telephone: phone,
-    address: { "@type": "PostalAddress", addressRegion: "Kerala", addressCountry: "IN" },
-    sameAs: [github, linkedin],
-    knowsAbout: ["React", "Next.js", "JavaScript", "TypeScript", "HTML", "CSS", ".NET", "C#", "ASP.NET", "SQL Server", "Web Development", "Full Stack Development"],
-    alumniOf: { "@type": "EducationalOrganization", name: "Bachelor of Computer Applications" },
+    ...(s.email ? { email: s.email } : {}),
+    ...(s.phone ? { telephone: s.phone } : {}),
+    sameAs: [s.github, s.linkedin].filter(Boolean),
+    knowsAbout: s.roles || [],
+    ...(s.avatar ? { image: s.avatar.startsWith("/") ? `${BASE_URL}${s.avatar}` : s.avatar } : {}),
   };
 
   const websiteJsonLd = {

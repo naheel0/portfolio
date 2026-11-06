@@ -16,6 +16,8 @@ export interface SiteSettings {
   avatar: string | null
   ogImage: string | null
   roles: string[]
+  metaTitle: string | null
+  metaDescription: string | null
   googleVerification: string | null
   bingVerification: string | null
 }
@@ -114,6 +116,8 @@ const defaultSettings: SiteSettings = {
   avatar: null,
   ogImage: null,
   roles: ["Full Stack Developer", ".NET Developer", "React Developer", "Web Developer"],
+  metaTitle: null,
+  metaDescription: null,
   googleVerification: null,
   bingVerification: null,
 }

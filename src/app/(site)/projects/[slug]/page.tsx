@@ -108,9 +108,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     "full stack",
     "project case study",
   ];
-  const ogImage = project.image;
+  const ogImage = project.image.startsWith("/") ? `${BASE_URL}${project.image}` : project.image;
 
   return {
+    metadataBase: new URL(BASE_URL),
     title,
     description,
     alternates: { canonical: url },
