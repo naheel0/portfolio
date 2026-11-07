@@ -9,7 +9,6 @@ const navItems = [
   { href: "#home",     icon: FaHouse,     section: "home",     label: "Home"     },
   { href: "#about",    icon: FaUser,      section: "about",    label: "About"    },
   { href: "#skills",   icon: FaCode,      section: "skills",   label: "Skills"   },
-  { href: "/blog",     icon: FaNewspaper, section: "blog",    label: "Blog",     page: true },
   { href: "#projects", icon: FaBriefcase, section: "projects", label: "Work"     },
   { href: "#contact",  icon: FaEnvelope,  section: "contact",  label: "Contact"  },
 ] as const;
@@ -111,6 +110,7 @@ const Navbar = () => {
   };
 
   return (
+    <>
     <nav
       className="pill-navbar"
       role="navigation"
@@ -178,6 +178,16 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+
+    <Link
+      href="/blog"
+      className={`nav-blog-btn${pathname === "/blog" ? " blog-active" : ""}`}
+      aria-label="Blog"
+      title="Blog"
+    >
+      <FaNewspaper aria-hidden="true" />
+    </Link>
+    </>
   );
 };
 
