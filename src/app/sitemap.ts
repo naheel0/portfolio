@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getProjects } from "@/lib/api";
+import { getProjects, getSettings, getDevtoArticles } from "@/lib/api";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
 
