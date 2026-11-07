@@ -205,6 +205,8 @@ export const getDevtoArticle = cache(async function getDevtoArticle(
     if (!res.ok) return null
     const a = await res.json()
     if (!a || !a.body_html) return null
+    const toTags = (v: unknown): string[] =>
+      Array.isArray(v) ? v : typeof v === "string" ? v.split(",").map((t) => t.trim()).filter(Boolean) : []
     return {
       id: a.id,
       slug: a.slug,
@@ -213,7 +215,7 @@ export const getDevtoArticle = cache(async function getDevtoArticle(
       url: a.url,
       canonical_url: a.canonical_url ?? null,
       cover_image: a.cover_image ?? a.social_image ?? null,
-      tag_list: a.tag_list || [],
+      tag_list: toTags(a.tag_list),
       published_at: a.published_at,
       readable_publish_date: a.readable_publish_date,
       reading_time_minutes: a.reading_time_minutes ?? 0,
