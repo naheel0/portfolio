@@ -2201,3 +2201,157 @@ a.resume-contact-item:hover { color: var(--accent-bright); }
   top: 0;
 }
 
+/* ===== Blog page ===== */
+.blog-page {
+  padding: 48px 24px 80px;
+}
+.blog-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.blog-header {
+  margin-bottom: 32px;
+}
+.blog-title {
+  font-size: 2rem;
+  letter-spacing: 1px;
+  margin: 0 0 8px;
+}
+.blog-sub {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .blog-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.blog-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.blog-empty-title {
+  font-size: 1.5rem;
+  margin: 0 0 8px;
+  color: white;
+}
+.blog-empty-desc { margin: 0; font-size: 0.95rem; }
+.blog-card {
+  display: block;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(23, 21, 58, 0.55) 55%, rgba(30, 27, 75, 0.5) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45), 0 0 50px rgba(34, 211, 238, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+.blog-card:hover {
+  border-color: rgba(34, 211, 238, 0.45);
+  transform: translateY(-4px);
+}
+.blog-card-cover {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background: #0e1330;
+  display: block;
+}
+.blog-card-body {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.blog-card-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.35;
+}
+.blog-card:hover .blog-card-title { color: var(--accent-bright); }
+.blog-card-desc {
+  margin: 0;
+  font-size: 0.86rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.blog-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+.blog-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.blog-card-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.blog-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* ===== About: blog link ===== */
+.about-blog-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(255, 255, 255, 0.35);
+  transition: color 0.25s ease, text-decoration-color 0.25s ease;
+}
+.about-blog-link:hover {
+  color: var(--accent-bright);
+  text-decoration-color: var(--accent-bright);
+}
+
+/* ===== Open to work hero banner ===== */
+.ow-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: 50px;
+  background: rgba(16, 185, 129, 0.10);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #a7f3d0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.ow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+

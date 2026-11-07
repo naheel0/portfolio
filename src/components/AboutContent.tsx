@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { useReveal } from "@/lib/useReveal";
 
 const AboutContent = () => {
@@ -37,7 +38,7 @@ const AboutContent = () => {
             </p>
             <ul className="activities-list">
               <li>🎮 Playing Games</li>
-              <li>✍️ Writing Tech Blogs</li>
+              <li>✍️ <Link href="/blog" className="about-blog-link">Writing Tech Blogs</Link></li>
               <li>🚀 Exploring New Technologies</li>
             </ul>
           </div>

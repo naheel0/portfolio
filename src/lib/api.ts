@@ -20,6 +20,9 @@ export interface SiteSettings {
   metaDescription: string | null
   googleVerification: string | null
   bingVerification: string | null
+  devtoUsername: string | null
+  openToWork: boolean
+  openToWorkMessage: string | null
 }
 
 export interface ProjectChallenge {
@@ -120,6 +123,9 @@ const defaultSettings: SiteSettings = {
   metaDescription: null,
   googleVerification: null,
   bingVerification: null,
+  devtoUsername: null,
+  openToWork: false,
+  openToWorkMessage: null,
 }
 
 export const getSettings = cache(async function getSettings(): Promise<SiteSettings> {
@@ -132,6 +138,47 @@ export const getSettings = cache(async function getSettings(): Promise<SiteSetti
     return { ...defaultSettings, ...data }
   } catch {
     return defaultSettings
+  }
+})
+
+// ── Dev.to articles ───────────────────────────────────────────────────
+
+export interface DevtoArticle {
+  title: string
+  description: string
+  url: string
+  cover_image: string | null
+  tag_list: string[]
+  published_at: string
+  readable_publish_date: string
+  reading_time_minutes: number
+  positive_reactions_count: number
+  published_timestamp: number
+}
+
+export const getDevtoArticles = cache(async function getDevtoArticles(username?: string | null): Promise<DevtoArticle[]> {
+  if (!username) return []
+  try {
+    const res = await fetch(`https://dev.to/api/articles?username=${encodeURIComponent(username)}&per_page=12`, {
+      next: { revalidate: 3600 },
+    })
+    if (!res.ok) return []
+    const raw = await res.json()
+    if (!Array.isArray(raw)) return []
+    return raw.map((a: any) => ({
+      title: a.title,
+      description: a.description,
+      url: a.url,
+      cover_image: a.cover_image ?? a.social_image ?? null,
+      tag_list: a.tag_list || [],
+      published_at: a.published_at,
+      readable_publish_date: a.readable_publish_date,
+      reading_time_minutes: a.reading_time_minutes ?? 0,
+      positive_reactions_count: a.positive_reactions_count ?? 0,
+      published_timestamp: a.published_timestamp ?? 0,
+    }))
+  } catch {
+    return []
   }
 })
 

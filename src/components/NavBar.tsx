@@ -3,12 +3,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { FaHouse, FaUser, FaCode, FaBriefcase, FaEnvelope, FaFileLines, FaFilePdf, FaChevronDown } from "react-icons/fa6";
+import { FaHouse, FaUser, FaCode, FaBriefcase, FaEnvelope, FaFileLines, FaFilePdf, FaChevronDown, FaNewspaper } from "react-icons/fa6";
 
 const navItems = [
   { href: "#home",     icon: FaHouse,     section: "home",     label: "Home"     },
   { href: "#about",    icon: FaUser,      section: "about",    label: "About"    },
   { href: "#skills",   icon: FaCode,      section: "skills",   label: "Skills"   },
+  { href: "/blog",     icon: FaNewspaper, section: "blog",    label: "Blog",     page: true },
   { href: "#projects", icon: FaBriefcase, section: "projects", label: "Work"     },
   { href: "#contact",  icon: FaEnvelope,  section: "contact",  label: "Contact"  },
 ] as const;
@@ -92,7 +93,12 @@ const Navbar = () => {
       .catch(() => {});
   }, []);
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (item: (typeof navItems)[number]) => {
+    if ("page" in item && item.page) {
+      router.push(item.href);
+      return;
+    }
+    const href = item.href;
     if (pathname !== "/") {
       router.push(`/${href}`);
       return;
@@ -128,7 +134,7 @@ const Navbar = () => {
               href={item.href}
               aria-label={item.section}
               aria-current={isActive ? "page" : undefined}
-              onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
+              onClick={(e) => { e.preventDefault(); handleNavClick(item); }}
             >
               <Icon aria-hidden="true" className="nav-item-icon" />
               <span className="nav-item-label">{item.label}</span>

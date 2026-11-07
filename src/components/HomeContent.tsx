@@ -26,6 +26,13 @@ const HomeContent = async () => {
           </h1>
           <RoleTypewriter roles={roles} />
 
+          {s.openToWork === true && (
+            <div className="ow-banner" role="status" aria-live="polite">
+              <span className="ow-dot" aria-hidden="true" />
+              {s.openToWorkMessage?.trim() || "Open to work"}
+            </div>
+          )}
+
           <div className="home-buttons">
             <a
               href="/resume"
