@@ -29,8 +29,8 @@ const AboutContent = () => {
               both frontend and backend stacks.
             </p>
             <p>
-              Skilled in <span className="highlight">Clean Architecture, ASP.NET Core, Entity Framework, and SQL Server</span>.
-              Passionate about building scalable, secure web applications for SaaS, startup, and
+              Skilled in <span className="highlight">Clean Architecture, ASP.NET Core, Entity Framework, and SQL Server</span>, and I enjoy
+              building scalable, secure web applications for SaaS, startup, and
               e-commerce environments.
             </p>
             <p>
@@ -39,7 +39,7 @@ const AboutContent = () => {
             <ul className="activities-list">
               <li>🎮 Playing Games</li>
               <li>✍️ <Link href="/blog" className="about-blog-link">Writing Tech Blogs</Link></li>
-              <li>🚀 Exploring New Technologies</li>
+              <li>🔧 Exploring New Technologies</li>
             </ul>
           </div>
         </div>

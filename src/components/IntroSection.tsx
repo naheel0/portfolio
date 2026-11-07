@@ -22,7 +22,8 @@ function IntroSection() {
         </p>
         <p className="hero-fade-up" style={{ animationDelay: '0.35s' }}>
           My key areas of interest include <span className="text-accent">Web Applications, SaaS, and E-commerce solutions</span>.
-          Passionate about building scalable, secure web applications. Open to both remote and onsite opportunities across India.
+          I enjoy building scalable, secure web applications. Open to both remote and onsite opportunities across India.
+
         </p>
         <p className="hero-fade-up" style={{ animationDelay: '0.45s' }}>
           Feel free to explore and reach out if you&apos;d like to collaborate!
