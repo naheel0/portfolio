@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./page.css";
 import { getSettings, getDevtoArticles, type DevtoArticle } from "@/lib/api";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
