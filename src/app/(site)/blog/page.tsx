@@ -116,9 +116,7 @@ export default async function BlogPage() {
         ) : (
           <>
             <a
-              href={featured.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={featured.slug ? `/blog/${featured.slug}` : featured.url}
               className="blog-featured hero-fade-up"
             >
               {featured.cover_image && (
@@ -153,9 +151,7 @@ export default async function BlogPage() {
                     style={{ animationDelay: `${0.08 * (i + 1)}s` }}
                   >
                     <a
-                      href={article.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href={article.slug ? `/blog/${article.slug}` : article.url}
                       className={`blog-row${article.cover_image ? "" : " no-thumb"}`}
                     >
                       {article.cover_image && (

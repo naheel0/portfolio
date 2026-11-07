@@ -144,9 +144,12 @@ export const getSettings = cache(async function getSettings(): Promise<SiteSetti
 // ── Dev.to articles ───────────────────────────────────────────────────
 
 export interface DevtoArticle {
+  id: number
+  slug: string
   title: string
   description: string
   url: string
+  canonical_url: string | null
   cover_image: string | null
   tag_list: string[]
   published_at: string
@@ -166,9 +169,12 @@ export const getDevtoArticles = cache(async function getDevtoArticles(username?:
     const raw = await res.json()
     if (!Array.isArray(raw)) return []
     return raw.map((a: any) => ({
+      id: a.id,
+      slug: a.slug,
       title: a.title,
       description: a.description,
       url: a.url,
+      canonical_url: a.canonical_url ?? null,
       cover_image: a.cover_image ?? a.social_image ?? null,
       tag_list: a.tag_list || [],
       published_at: a.published_at,
@@ -179,6 +185,44 @@ export const getDevtoArticles = cache(async function getDevtoArticles(username?:
     }))
   } catch {
     return []
+  }
+})
+
+export interface DevtoArticleFull extends DevtoArticle {
+  body_html: string
+}
+
+// Single article by username+slug — includes the full body_html
+export const getDevtoArticle = cache(async function getDevtoArticle(
+  username: string,
+  slug: string,
+): Promise<DevtoArticleFull | null> {
+  try {
+    const res = await fetch(
+      `https://dev.to/api/articles/${encodeURIComponent(username)}/${encodeURIComponent(slug)}`,
+      { next: { revalidate: 3600 } },
+    )
+    if (!res.ok) return null
+    const a = await res.json()
+    if (!a || !a.body_html) return null
+    return {
+      id: a.id,
+      slug: a.slug,
+      title: a.title,
+      description: a.description,
+      url: a.url,
+      canonical_url: a.canonical_url ?? null,
+      cover_image: a.cover_image ?? a.social_image ?? null,
+      tag_list: a.tag_list || [],
+      published_at: a.published_at,
+      readable_publish_date: a.readable_publish_date,
+      reading_time_minutes: a.reading_time_minutes ?? 0,
+      positive_reactions_count: a.positive_reactions_count ?? 0,
+      published_timestamp: a.published_timestamp ?? 0,
+      body_html: a.body_html,
+    }
+  } catch {
+    return null
   }
 })
 
