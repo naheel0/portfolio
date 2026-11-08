@@ -56,7 +56,10 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     keywords: [name, title, ...(s.roles || []), "Portfolio", "Web Developer", "Kerala", "India"],
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
-    alternates: { canonical: BASE_URL },
+    alternates: {
+      canonical: BASE_URL,
+      types: { "application/rss+xml": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me"}/rss.xml` },
+    },
     verification: {
       ...(s.googleVerification ? { google: s.googleVerification } : {}),
     },
