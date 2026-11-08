@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const NAME = "NAHEEL MUHAMMED PK";
 const TAGLINE = "Full Stack Developer";
@@ -8,14 +9,17 @@ const MIN_DISPLAY_MS = 4000;
 const MAX_DISPLAY_MS = 7000;
 
 export default function WelcomeScreen() {
+  const pathname = usePathname();
   const [show, setShow] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Blog pages have their own standalone design; no splash there.
+    if (pathname.startsWith("/blog")) return;
     const seen = sessionStorage.getItem("welcome-seen");
     if (seen) return;
     setShow(true);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!show || !containerRef.current) return;

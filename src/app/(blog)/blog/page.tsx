@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./page.css";
 import { getSettings, getDevtoArticles, type DevtoArticle } from "@/lib/api";
 
@@ -97,7 +98,24 @@ export default async function BlogPage() {
   return (
     <section className="blog-page" id="blog" aria-label="Blog">
       <div className="blog-wrap">
-        <header className="blog-header hero-fade-up">
+        <div className="blog-topbar">
+          <Link href="/" className="portal-back">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Back to portfolio
+          </Link>
+        </div>
+        <header className="blog-header">
           <h1 className="blog-title">Blog</h1>
           <p className="blog-sub">
             {empty
@@ -107,7 +125,7 @@ export default async function BlogPage() {
         </header>
 
         {empty ? (
-          <div className="blog-empty hero-fade-up">
+          <div className="blog-empty">
             <h2 className="blog-empty-title">No articles published yet.</h2>
             <p className="blog-empty-desc">
               Add a dev.to username in admin settings and published articles will appear here.
@@ -117,7 +135,7 @@ export default async function BlogPage() {
           <>
             <a
               href={featured.slug ? `/blog/${featured.slug}` : featured.url}
-              className="blog-featured hero-fade-up"
+              className="blog-featured"
             >
               {featured.cover_image && (
                 <img
@@ -147,7 +165,7 @@ export default async function BlogPage() {
                 {rest.map((article, i) => (
                   <li
                     key={article.url}
-                    className="hero-fade-up"
+                    className=""
                     style={{ animationDelay: `${0.08 * (i + 1)}s` }}
                   >
                     <a
@@ -176,7 +194,7 @@ export default async function BlogPage() {
 
             {s.devtoUsername && (
               <a
-                className="blog-more hero-fade-up"
+                className="blog-more"
                 href={`https://dev.to/${s.devtoUsername}`}
                 target="_blank"
                 rel="noopener noreferrer"
