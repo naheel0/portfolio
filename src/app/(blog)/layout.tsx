@@ -1,4 +1,5 @@
 import { Barlow_Semi_Condensed, Inter, Martian_Mono } from "next/font/google";
+import Footer from "@/components/Footer";
 
 const barlow = Barlow_Semi_Condensed({
   subsets: ["latin"],
@@ -9,8 +10,11 @@ const barlow = Barlow_Semi_Condensed({
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const martian = Martian_Mono({ subsets: ["latin"], variable: "--font-martian", display: "swap" });
 
-export default function BlogLayout({ children }: { children: React.ReactNode }) {
+export default async function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`${barlow.variable} ${inter.variable} ${martian.variable}`}>{children}</div>
+    <div className={`${barlow.variable} ${inter.variable} ${martian.variable}`}>
+      {children}
+      <Footer />
+    </div>
   );
 }
