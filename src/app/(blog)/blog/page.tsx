@@ -167,7 +167,8 @@ export default async function BlogPage({
       </div>
       <div className="blog-wrap">
         <header className="blog-header">
-          <h1 className="blog-title">Blog</h1>
+          <span className="blog-eyebrow">PARTNERS &amp; SPONSORS</span>
+          <h1 className="blog-title">Backing the <span className="title-accent">builders.</span></h1>
           <p className="blog-sub">
             {empty
               ? "Articles by Naheel, published on dev.to."

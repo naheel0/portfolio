@@ -228,6 +228,22 @@ h1,
   letter-spacing: 0;
 }
 
+/* Duo-tone heading (eyebrow + split-color title) */
+.blog-eyebrow {
+  display: block;
+  font-family: var(--font-martian), "Martian Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #10201d;
+  margin: 0 0 12px;
+}
+
+.title-accent {
+  color: #e53927;
+}
+
 /* Featured card — grid stack: cover + scrim as background, text defines card height */
 .blog-featured {
   width: 100%;
