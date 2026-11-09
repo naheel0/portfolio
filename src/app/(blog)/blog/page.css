@@ -246,7 +246,8 @@ h1,
 
 /* Featured card — grid stack: cover + scrim as background, text defines card height */
 .blog-featured {
-  width: 100%;
+  width: min(calc(100% - 30px), 934px);
+  margin-inline: auto;
   background: #f7f7f2;
   border: 2px solid #10201d;
   margin-bottom: 40px;
@@ -405,6 +406,8 @@ h1,
 }
 
 .blog-row {
+  width: min(calc(100% - 30px), 934px);
+  margin-inline: auto;
   display: flex;
   gap: 24px;
   background: #f7f7f2;
