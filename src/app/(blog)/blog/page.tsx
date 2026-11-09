@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./page.css";
 import { getSettings, getDevtoArticles, type DevtoArticle } from "@/lib/api";
-import { DuoTitle } from "./duo-title";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
 
@@ -210,7 +209,7 @@ export default async function BlogPage({
                       </span>
                     ))}
                   </div>
-                  <h2 className="blog-featured-title"><DuoTitle>{featured.title}</DuoTitle></h2>
+                  <h2 className="blog-featured-title">{featured.title}</h2>
                   <p className="blog-featured-desc">{featured.description}</p>
                 </div>
                 <div className="blog-featured-footer">
