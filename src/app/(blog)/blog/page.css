@@ -254,6 +254,9 @@ h1,
 }
 
 .blog-featured-body {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
   padding: 36px 40px 40px;
   color: #10201d;
 }
