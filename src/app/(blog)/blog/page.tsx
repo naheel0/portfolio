@@ -136,27 +136,46 @@ export default async function BlogPage() {
             <a
               href={featured.slug ? `/blog/${featured.slug}` : featured.url}
               className="blog-featured"
+              aria-label={featured.title}
             >
-              {featured.cover_image && (
-                <img
-                  src={featured.cover_image}
-                  alt=""
-                  className="blog-featured-cover"
-                  loading="eager"
-                  decoding="async"
-                />
-              )}
+              <div className="blog-featured-media">
+                {featured.cover_image && (
+                  <img
+                    src={featured.cover_image}
+                    alt=""
+                    className="blog-featured-cover"
+                    loading="eager"
+                    decoding="async"
+                  />
+                )}
+                <div className="blog-featured-scrim" />
+              </div>
               <div className="blog-featured-body">
-                <h2 className="blog-featured-title">{featured.title}</h2>
-                <p className="blog-featured-desc">{featured.description}</p>
-                <div className="blog-tags" role="list" aria-label="Tags">
-                  {featured.tag_list.slice(0, 6).map((tag) => (
-                    <span key={tag} className="prj-chip" role="listitem">
-                      {tag}
-                    </span>
-                  ))}
+                <div className="blog-featured-content">
+                  <div className="blog-featured-kicker" role="list" aria-label="Tags">
+                    {featured.tag_list.slice(0, 6).map((tag) => (
+                      <span key={tag} className="prj-chip" role="listitem">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h2 className="blog-featured-title">{featured.title}</h2>
+                  <p className="blog-featured-desc">{featured.description}</p>
                 </div>
-                <Meta article={featured} />
+                <div className="blog-featured-footer">
+                  <div className="blog-featured-stats" role="list" aria-label="Article stats">
+                    <span className="blog-stat" aria-label="Reactions">
+                      {featured.positive_reactions_count}
+                    </span>
+                    <span className="blog-stat" aria-label="Read time">
+                      {featured.reading_time_minutes} min
+                    </span>
+                    <span className="blog-stat" aria-label="Topics">
+                      {featured.tag_list.length}
+                    </span>
+                  </div>
+                  <Meta article={featured} className="blog-meta-featured" />
+                </div>
               </div>
             </a>
 

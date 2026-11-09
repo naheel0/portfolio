@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Barlow_Condensed, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
-import AuroraOrbs from "@/components/AuroraOrbs";
 import WelcomeScreen from "@/components/WelcomeScreen";
+import AuroraOrbs from "@/components/AuroraOrbs";
 import { getSettings } from "@/lib/api";
 
-const ptMono = localFont({
-  src: "../fonts/pt-mono-latin.woff2",
-  variable: "--font-pt-mono",
+const barlow = Barlow_Condensed({
+  subsets: ["latin"],
+  variable: "--font-barlow",
+  weight: ["400", "700", "800"],
+  display: "swap",
+});
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "600"],
+  display: "swap",
+});
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  variable: "--font-space-mono",
+  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -103,7 +116,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       </head>
-      <body className={ptMono.variable}>
+      <body className={`${barlow.variable} ${inter.variable} ${spaceMono.variable}`}>
         <a href="#main-content" className="skip-link">Skip to content</a>
         <WelcomeScreen />
         <AuroraOrbs />
