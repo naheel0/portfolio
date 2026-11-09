@@ -246,11 +246,11 @@ h1,
 
 /* Featured card — grid stack: cover + scrim as background, text defines card height */
 .blog-featured {
-  width: min(calc(100% - 30px), 934px);
+  width: min(calc(100% - 30px), 840px);
   margin-inline: auto;
   background: #f7f7f2;
   border: 2px solid #10201d;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   text-decoration: none;
   color: inherit;
   display: block;
@@ -273,15 +273,15 @@ h1,
 .blog-featured-cover {
   display: block;
   width: 100%;
-  aspect-ratio: 1000 / 420;
+  aspect-ratio: 16 / 7;
   object-fit: cover;
 }
 
 .blog-featured-body {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  padding: 36px 40px 40px;
+  gap: 20px;
+  padding: 24px 32px 28px;
   color: #10201d;
 }
 
@@ -289,7 +289,7 @@ h1,
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .blog-featured-kicker .prj-chip {
@@ -304,14 +304,14 @@ h1,
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.94;
-  font-size: clamp(2.4rem, 4.8vw, 4.5rem);
+  font-size: clamp(2rem, 4vw, 3.6rem);
   color: #10201d;
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
   text-wrap: balance;
 }
 
 .blog-featured-desc {
-  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
   line-height: 1.55;
   color: #34433f;
   margin: 0 0 0 0;
@@ -321,7 +321,7 @@ h1,
 .blog-featured-footer {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .blog-featured-stats {
@@ -402,19 +402,19 @@ h1,
 .blog-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .blog-row {
   width: min(calc(100% - 30px), 934px);
   margin-inline: auto;
   display: flex;
-  gap: 24px;
+  gap: 20px;
   background: #f7f7f2;
   border: 2px solid #10201d;
   text-decoration: none;
   color: inherit;
-  padding: 24px;
+  padding: 18px;
   align-items: center;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -429,8 +429,8 @@ h1,
 }
 
 .blog-row-thumb {
-  width: 176px;
-  height: 104px;
+  width: 152px;
+  height: 90px;
   object-fit: cover;
   flex-shrink: 0;
 }
@@ -440,12 +440,12 @@ h1,
 }
 
 .blog-row-title {
-  font-size: 1.35rem;
-  margin-bottom: 8px;
+  font-size: 1.2rem;
+  margin-bottom: 6px;
 }
 
 .blog-row-desc {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #34433f;
   line-height: 1.4;
   display: -webkit-box;
