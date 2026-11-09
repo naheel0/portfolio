@@ -567,6 +567,10 @@ h1,
 }
 
 /* Post page styles */
+.post-header {
+  margin-bottom: 28px;
+}
+
 .post-wrap {
   padding-top: 56px;
 }
@@ -781,6 +785,30 @@ h1,
   line-height: 1.5;
   color: #f2f2eb;
   margin: 0 0 1.25rem;
+}
+
+/* ponytail: globals.css styles .highlight as aurora gradient text
+   (transparent fill + cyan italic); dev.to puts .highlight on BOTH the
+   wrapper div and the pre itself. div gets color:inherit to kill the cyan,
+   pre keeps its #f2f2eb from .post-body pre and only needs the fill fixed */
+.post-body div.highlight {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: currentColor;
+  color: inherit;
+  font-style: normal;
+  text-shadow: none;
+}
+
+.post-body pre.highlight {
+  -webkit-text-fill-color: currentColor;
+  font-style: normal;
+  text-shadow: none;
+}
+
+.post-body .highlight__panel {
+  display: none;
 }
 
 .post-body :not(pre) > code {
