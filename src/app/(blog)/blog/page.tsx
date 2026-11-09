@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./page.css";
+import { DualColorHeading } from "@/components/DualColorHeading";
 import { getSettings, getDevtoArticles, type DevtoArticle } from "@/lib/api";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
@@ -209,7 +210,7 @@ export default async function BlogPage({
                       </span>
                     ))}
                   </div>
-                  <h2 className="blog-featured-title">{featured.title}</h2>
+                  <DualColorHeading level={2} className="blog-featured-title">{featured.title}</DualColorHeading>
                   <p className="blog-featured-desc">{featured.description}</p>
                 </div>
                 <div className="blog-featured-footer">
@@ -251,7 +252,7 @@ export default async function BlogPage({
                         />
                       )}
                       <div className="blog-row-body">
-                        <h3 className="blog-row-title">{article.title}</h3>
+                        <DualColorHeading level={3} className="blog-row-title">{article.title}</DualColorHeading>
                         <p className="blog-row-desc">{article.description}</p>
                         <Meta article={article} className="blog-meta-row" />
                       </div>

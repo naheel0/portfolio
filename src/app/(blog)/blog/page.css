@@ -117,6 +117,11 @@ h1,
   text-wrap: balance;
 }
 
+/* Dual-color blog heading tail (last half of a single line, last line of multi-line) */
+.dual-color-tail {
+  color: #e53927;
+}
+
 /* Card titles and cover text use the heading face */
 .blog-featured-title,
 .blog-row-title {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSettings, getDevtoArticle } from "@/lib/api";
+import { DualColorHeading } from "@/components/DualColorHeading";
 import "../page.css";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naheel.me";
@@ -71,7 +72,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
         </Link>
 
         <header className="post-header hero-fade-up">
-          <h1 className="post-title">{article.title}</h1>
+          <DualColorHeading level={1} className="post-title">{article.title}</DualColorHeading>
           <div className="blog-meta">
             <span className="blog-meta-item" aria-label="Published">
               <svg
