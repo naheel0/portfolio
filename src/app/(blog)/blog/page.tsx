@@ -97,24 +97,28 @@ export default async function BlogPage() {
 
   return (
     <section className="blog-page" id="blog" aria-label="Blog">
-      <div className="blog-wrap">
-        <div className="blog-topbar">
-          <Link href="/" className="portal-back">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <line x1="19" y1="12" x2="5" y2="12" />
-              <polyline points="12 19 5 12 12 5" />
-            </svg>
-            Back to portfolio
-          </Link>
+      <div className="blog-band">
+        <div className="blog-wrap">
+          <div className="blog-topbar">
+            <Link href="/" className="portal-back">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+              </svg>
+              Back to portfolio
+            </Link>
+          </div>
         </div>
+      </div>
+      <div className="blog-wrap">
         <header className="blog-header">
           <h1 className="blog-title">Blog</h1>
           <p className="blog-sub">

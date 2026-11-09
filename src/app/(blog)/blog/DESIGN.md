@@ -39,23 +39,33 @@
 | Badges | 2px solid #10201d | 4px 4px 0 #671912 |
 | Interactive elements | 2px solid #10201d | 4px 4px 0 #671912 |
 
-### Dot Grain Overlay
-- Radial-gradient dots (1px dots, 20px spacing)
+### Dot Grain Overlay (exact recipe from hacktoberfest.com body::after)
+- Two radial-gradient dot layers: dark `rgba(24,37,34,0.6)` dots in a 7px grid at 0 0, white `rgba(247,247,242,0.6)` dots in an 11px grid at 4px 5px
 - Opacity: 0.075
 - Pointer-events: none
 - Position: fixed, inset: 0
-- Z-index: 0 (behind content)
+- Z-index: 1000 (above content)
+- mix-blend-mode: multiply
+
+### Interaction states (mirrored from source)
+- Card hover: lift `translate(-2px,-2px)` + hard shadow `4px 4px 0 #671912` appears (no shadow at rest)
+- Button press: `translate(2px,2px)` + shadow shrinks to `2px 2px 0`
+- CTAs (buttons): salmon `#e97b77` background, Inter 700, ink border
+- Nav links in forest bands: plain `#f7f7f2` mono text, hover underline
+- Focus: white 3px outline + ink halo (`box-shadow: 0 0 0 5px #10201d`) via :focus-visible
 
 ## Component Map
 | Class | Component | One-line description |
 |-------|-----------|---------------------|
-| .blog-page | Blog page container | Main wrapper with full-height dark background |
-| .blog-wrap | Blog content wrapper | Full-width container with 24px padding |
-| .blog-topbar | Blog top navigation | Back button and title area |
-| .portal-back | Back button | Mono style button with salmon background |
+| .blog-page | Blog page container | Paper page over #2e4742 html base |
+| .blog-band | Full-bleed forest band | Mirrors source header band; contains topbar |
+| .blog-wrap | Blog content wrapper | min(calc(100%-40px), 1280px) container, mirrors source Shell |
+| .blog-topbar | Blog top navigation | Back button row inside forest band |
+| .portal-back | Back link | Plain mono #f7f7f2 link in forest band, hover underline |
+| .post-back | All-articles CTA | Salmon CTA with hard shadow, Inter 700 |
 | .blog-header | Blog header section | Title and subtitle area |
-| .blog-title | Page title | Large Barlow heading |
-| .blog-sub | Subtitle | Mono style with secondary text color |
+| .blog-title | Page title | Large Barlow heading, clamp(2.6rem, 4.8vw, 4.5rem), text-wrap balance |
+| .blog-sub | Subtitle | Body copy, #34433f, max-width 48ch |
 | .blog-featured | Featured post card | Full-width card with cover image and content |
 | .blog-featured-cover | Featured image | 200px desktop / 340px desktop, object-fit cover |
 | .blog-featured-body | Featured content | Card content area with title and description |

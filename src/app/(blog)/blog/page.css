@@ -19,7 +19,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #04060f;
+  background-color: #2e4742;
   color: #10201d;
   font-family: var(--font-inter), "Inter", system-ui, sans-serif;
   font-size: clamp(16px, 2vw, 18px);
@@ -28,15 +28,20 @@ body {
   position: relative;
 }
 
+/* Source grain recipe from hacktoberfest.com (dual-layer dot field, multiply) */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(#10201d 1px, transparent 1px);
-  background-size: 20px 20px;
+  z-index: 1000;
+  background-image:
+    radial-gradient(circle, rgba(24, 37, 34, 0.6) 0 0.45px, transparent 0.65px),
+    radial-gradient(circle, rgba(247, 247, 242, 0.6) 0 0.35px, transparent 0.55px);
+  background-position: 0 0, 4px 5px;
+  background-size: 7px 7px, 11px 11px;
   opacity: 0.075;
-  z-index: 0;
+  mix-blend-mode: multiply;
 }
 
 /* Reduced motion */
@@ -59,19 +64,37 @@ body::after {
   z-index: 1;
 }
 
-/* Container widths */
+/* Container widths - source mirrors hacktoberfest.com Shell */
 .blog-wrap,
 .post-wrap {
-  width: 100%;
-  padding: 0 24px;
-  margin: 0 auto;
+  width: min(calc(100% - 30px), 1280px);
+  padding: 0;
+  margin-inline: auto;
 }
-.blog-wrap {
-  max-width: 1360px;
+
+@media (min-width: 768px) {
+  .blog-wrap,
+  .post-wrap {
+    width: min(calc(100% - 40px), 1280px);
+  }
 }
-/* Post reads in one column: 72ch body + 32px card padding + 2px borders + 24px wrap padding each side */
+
+@media (min-width: 1700px) {
+  .blog-wrap,
+  .post-wrap {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+/* Post reading column keeps the verified 886px card alignment */
 .post-wrap {
-  max-width: calc(72ch + 116px);
+  width: min(calc(100% - 30px), 934px);
+}
+
+@media (min-width: 768px) {
+  .post-wrap {
+    width: min(calc(100% - 40px), 934px);
+  }
 }
 
 /* Typography overrides */
@@ -82,9 +105,10 @@ h1,
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.94;
-  font-size: clamp(2.6rem, 4.2vw, 4rem);
+  font-size: clamp(2.6rem, 4.8vw, 4.5rem);
   color: #10201d;
   margin: 0;
+  text-wrap: balance;
 }
 
 /* Card titles and cover text use the heading face */
@@ -100,58 +124,101 @@ h1,
 }
 
 /* Blog list styles */
-.blog-topbar {
-  padding: 56px 0 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
+/* Forest band header - mirrors hacktoberfest.com sticky header treatment */
+.blog-band {
+  background: #3d5f58;
+  border-bottom: 2px solid #10201d;
+  color: #f7f7f2;
 }
 
-.portal-back,
+.blog-band .blog-wrap {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+}
+
+@media (min-width: 768px) {
+  .blog-band .blog-wrap {
+    min-height: 80px;
+  }
+}
+
+.blog-topbar {
+  display: flex;
+  align-items: center;
+}
+
+.portal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #f7f7f2;
+  text-decoration: none;
+  font-family: var(--font-martian), "Martian Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.portal-back svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.portal-back:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transform: none;
+  box-shadow: none;
+}
+
 .post-back {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #10201d;
-  text-decoration: none;
-  font-family: var(--font-martian), "Martian Mono", monospace;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 7px 12px;
-  background: #3d5f58;
+  padding: 10px 17px;
+  background: #e97b77;
   border: 2px solid #10201d;
   box-shadow: 4px 4px 0 #671912;
+  color: #10201d;
+  font-family: var(--font-inter), "Inter", system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.portal-back svg,
 .post-back svg {
   width: 15px;
   height: 15px;
   flex-shrink: 0;
 }
 
-.portal-back:hover,
 .post-back:hover {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 #671912;
 }
 
 .blog-header {
-  margin-bottom: 32px;
+  margin-bottom: clamp(48px, 6vw, 72px);
+  padding-top: clamp(40px, 6vw, 72px);
 }
 
 .blog-sub {
-  font-family: var(--font-martian), "Martian Mono", monospace;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 1rem;
   color: #34433f;
-  margin-top: 8px;
+  max-width: 48ch;
+  margin: 0;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 /* Featured card — grid stack: cover + scrim as background, text defines card height */
@@ -165,6 +232,12 @@ h1,
   display: grid;
   position: relative;
   overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.blog-featured:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #671912;
 }
 
 .blog-featured-media {
@@ -218,10 +291,11 @@ h1,
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.94;
-  font-size: clamp(2.2rem, 4.4vw, 4.2rem);
+  font-size: clamp(2.4rem, 4.8vw, 4.5rem);
   color: #f7f7f2;
   margin: 0 0 16px 0;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  text-wrap: balance;
 }
 
 .blog-featured-desc {
@@ -229,7 +303,7 @@ h1,
   line-height: 1.55;
   color: #e8e8d8;
   margin: 0 0 0 0;
-  max-width: 65ch;
+  max-width: 48ch;
 }
 
 .blog-featured-footer {
@@ -251,7 +325,7 @@ h1,
   box-shadow: 4px 4px 0 #671912;
   color: #f7f7f2;
   font-family: var(--font-martian), "Martian Mono", monospace;
-  font-size: 0.95rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -262,7 +336,7 @@ h1,
   font-size: 0.68rem;
 }
 
-/* Blog rows */
+/* Blog rows - card hover lift mirrors sponsor tile treatment */
 .blog-list {
   display: flex;
   flex-direction: column;
@@ -278,6 +352,12 @@ h1,
   color: inherit;
   padding: 24px;
   align-items: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.blog-row:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #671912;
 }
 
 .blog-row.no-thumb {
@@ -331,7 +411,7 @@ h1,
 .blog-empty {
   background: #f7f7f2;
   border: 2px solid #10201d;
-  box-shadow: 6px 6px 0 #671912;
+  box-shadow: 4px 4px 0 #671912;
   padding: 48px 32px;
   margin-bottom: 40px;
 }
@@ -401,6 +481,7 @@ h1,
   height: 9px;
   border-radius: 50%;
   margin-right: 4px;
+  box-shadow: 3px 3px 0 #2e4742;
 }
 
 .blog-tag[data-color="sky"]::before {
@@ -415,25 +496,23 @@ h1,
   background: #e97b77;
 }
 
-/* Button variant */
+/* Button variant - mirrors NavCta: salmon, Inter 700, hard shadow */
 .blog-more {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 7px 12px;
+  padding: 10px 17px;
   background: #e97b77;
   border: 2px solid #10201d;
   box-shadow: 4px 4px 0 #671912;
   color: #10201d;
-  font-family: var(--font-martian), "Martian Mono", monospace;
-  font-size: clamp(0.72rem, 0.8vw, 0.8rem);
+  font-family: var(--font-inter), "Inter", system-ui, sans-serif;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
   width: fit-content;
 }
 
@@ -482,19 +561,17 @@ h1,
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 12px;
+  padding: 10px 17px;
   background: #e97b77;
   border: 2px solid #10201d;
   box-shadow: 4px 4px 0 #671912;
   color: #10201d;
-  font-family: var(--font-martian), "Martian Mono", monospace;
-  font-size: clamp(0.72rem, 0.8vw, 0.8rem);
+  font-family: var(--font-inter), "Inter", system-ui, sans-serif;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
   width: fit-content;
 }
 
@@ -518,11 +595,11 @@ h1,
   text-transform: uppercase;
 }
 
-/* Focus styles */
-a:focus,
-button:focus {
-  outline: 3px solid #e53927;
-  outline-offset: 3px;
+/* Focus styles - mirrors hacktoberfest.com: white outline with ink halo */
+:focus-visible {
+  outline: 3px solid #f7f7f2;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #10201d;
 }
 
 /* Selection styles */
@@ -650,7 +727,7 @@ button:focus {
 .post-body blockquote {
   margin: 1.5rem 0;
   padding: 12px 18px;
-  border-left: 6px solid #e53927;
+  border: 2px solid #10201d;
   background: #f2f2eb;
   color: #34433f;
 }
