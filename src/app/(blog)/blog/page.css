@@ -552,6 +552,7 @@ h1,
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   width: fit-content;
+  margin: 44px 0 56px;
 }
 
 .blog-more svg {
