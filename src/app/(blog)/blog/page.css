@@ -104,8 +104,25 @@ body::after {
 }
 
 /* Typography overrides */
+.blog-title {
+  font-family: var(--font-barlow), "Barlow Semi Condensed", Helvetica, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  font-size: clamp(3.2rem, 6vw, 5.5rem);
+  color: #10201d;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.blog-sub {
+  color: #34433f;
+  font-size: 1rem;
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
 h1,
-.blog-title,
 .post-title {
   font-family: var(--font-barlow), "Barlow Semi Condensed", Helvetica, sans-serif;
   font-weight: 800;
@@ -140,17 +157,22 @@ h1,
   background: #3d5f58;
   border-bottom: 2px solid #10201d;
   color: #f7f7f2;
+  width: 100%;
 }
 
 .blog-band .blog-wrap {
   display: flex;
   align-items: center;
-  min-height: 64px;
+  min-height: 96px;
+  width: 100%;
+  padding-inline: 30px;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
   .blog-band .blog-wrap {
-    min-height: 80px;
+    min-height: 112px;
+    padding-inline: 40px;
   }
 }
 

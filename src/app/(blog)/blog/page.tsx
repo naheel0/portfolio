@@ -168,7 +168,7 @@ export default async function BlogPage({
       </div>
       <div className="blog-wrap">
         <header className="blog-header">
-          <h1 className="blog-title">Blog</h1>
+          <DualColorHeading level={1} className="blog-title">Blog</DualColorHeading>
           <p className="blog-sub">
             {empty
               ? "Articles by Naheel, published on dev.to."
