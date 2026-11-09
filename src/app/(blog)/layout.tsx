@@ -12,9 +12,6 @@ const martian = Martian_Mono({ subsets: ["latin"], variable: "--font-martian", d
 
 export default async function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`${barlow.variable} ${inter.variable} ${martian.variable}`}>
-      {children}
-      <Footer />
-    </div>
+    <div className={`${barlow.variable} ${inter.variable} ${martian.variable}`}>{children}<Footer /></div>
   );
 }

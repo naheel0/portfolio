@@ -54,14 +54,20 @@ body::after {
 }
 
 /* Page layout base */
-.blog-page,
-.post-page {
+.blog-page {
   min-height: 100vh;
   background-color: #f2f2eb;
   color: #10201d;
   font-family: var(--font-inter), "Inter", system-ui, sans-serif;
   position: relative;
   z-index: 1;
+}
+
+.post-page {
+  background-color: #f2f2eb;
+  color: #10201d;
+  font-family: var(--font-inter), "Inter", system-ui, sans-serif;
+  position: static;
 }
 
 /* Container widths - source mirrors hacktoberfest.com Shell */
@@ -573,6 +579,15 @@ h1,
 
 .post-wrap {
   padding-top: 56px;
+}
+
+/* ponytail: the wrapper div between .app-layout and {article, footer} is
+   display:block with inherited line-height (~27.9px), which leaves a 24px
+   empty strut gap between article bottom and footer top. flex-column kills
+   the strut without changing article/footer internals or text rendering. */
+.app-layout > div {
+  display: flex;
+  flex-direction: column;
 }
 
 .post-cover {
