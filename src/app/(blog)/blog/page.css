@@ -918,13 +918,14 @@ h1,
   transform: translate(2px, 2px);
 }
 
-/* Footer bottom line - page theme: ink hairline separator above, martian-mono
-   meta text in paper secondary color (overrides globals lavender dark strip),
-   ink-styled SVG heart instead of accent cyan */
+/* Footer bottom line - page theme: martian-mono meta text in paper secondary
+   color (overrides globals lavender dark strip), ink-styled SVG heart instead
+   of accent cyan. No ink hairline above it - the forest footer band already
+   separates it from the article. */
 .footer-bottom {
   margin-top: 0;
-  padding-top: 16px;
-  border-top: 2px solid #10201d;
+  padding-top: 14px;
+  border-top: none;
   max-width: none;
   width: 100%;
   color: rgba(242, 242, 235, 0.75);
