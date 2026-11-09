@@ -158,18 +158,19 @@ h1,
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  padding: 10px 17px;
+  background: #e97b77;
+  border: 2px solid #10201d;
+  box-shadow: 4px 4px 0 #671912;
   color: #f7f7f2;
-  text-decoration: none;
   font-family: var(--font-martian), "Martian Mono", monospace;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: none;
-  border: none;
-  box-shadow: none;
-  padding: 0;
+  text-decoration: none;
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .portal-back svg {
@@ -179,10 +180,8 @@ h1,
 }
 
 .portal-back:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  transform: none;
-  box-shadow: none;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #671912;
 }
 
 .post-back {
