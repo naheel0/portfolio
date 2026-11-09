@@ -190,13 +190,15 @@ h1,
   align-items: center;
   gap: 8px;
   padding: 10px 17px;
-  background: #e97b77;
+  background: #3d5f58;
   border: 2px solid #10201d;
   box-shadow: 4px 4px 0 #671912;
-  color: #10201d;
-  font-family: var(--font-inter), "Inter", system-ui, sans-serif;
+  color: #f7f7f2;
+  font-family: var(--font-martian), "Martian Mono", monospace;
   font-size: 0.95rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
