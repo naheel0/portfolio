@@ -159,10 +159,10 @@ export interface DevtoArticle {
   published_timestamp: number
 }
 
-export const getDevtoArticles = cache(async function getDevtoArticles(username?: string | null): Promise<DevtoArticle[]> {
+export const getDevtoArticles = cache(async function getDevtoArticles(username?: string | null, page = 1): Promise<DevtoArticle[]> {
   if (!username) return []
   try {
-    const res = await fetch(`https://dev.to/api/articles?username=${encodeURIComponent(username)}&per_page=12`, {
+    const res = await fetch(`https://dev.to/api/articles?username=${encodeURIComponent(username)}&per_page=12&page=${page}`, {
       next: { revalidate: 3600 },
     })
     if (!res.ok) return []

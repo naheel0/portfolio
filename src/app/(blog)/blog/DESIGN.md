@@ -66,9 +66,10 @@
 | .blog-header | Blog header section | Title and subtitle area |
 | .blog-title | Page title | Large Barlow heading, clamp(2.6rem, 4.8vw, 4.5rem), text-wrap balance |
 | .blog-sub | Subtitle | Body copy, #34433f, max-width 48ch |
-| .blog-featured | Featured post card | Full-width card with cover image and content |
-| .blog-featured-cover | Featured image | 200px desktop / 340px desktop, object-fit cover |
-| .blog-featured-body | Featured content | Card content area with title and description |
+| .blog-featured | Featured post card | Image-top layout: full cover (aspect 1000/420, ink border-bottom), then paper content. No overlay/scrim; ink title on paper |
+| .blog-featured-cover | Featured image | Full-width, aspect-ratio 1000/420, object-fit cover |
+| .blog-featured-body | Featured content | Paper content area: ink text, tags/desc in #34433f |
+| .blog-pager | Pagination | Forest buttons (#3d5f58, shadow #2e4742), Newer/Older + mono page label; Newer renders on empty pages past the end; Older appears when a full 12-article page loads; page param clamped 1-50 |
 | .blog-featured-title | Featured title | Large heading within featured card |
 | .blog-featured-desc | Featured description | Secondary text description |
 | .blog-list | Blog posts list | Flex column layout for post rows |

@@ -88,12 +88,59 @@ function Meta({ article, className = "" }: { article: DevtoArticle; className?: 
   );
 }
 
-export default async function BlogPage() {
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const s = await getSettings();
-  const articles = await getDevtoArticles(s.devtoUsername);
+  const params = await searchParams;
+  // ponytail: clamp-only validation, per_page=12 ceiling from api.ts
+  const page = Math.max(1, Math.min(50, Number.parseInt(params.page ?? "1", 10) || 1));
+  const articles = await getDevtoArticles(s.devtoUsername, page);
   const name = s.name || "Naheel Muhammed PK";
   const empty = articles.length === 0;
   const [featured, ...rest] = articles;
+  const hasMore = articles.length === 12;
+  const pagerJsx = (
+    <nav className="blog-pager" aria-label="Blog pages">
+      {page > 1 && (
+        <Link href={`/blog?page=${page - 1}`} className="blog-page-btn" rel="prev">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          Newer
+        </Link>
+      )}
+      {hasMore && (
+        <Link href={`/blog?page=${page + 1}`} className="blog-page-btn" rel="next">
+          Older
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </Link>
+      )}
+      {page > 1 && <span className="blog-pager-label">Page {page}</span>}
+    </nav>
+  );
 
   return (
     <section className="blog-page" id="blog" aria-label="Blog">
@@ -152,7 +199,6 @@ export default async function BlogPage() {
                     decoding="async"
                   />
                 )}
-                <div className="blog-featured-scrim" />
               </div>
               <div className="blog-featured-body">
                 <div className="blog-featured-content">
@@ -215,6 +261,8 @@ export default async function BlogPage() {
               </ul>
             )}
 
+            {pagerJsx}
+
             {s.devtoUsername && (
               <a
                 className="blog-more"
@@ -239,6 +287,7 @@ export default async function BlogPage() {
             )}
           </>
         )}
+        {empty && page > 1 && pagerJsx}
       </div>
     </section>
   );
