@@ -164,22 +164,17 @@ export default async function BlogPage({
               Back to portfolio
             </Link>
           </div>
-          <div className="blog-band-heading">
-            <div className="blog-band-accent accent-blue" aria-hidden="true" />
-            <div className="blog-band-accent accent-red" aria-hidden="true" />
-            <div className="blog-band-text">
-              <h1 className="blog-band-title">Blog</h1>
-              <p className="blog-band-sub">
-                {empty
-                  ? "Articles by Naheel, published on dev.to."
-                  : `${articles.length} article${articles.length === 1 ? "" : "s"} on dev.to`}
-              </p>
-            </div>
-            <div className="blog-band-accent accent-white" aria-hidden="true" />
-          </div>
         </div>
       </div>
       <div className="blog-wrap">
+        <header className="blog-header">
+          <DualColorHeading level={1} className="blog-band-title">Blog</DualColorHeading>
+          <p className="blog-band-sub">
+            {empty
+              ? "Articles by Naheel, published on dev.to."
+              : `${articles.length} article${articles.length === 1 ? "" : "s"} on dev.to`}
+          </p>
+        </header>
 
         {empty ? (
           <div className="blog-empty">
