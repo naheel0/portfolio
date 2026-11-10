@@ -17,10 +17,12 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   if (!s.devtoUsername) return { title: "Post not found" };
   const article = await getDevtoArticle(s.devtoUsername, slug);
   if (!article) return { title: "Post not found" };
+  const name = s.name || "Naheel Muhammed PK";
   return {
     title: `${article.title} - Blog`,
     description: article.description,
     keywords: article.tag_list,
+    authors: [{ name }],
     alternates: { canonical: `${BASE_URL}/blog/${slug}` },
     openGraph: {
       title: article.title,
@@ -29,6 +31,12 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       type: "article",
       publishedTime: article.published_at,
       tags: article.tag_list,
+      images: article.cover_image ? [article.cover_image] : undefined,
+    },
+    twitter: {
+      card: article.cover_image ? "summary_large_image" : "summary",
+      title: article.title,
+      description: article.description,
       images: article.cover_image ? [article.cover_image] : undefined,
     },
   };
@@ -52,8 +60,24 @@ export default async function BlogPostPage({ params }: PostPageProps) {
   const article = await getDevtoArticle(s.devtoUsername, slug);
   if (!article) notFound();
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.description,
+    url: `${BASE_URL}/blog/${slug}`,
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${BASE_URL}/blog/${slug}` },
+    datePublished: article.published_at,
+    dateModified: article.published_at,
+    author: { "@type": "Person", name: s.name || "Naheel Muhammed PK", url: BASE_URL },
+    ...(article.cover_image ? { image: [article.cover_image] } : {}),
+    ...(article.tag_list.length && { keywords: article.tag_list.join(", ") }),
+    ...(article.reading_time_minutes && { timeRequired: `PT${article.reading_time_minutes}M` }),
+  };
+
   return (
     <article className="post-page" aria-label={article.title}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <div className="post-wrap">
         <Link href="/blog" className="post-back hero-fade-up">
           <svg
