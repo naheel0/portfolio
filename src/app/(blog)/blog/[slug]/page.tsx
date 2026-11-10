@@ -160,7 +160,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
         {article.cover_image && (
           <img
             src={article.cover_image}
-            alt=""
+            alt={`${article.title} — article cover`}
             className="post-cover hero-fade-up"
             loading="eager"
             decoding="async"

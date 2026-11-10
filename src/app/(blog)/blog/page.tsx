@@ -194,7 +194,7 @@ export default async function BlogPage({
                 {featured.cover_image && (
                   <img
                     src={featured.cover_image}
-                    alt=""
+                    alt={`${featured.title} — article cover`}
                     className="blog-featured-cover"
                     loading="eager"
                     decoding="async"
@@ -245,7 +245,7 @@ export default async function BlogPage({
                       {article.cover_image && (
                         <img
                           src={article.cover_image}
-                          alt=""
+                          alt={`${article.title} — article thumbnail`}
                           className="blog-row-thumb"
                           loading="lazy"
                           decoding="async"
