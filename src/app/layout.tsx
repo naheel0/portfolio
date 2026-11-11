@@ -4,6 +4,7 @@ import "./globals.css";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import AuroraOrbs from "@/components/AuroraOrbs";
 import { getSettings } from "@/lib/api";
+import { Analytics } from "@vercel/analytics/next";
 
 const barlow = Barlow_Condensed({
   subsets: ["latin"],
@@ -121,6 +122,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <WelcomeScreen />
         <AuroraOrbs />
         <div className="app-layout">{children}</div>
+        <Analytics />
       </body>
     </html>
   );
