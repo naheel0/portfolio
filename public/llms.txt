@@ -17,3 +17,6 @@ Naheel is a full stack developer. This site contains portfolio projects with det
 
 ## Elsewhere
 - [GitHub](https://github.com/naheel0): Source code and repositories.
+- [LinkedIn](https://www.linkedin.com/in/naheel-muhammed/): Professional profile and work history.
+- [DEV Community](https://dev.to/naheel0): Development articles and writing.
+- [Resume (PDF)](https://resume.naheel.me): Standalone resume site.
