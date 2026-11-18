@@ -1,0 +1,19 @@
+# Naheel Muhammed PK
+> Full Stack Developer (.NET, React, Web) with project case studies, resume, and writing on naheel.me.
+
+Naheel is a full stack developer. This site contains portfolio projects with detailed case studies, technical skills, a resume, and blog posts.
+
+## Portfolio
+- [Home](https://www.naheel.me/): Introduction and featured work.
+- [Projects](https://www.naheel.me/projects): All portfolio projects with case studies. Each project has its own page at /projects/[slug] covering the build, technologies, and outcome.
+- [Skills](https://www.naheel.me/skills): Technical skills and tools.
+- [Resume](https://www.naheel.me/resume): Professional background and experience.
+- [About](https://www.naheel.me/about): Background and contact information.
+- [Contact](https://www.naheel.me/contact): Ways to get in touch.
+
+## Writing
+- [Blog](https://www.naheel.me/blog): Articles on development topics. Posts live at /blog/[slug].
+- [RSS feed](https://www.naheel.me/rss.xml): Subscribe to new articles.
+
+## Elsewhere
+- [GitHub](https://github.com/naheel0): Source code and repositories.
